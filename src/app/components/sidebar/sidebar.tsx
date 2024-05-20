@@ -35,7 +35,7 @@ export default function Sidebar() {
             <nav className="lg:flex-1 overflow-y-auto">
                 <ul className="p-2 space-y-2 mt-40">
                     {/* Enlaces de navegación */}
-                    <Link href="/inicio">
+                    <Link href="/">
                         <li className="font-bold flex items-center pl-4 py-2 text-base hover:bg-blue-700 cursor-pointer">
                             <AiTwotoneHome className="w-5 h-5 mr-3" />
                             <span>INICIO</span>
