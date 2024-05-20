@@ -10,14 +10,14 @@ Plataforma para universidades donde los alumnos pueden elegir sus materias segú
 
 ## ¡Explora nuestro sitio y mantente informado sobre el mercado en tiempo real!
 
-**Tecnologías: **
+**Tecnologías:**
 
 - **Front End** :  Next.js , Typescript , Tailwind.css 
 - **Backend** :  Nodejs 
 
-**Herramientas de organización: **
+**Herramientas de organización:**
 - Trello 
 - Slack 
 - Discord 
-**Expresiones de Gratitud: **
+**Expresiones de Gratitud:**
 - Agradecimientos a No Country
