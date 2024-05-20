@@ -13,7 +13,7 @@ Plataforma para universidades donde los alumnos pueden elegir sus materias segú
 **Tecnologías: **
 
 - **Front End** :  Next.js , Typescript , Tailwind.css 
-- **Backend ** :  Nodejs 
+- **Backend** :  Nodejs 
 
 **Herramientas de organización: **
 - Trello 
