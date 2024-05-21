@@ -1,23 +1,34 @@
-import { createToken } from '@/app/lib/createToken';
-import prisma from '@/app/lib/prisma';
-import { validateToken } from '@/app/lib/validateToken';
-import { compare } from 'bcrypt-ts';
 import { NextResponse } from 'next/server';
+import { compare } from 'bcrypt-ts';
+import prisma from '@/app/lib/prisma';
+import * as yup from 'yup';
 
-//for cookies
-import { cookies } from 'next/headers';
-//ref: https://supunawa.medium.com/next-js-app-router-authentication-sessions-cookies-jwts-7b4429a7fd31
+import { createToken, validateData } from '@/app/lib/';
 
-export async function POST(req: Request, res: Response) {
-	//TODO: validate data
+const postSchema = yup.object({
+	email: yup.string().trim().email().required(),
+	password: yup.string().required().trim().min(6),
+});
 
+export async function POST(req: Request) {
 	const body = await req.json();
-	const { code, password } = body;
 
+	// validate data
+	const validation = await validateData(postSchema.validate(body));
+
+	if (!validation.ok) {
+		return NextResponse.json(
+			{ ok: false, message: 'verify email and password' },
+			{ status: 400 }
+		);
+	}
+
+	const { email, password } = body;
 	try {
+		// check if student exist
 		const response = await prisma.student.findUnique({
 			where: {
-				code: Number(code),
+				email: email,
 			},
 		});
 
@@ -40,40 +51,25 @@ export async function POST(req: Request, res: Response) {
 
 		// generate token
 		const token = await createToken({
-			id: 5,
-			name: 'Luis',
+			email: response.email,
+			role: response.role,
 		});
-
-		//validate
-		// const validToken = await validateToken(token)
-		// console.log("🚀 - validToken:", validToken)
-
-		//! Create cookie
-		const cookieStore = cookies();
-		cookieStore.set('token', token);
 
 		const loginUserData = {
 			ok: true,
-			message: 'successful login user',
+			message: 'successful login',
 			data: response,
 		};
 
 		return NextResponse.json(loginUserData, {
 			status: 200,
-			headers: { 'Set-Cookie': `token=${token}` },
+			headers: { 'Set-Cookie': `session=${token}` },
 		});
 	} catch (err) {
 		console.error(err);
-		return NextResponse.json({ route: 'login-fail' }, { status: 400 });
+		return NextResponse.json(
+			{ ok: false, message: 'server error' },
+			{ status: 500 }
+		);
 	}
 }
-
-/*
-
-[x] sign token
-[x] verify token
-[x] create cookie
-[x] retrun cookie
-[] read cookie
-
-*/
