@@ -14,39 +14,39 @@ datasource db {
 }
 
 model Student {
-  id        Int           @id @default(autoincrement())
-  name      String
-  code      Int           @unique
-  password  String
-  email     String        @unique
-  status    StudentStatus @default(Inactive)
+  id       Int           @id @default(autoincrement())
+  name     String
+  code     Int           @unique
+  password String
+  email    String        @unique
+  status   StudentStatus @default(Active)
   // career String
   // class []
   // recods []
-  lastLogin DateTime?
-  role      Role          @default(Student)
+  // lastLogin DateTime?
+  role     Role          @default(Student)
 }
 
 model Teacher {
-  id        Int           @id @default(autoincrement())
-  name      String
-  code      Int           @unique
-  password  String
-  email     String        @unique
-  status    TeacherStatus @default(Active)
-  lastLogin DateTime?
-  role      Role          @default(Teacher)
+  id       Int           @id @default(autoincrement())
+  name     String
+  code     Int           @unique
+  password String
+  email    String        @unique
+  status   TeacherStatus @default(Active)
+  // lastLogin DateTime?
+  role     Role          @default(Teacher)
   // class []
 }
 
 model Admin {
-  id        Int       @id @default(autoincrement())
-  name      String
-  code      Int       @unique
-  password  String
-  email     String    @unique
-  lastLogin DateTime?
-  Role      Role      @default(Admin)
+  id       Int    @id @default(autoincrement())
+  name     String
+  code     Int    @unique
+  password String
+  email    String @unique
+  // lastLogin DateTime?
+  role     Role   @default(Admin)
 }
 
 model Class {
