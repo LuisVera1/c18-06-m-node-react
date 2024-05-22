@@ -5,9 +5,9 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 
 const Login: React.FC = () => {
-    const [username, setUsername] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
+    const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
     const validatePassword = (password: string): boolean => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,8}$/;
@@ -21,12 +21,12 @@ const Login: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newErrors: { username?: string; password?: string } = {};
+        const newErrors: { email?: string; password?: string } = {};
 
-        if (!username) {
-            newErrors.username = "El e-mail es obligatorio";
-        } else if (!validateEmail(username)) {
-            newErrors.username = "El e-mail no es válido";
+        if (!email) {
+            newErrors.email = "El e-mail es obligatorio";
+        } else if (!validateEmail(email)) {
+            newErrors.email = "El e-mail no es válido";
         }
 
         if (!password) {
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        username,
+                        email,
                         password,
                     }),
                 });
@@ -73,18 +73,18 @@ const Login: React.FC = () => {
 
                     <div className="flex flex-col items-center gap-2 w-full">
                         <div className="flex flex-col w-2/4">
-                            <label htmlFor="username" className="text-dark text-left font-barlow">
+                            <label htmlFor="mail" className="text-dark text-left font-barlow">
                                 E-mail
                             </label>
                             <InputText
-                                id="username"
+                                id="mail"
                                 type="text"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 className="w-full border-2 h-8 border-grey rounded text-dark p-2 text-xs mb-1 font-sans"
                                 placeholder="Ingresa tu e-mail"
                             />
-                            {errors.username && <p className="text-red-500 text-xs">{errors.username}</p>}
+                            {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
                         </div>
                     </div>
 
