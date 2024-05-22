@@ -39,9 +39,9 @@ const Login: React.FC = () => {
 
         if (Object.keys(newErrors).length === 0) {
             console.log("Formulario válido, enviando datos...");
-            //envio de datos al backend POST, falta agregar url del servidor
+            //envio de datos al backend
             try {
-                const response = await fetch("URL_DEL_SERVIDOR", {
+                const response = await fetch("http://localhost:3000/api/student/login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
