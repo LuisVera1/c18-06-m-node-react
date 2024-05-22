@@ -16,13 +16,13 @@ export const checkRole = async (role: String) => {
 			status: 401,
 			message: 'session does not exist',
 			role: '',
+			email: '',
 		};
 	}
 
 	//very token
 	try {
 		const validToken = await validateToken(session);
-		console.log('🚀 - validToken:', validToken);
 
 		if (validToken.role != role) {
 			return {
@@ -30,6 +30,7 @@ export const checkRole = async (role: String) => {
 				status: 401,
 				message: 'unauthorized',
 				role: validToken.role,
+				email: '',
 			};
 		}
 
@@ -38,6 +39,7 @@ export const checkRole = async (role: String) => {
 			status: 200,
 			message: '',
 			role: validToken.role,
+			email: validToken.email,
 		};
 	} catch (err) {
 		return {
@@ -45,6 +47,7 @@ export const checkRole = async (role: String) => {
 			status: 401,
 			message: 'invalid session',
 			role: '',
+			email: '',
 		};
 	}
 };
