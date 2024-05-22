@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
 import prisma from '@/app/lib/prisma';
 import { hash } from 'bcrypt-ts';
 import * as yup from 'yup';
-import { validateToken, validateData } from '@/app/lib';
+import { validateData, checkRole } from '@/app/lib';
 
 const postSchema = yup.object({
-	name: yup.string().trim().required(),
-	code: yup.number().required(),
-	password: yup.string().required().trim().min(6),
+	career: yup.string().required(),
 	email: yup.string().trim().email().required(),
+	name: yup.string().trim().required(),
+	password: yup.string().required().trim().min(6),
+	plan: yup.string().trim().required(),
 });
 
 export async function POST(req: Request, res: Response) {
@@ -26,34 +26,23 @@ export async function POST(req: Request, res: Response) {
 		);
 	}
 
-	// check cookie
-	const session = cookies().get('session')?.value;
-
-	if (!session) {
+	//validate session, token
+	const validSession = await checkRole('Admin');
+	if (!validSession.token) {
 		return NextResponse.json(
-			{ ok: false, message: 'session does not exist' },
-			{ status: 401 }
-		);
-	}
-
-	// validate token & admin user
-	const validToken = await validateToken(session);
-
-	if (!validToken.ok || validToken.role != 'Admin') {
-		return NextResponse.json(
-			{ ok: false, message: 'invalid session' },
-			{ status: 401 }
+			{ ok: false, message: validSession.message },
+			{ status: validSession.status }
 		);
 	}
 
 	// creating user
-	const { name, code, password, email } = dataValidation;
+	const { career, email, name, password, plan } = dataValidation;
 
 	try {
 		//check if user already exist
 		const user = await prisma.student.findUnique({
 			where: {
-				code: code,
+				email: email,
 			},
 		});
 
@@ -64,14 +53,15 @@ export async function POST(req: Request, res: Response) {
 			);
 		}
 
-		const hashedPassword = await hash(password, 10);
+		const hashedPassword = await hash(password, Number(process.env.SALT) || 10);
 
 		const response = await prisma.student.create({
 			data: {
-				name: name,
-				code: code,
-				password: hashedPassword,
+				career: career,
 				email: email,
+				name: name,
+				password: hashedPassword,
+				plan: plan,
 			},
 		});
 
@@ -82,7 +72,7 @@ export async function POST(req: Request, res: Response) {
 	} catch (err) {
 		console.error(err);
 		return NextResponse.json(
-			{ ok: false, message: 'Server error' },
+			{ ok: false, message: 'server error' },
 			{ status: 500 }
 		);
 	}

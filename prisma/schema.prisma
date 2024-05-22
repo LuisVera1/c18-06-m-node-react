@@ -15,37 +15,32 @@ datasource db {
 
 model Student {
   id       Int           @id @default(autoincrement())
-  name     String
-  code     Int           @unique
-  password String
   email    String        @unique
+  career   Careers
+  name     String
+  password String
+  plan     String
+  role     Role          @default(Student)
   status   StudentStatus @default(Active)
-  // career String
   // class []
   // recods []
-  // lastLogin DateTime?
-  role     Role          @default(Student)
 }
 
 model Teacher {
   id       Int           @id @default(autoincrement())
-  name     String
-  code     Int           @unique
-  password String
   email    String        @unique
-  status   TeacherStatus @default(Active)
-  // lastLogin DateTime?
+  name     String
+  password String
   role     Role          @default(Teacher)
+  status   TeacherStatus @default(Active)
   // class []
 }
 
 model Admin {
   id       Int    @id @default(autoincrement())
-  name     String
-  code     Int    @unique
-  password String
   email    String @unique
-  // lastLogin DateTime?
+  name     String
+  password String
   role     Role   @default(Admin)
 }
 
@@ -85,4 +80,12 @@ enum StudentStatus {
 enum TeacherStatus {
   Active
   Inactive
+}
+
+enum Careers {
+  Artes
+  Biologia
+  Psicologia
+  IngSisComp
+  Electronica
 }

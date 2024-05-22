@@ -3,15 +3,14 @@ import { compare } from 'bcrypt-ts';
 import prisma from '@/app/lib/prisma';
 import * as yup from 'yup';
 
-import { createToken } from '@/app/lib/createToken';
-import { validateData } from '@/app/lib/validateData';
+import { createToken, validateData } from '@/app/lib';
 
 const postSchema = yup.object({
-	code: yup.number().required(),
+	email: yup.string().trim().email().required(),
 	password: yup.string().required().trim().min(6),
 });
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
 	const body = await req.json();
 
 	//data validaction
@@ -19,24 +18,23 @@ export async function POST(req: Request, res: Response) {
 
 	if (!validation.ok) {
 		return NextResponse.json(
-			{ ok: false, message: 'verify code and password' },
+			{ ok: false, message: 'verify email and password' },
 			{ status: 400 }
 		);
 	}
 
-	//check if admin exist
-	const { password, code } = validation;
-
+	const { password, email } = validation;
 	try {
+		//check if admin exist
 		const response = await prisma.admin.findUnique({
 			where: {
-				code: Number(code),
+				email: email,
 			},
 		});
 
 		if (!response) {
 			return NextResponse.json(
-				{ ok: false, message: 'wrong code or password' },
+				{ ok: false, message: 'wrong email or password' },
 				{ status: 400 }
 			);
 		}
@@ -46,15 +44,15 @@ export async function POST(req: Request, res: Response) {
 
 		if (!matching) {
 			return NextResponse.json(
-				{ ok: false, message: 'wrong code or password' },
+				{ ok: false, message: 'wrong email or password' },
 				{ status: 400 }
 			);
 		}
 
 		// generate token
 		const token = await createToken({
-			code: response.code,
-			role: response.Role,
+			email: response.email,
+			role: response.role,
 		});
 
 		const loginUserData = {

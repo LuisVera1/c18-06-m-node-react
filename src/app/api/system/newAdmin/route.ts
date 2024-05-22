@@ -3,11 +3,10 @@ import { hash } from 'bcrypt-ts';
 
 export async function POST(req: Request, res: Response) {
 	const { password } = await req.json();
-	console.log('🚀 - password:', password);
 
 	try {
 		//hash password
-		const hashedPassword = await hash(password, 10);
+		const hashedPassword = await hash(password, Number(process.env.SALT) || 10);
 		console.info({ hasedPassword: hashedPassword });
 
 		return NextResponse.json(
