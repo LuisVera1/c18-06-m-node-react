@@ -34,7 +34,7 @@ export async function POST(req: Request) {
 
 		if (!response) {
 			return NextResponse.json(
-				{ ok: false, message: 'Bad request' },
+				{ ok: false, message: 'wrong email or password' },
 				{ status: 400 }
 			);
 		}
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 
 		if (!matching) {
 			return NextResponse.json(
-				{ ok: false, message: 'Bad request' },
+				{ ok: false, message: 'wrong email or password' },
 				{ status: 400 }
 			);
 		}
