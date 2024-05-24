@@ -1,10 +1,10 @@
 import Sidebar from '../components/sidebar/sidebar'
 
-function Clases() {
+function gestionfacturacion() {
   return (
     <section className="flex-1">
       <Sidebar />
     </section>
   )
 }
-export default Clases 
+export default gestionfacturacion 

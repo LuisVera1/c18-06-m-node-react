@@ -9,6 +9,8 @@ export default function RootLayout({
   // Especifica que children es de tipo React.ReactNode, lo cual es útil para TypeScript ya que asegura que children puede ser cualquier cosa que React puede renderizar
   children: React.ReactNode
 }) {
+
+
   return (
     // Define el elemento HTML raíz con el idioma establecido en inglés
     <html lang="en">

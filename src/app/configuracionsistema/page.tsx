@@ -1,10 +1,10 @@
 import Sidebar from "../components/sidebar/sidebar";
 
-function Inicio() {
+function configuracionsistema() {
     return (
         <section className="flex-1">
             <Sidebar />
         </section>
     );
 }
-export default Inicio;
+export default configuracionsistema;
