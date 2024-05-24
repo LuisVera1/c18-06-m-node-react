@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
-import BannerBienvenidos from "../../../assets/Photo-for-Main-Website 1.png";
+import BannerBienvenidos from "../../../assets/Photo-for-Main-Website.png";
 import '../globals.css';
 
 
