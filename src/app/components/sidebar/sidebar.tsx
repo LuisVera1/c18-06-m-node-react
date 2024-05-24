@@ -1,72 +1,50 @@
 'use client'
-// Importamos el hook useState de React para manejar el estado
-import { useState } from "react";
-
-// Importamos los iconos que usaremos en la barra lateral
-import { AiTwotoneHome } from "react-icons/ai";
-import { FaMoneyCheckDollar } from "react-icons/fa6";
-import { MdInventory } from "react-icons/md";
-import { TbReportSearch } from "react-icons/tb";
-
-// Importamos el componente Link de Next.js para la navegación
+import React, { useState } from "react";
 import Link from "next/link";
+import { AiTwotoneHome } from "react-icons/ai";
+import { TbReportSearch } from "react-icons/tb";
+import { BsChevronRight, BsClipboard2DataFill } from "react-icons/bs";
+import { BiRadar, BiShoppingBag } from "react-icons/bi";
+import { GiChart } from "react-icons/gi";
 
-// Definimos y exportamos el componente Sidebar
 export default function Sidebar() {
-    // Definimos el estado isOpen para manejar si la barra lateral está abierta o cerrada
-    const [isOpen, setIsOpen] = useState(false);
+    return (
+        <div className='bg-grey h-screen p-4 w-80  shadow-lg'>
+            <nav className="lg:flex-1 overflow-y-auto w-80 mt-20">
+                <b className="text-primary m-4">Nombre de la institución</b>
+                <ul className="p-2 space-y-2 mt-40 text-justify mr-4">
+                    <NavItem href="/" icon={<AiTwotoneHome className="size-5 m-4" />} text="Dashboard" />
+                    <NavItem href="/gestionusuarios" icon={<BiRadar className="size-5 m-4" />} text="Gestión de usuarios" />
+                    <NavItem href="/gestioncursos" icon={<BiShoppingBag className="size-5 m-4" />} text="Gestión de cursos" />
+                    <NavItem href="/configuracionsistema" icon={<GiChart className="size-5 m-4" />} text="Configuración de sistema" />
+                    <NavItem href="/gestionmatriculas" icon={<TbReportSearch className="size-5 m-4" />} text="Gestión de matriculas" />
+                    <NavItem href="/gestionfacturacion" icon={<BsClipboard2DataFill className="size-5 m-4" />} text="Gestión de pagos y facturación" />
+                </ul>
+            </nav>
+        </div>
+    );
+}
 
-    // Función para alternar el estado de la barra lateral
-    const toggleSidebar = () => {
-        setIsOpen(!isOpen);
+function NavItem({ href, icon, text }: { href: string; icon: JSX.Element; text: string }) {
+    const [isActive, setIsActive] = useState(false);
+
+    const handleClick = () => {
+        setIsActive(!isActive);
     };
 
     return (
-        // Clase condicional que muestra u oculta la barra lateral dependiendo del estado isOpen
-        // lg:block asegura que la barra lateral siempre se muestra en pantallas grandes
-        <div className={`lg:w-64 lg:flex-none lg:order-1 bg-blue-500 p-4 ${isOpen ? 'block' : 'hidden'} lg:block h-screen m-10`}>
-            {/* Botón de hamburguesa para alternar la barra lateral en pantallas pequeñas */}
-            <button className="lg:hidden block" onClick={toggleSidebar}>
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
-            {/* Navegación de la barra lateral */}
-            <nav className="lg:flex-1 overflow-y-auto">
-                <ul className="p-2 space-y-2 mt-40">
-                    {/* Enlaces de navegación */}
-                    <Link href="/">
-                        <li className="font-bold flex items-center pl-4 py-2 text-base hover:bg-blue-700 cursor-pointer">
-                            <AiTwotoneHome className="w-5 h-5 mr-3" />
-                            <span>INICIO</span>
-                        </li>
-                    </Link>
-                    <Link href="/matriculas">
-                        <li className="font-bold flex items-center pl-4 py-2 text-base hover:bg-blue-700 cursor-pointer">
-                            <FaMoneyCheckDollar className="w-5 h-5 mr-3" />
-                            <span>MATRICULAS</span>
-                        </li>
-                    </Link>
-                    <Link href="/clases">
-                        <li className="font-bold flex items-center pl-4 py-2 text-base hover:bg-blue-700 cursor-pointer">
-                            <MdInventory className="w-5 h-5 mr-3" />
-                            <span>CLASES</span>
-                        </li>
-                    </Link>
-                    <Link href="/notas">
-                        <li className="font-bold flex items-center pl-4 py-2 text-base hover:bg-blue-700 cursor-pointer">
-                            <TbReportSearch className="w-5 h-5 mr-3" />
-                            <span>NOTAS</span>
-                        </li>
-                    </Link>
-                </ul>
-            </nav>
-            {/* Botón Toggle adicional para mostrar la barra lateral cuando está oculta en pantallas pequeñas */}
-            <button className={`lg:hidden absolute bottom-4 left-4 bg-black text-white rounded-full p-2 ${isOpen ? 'hidden' : 'block'}`} onClick={toggleSidebar}>
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-            </button>
-        </div>
+        <li className={`font-bold flex items-center pl-4 py-2 text-base bg-action cursor-pointer ${isActive ? 'text-white bg-primary' : 'text-primary'}`}>
+            <Link href={href} className="flex items-center">
+                <button onClick={handleClick} className="flex items-center w-full justify-between">
+                    <div className="flex items-center">
+                        {icon}
+                        <span className="text-xs truncate flex-grow">{text}</span>
+                    </div>
+                </button>
+                <span className="m-auto">
+                    <BsChevronRight className={`m-4 size-5 align-middle ${isActive ? 'animate-pulse' : ''}`} />
+                </span>
+            </Link>
+        </li>
     );
 }
