@@ -4,7 +4,7 @@ import { compare } from 'bcrypt-ts';
 import prisma from '@/app/lib/prisma';
 import * as yup from 'yup';
 
-import { createToken, validateData } from '@/app/lib';
+import { createToken, validateData } from '@/app/lib/';
 
 const postSchema = yup.object({
 	email: yup.string().trim().email().required(),
@@ -14,7 +14,7 @@ const postSchema = yup.object({
 export async function POST(req: Request) {
 	const body = await req.json();
 
-	//data validaction
+	// validate data
 	const validation = await validateData(postSchema.validate(body));
 
 	if (!validation.ok) {
@@ -24,10 +24,10 @@ export async function POST(req: Request) {
 		);
 	}
 
-	const { password, email } = validation;
+	const { email, password } = body;
 	try {
-		//check if admin exist
-		const response = await prisma.admin.findUnique({
+		// check if user exist
+		const response = await prisma.teacher.findUnique({
 			where: {
 				email: email,
 			},
@@ -72,7 +72,6 @@ export async function POST(req: Request) {
 
 		return NextResponse.json(loginUserData, {
 			status: 200,
-			// headers: { 'Set-Cookie': `session=${token}` },
 		});
 	} catch (err) {
 		console.error(err);

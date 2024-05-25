@@ -1,16 +1,14 @@
 import { NextResponse } from 'next/server';
 
 import prisma from '@/app/lib/prisma';
-import { hash } from 'bcrypt-ts';
+import { compare, hash } from 'bcrypt-ts';
 import * as yup from 'yup';
-import { validateData, checkRole, generatePass } from '@/app/lib';
+import { validateData, checkRole } from '@/app/lib';
 
 const postSchema = yup.object({
-	email: yup.string().trim().email().required(),
-	name: yup.string().trim().required(),
+	password: yup.string().required().trim().min(6),
+	newPassword: yup.string().required().trim().min(6),
 });
-
-const startCode = 100000;
 
 export async function POST(req: Request, res: Response) {
 	const body = await req.json();
@@ -26,7 +24,7 @@ export async function POST(req: Request, res: Response) {
 	}
 
 	//validate session, token
-	const validSession = await checkRole('Admin');
+	const validSession = await checkRole('Teacher');
 	if (!validSession.token) {
 		return NextResponse.json(
 			{ ok: false, message: validSession.message },
@@ -34,50 +32,52 @@ export async function POST(req: Request, res: Response) {
 		);
 	}
 
-	// creating user
-	const { email, name } = dataValidation;
+	// update user password
+	const { password, newPassword } = dataValidation;
 
 	try {
-		//check if user already exist
-		const user = await prisma.teacher.findUnique({
+		// search user
+		const userResponse = await prisma.teacher.findUnique({
 			where: {
-				email: email,
+				email: validSession.email,
 			},
 		});
 
-		if (user) {
+		if (!userResponse) {
 			return NextResponse.json(
-				{ ok: false, message: 'user already exist' },
+				{ ok: false, message: 'wrong email or password' },
 				{ status: 400 }
 			);
 		}
 
-		const hashedPassword = await hash(
-			generatePass(),
+		//matching password
+		const matching = await compare(password, userResponse.password);
+
+		if (!matching) {
+			return NextResponse.json(
+				{ ok: false, message: 'wrong email or password' },
+				{ status: 400 }
+			);
+		}
+
+		//hashing new password
+		const hashedNewPassword = await hash(
+			newPassword,
 			Number(process.env.SALT) || 10
 		);
 
-		const student = await prisma.teacher.create({
-			data: {
-				email: email,
-				name: name,
-				password: hashedPassword,
-			},
-		});
-
-		//add code
 		const response = await prisma.teacher.update({
 			where: {
-				id: student.id,
+				email: validSession.email,
 			},
 			data: {
-				code: student.id + startCode,
+				password: hashedNewPassword,
 			},
 		});
 
 		return NextResponse.json(
-			{ ok: true, message: 'new user created', data: response },
-			{ status: 201 }
+			{ ok: true, message: 'new password successful', data: response },
+			{ status: 200 }
 		);
 	} catch (err) {
 		console.error(err);

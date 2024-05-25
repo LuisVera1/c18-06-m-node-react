@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { compare } from 'bcrypt-ts';
 import prisma from '@/app/lib/prisma';
 import * as yup from 'yup';
@@ -7,7 +8,7 @@ import { createToken, validateData } from '@/app/lib/';
 
 const postSchema = yup.object({
 	email: yup.string().trim().email().required(),
-	password: yup.string().required().trim().min(6),
+	password: yup.string().required().trim().min(8),
 });
 
 export async function POST(req: Request) {
@@ -53,6 +54,7 @@ export async function POST(req: Request) {
 		const token = await createToken({
 			email: response.email,
 			role: response.role,
+			code: response.code
 		});
 
 		const loginUserData = {
@@ -61,9 +63,15 @@ export async function POST(req: Request) {
 			data: response,
 		};
 
+		cookies().set({
+			name: 'session',
+			value: token,
+			httpOnly: false,
+			path: '/',
+		});
+
 		return NextResponse.json(loginUserData, {
-			status: 200,
-			headers: { 'Set-Cookie': `session=${token}` },
+			status: 200
 		});
 	} catch (err) {
 		console.error(err);
