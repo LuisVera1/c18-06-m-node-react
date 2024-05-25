@@ -47,9 +47,9 @@ const Login: NextPage = () => {
 
         if (Object.keys(newErrors).length === 0) {
             const roleToUrlMap: { [key: string]: string } = {
-                alumno: `${process.env.URL_BASE}/api/student/login`,
-                docente: `${process.env.URL_BASE}/api/teacher/login`,
-                admin: `${process.env.URL_BASE}/api/admin/login`,
+                alumno: `${process.env.NEXT_PUBLIC_URL_BASE}/api/student/login`,
+                docente: `${process.env.NEXT_PUBLIC_URL_BASE}/api/teacher/login`,
+                admin: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/login`,
             };
 
             const loginUrl = roleToUrlMap[role];
@@ -68,14 +68,14 @@ const Login: NextPage = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.success) {
+                    if (data.ok) {
                         const roleToRouteMap: { [key: string]: string } = {
-                            alumno: "/bienvenida/alumno",
-                            docente: "/bienvenida/docente",
-                            admin: "/bienvenida/admin",
+                            alumno: "/bienvenidos",
+                            docente: "/bienvenidos",
+                            admin: "/bienvenidos",
                         };
                         const route = roleToRouteMap[role] || "/";
-                        router.push(route); // Redirige al inicio solo si fue exitoso
+                        router.push(route); // Redirige a bienvenida solo si fue exitoso
 
                         setUser(data); // Actualiza el contexto del usuario
                     } else {
