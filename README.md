@@ -12,6 +12,8 @@ Plataforma EdTech diseñada y desarrollada para una institución específica, qu
 
 ## Equipo de Trabajo 🚀
 
+## Equipo de Proyecto
+
 <div style="display: flex; flex-wrap: wrap; justify-content: center;">
 
   <div style="text-align: center; margin: 10px;">
@@ -158,8 +160,8 @@ Plataforma EdTech diseñada y desarrollada para una institución específica, qu
 
 ## Enlaces de Proyecto 🔗
 
-<p>Repositorio: <a>https://github.com/No-Country/c18-06-m-node-react</a></p>
-Sitio web: <a>https://github.com/No-Country/c18-06-m-node-react</a></p>
+-   Repositorio: [https://github.com/No-Country/c18-06-m-node-react](https://github.com/No-Country/c18-06-m-node-react)
+-   Sitio web: [https://github.com/No-Country/c18-06-m-node-react](https://github.com/No-Country/c18-06-m-node-react)
 
 ## Expresiones de Gratitud 🙌🏻
 
