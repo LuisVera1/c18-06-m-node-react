@@ -6,9 +6,12 @@ import { Button } from "primereact/button";
 import { useUser } from "../../../context/UserContext"; // Importa el contexto del usuario
 import { useRouter } from "next/navigation"; // Usa next/navigation en lugar de next/router
 import { NextPage } from "next"; // Importa NextPage en lugar de React.FC
+import type { StaticImageData } from "next/image";
 import Link from "next/link";
 import Image from "next/image";
-import BannerLogin from "../../../../assets/login.png";
+import BannerLoginAlumn from "../../../../assets/login.png"; // Imagen para alumnos
+import BannerLoginTeacher from "../../../../assets/teacher 1.png"; // Imagen para docentes
+import BannerLoginAdmin from "../../../../assets/container_2.png"; // Imagen para administradores
 
 const Login: NextPage = () => {
     const [email, setEmail] = useState<string>("");
@@ -92,6 +95,12 @@ const Login: NextPage = () => {
             }
         }
     };
+    // Mapea los roles a las imágenes correspondientes
+    const roleToImageMap: { [key: string]: StaticImageData } = {
+        alumno: BannerLoginAlumn,
+        docente: BannerLoginTeacher,
+        admin: BannerLoginAdmin,
+    };
 
     return (
         <div className="flex h-screen">
@@ -159,7 +168,7 @@ const Login: NextPage = () => {
                 </form>
             </div>
             <div className="w-1/2">
-                <Image className="w-full h-full object-cover" src={BannerLogin} alt="img-login" quality={100} priority />
+                <Image className="w-full h-full object-cover" src={roleToImageMap[role]} alt="img-login" quality={100} priority />
             </div>
         </div>
     );

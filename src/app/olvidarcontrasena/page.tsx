@@ -91,7 +91,6 @@ const ForgetPass: NextPage = () => {
                         <div className="flex flex-col items-center gap-2 w-full">
                             <Button
                                 label="Confirmar"
-                                icon="pi pi-user"
                                 className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans hover:bg-secundary"
                                 type="submit"
                             />

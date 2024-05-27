@@ -147,7 +147,6 @@ function NewPass() {
                         {successMessage && <p className="text-primary font-bold">{successMessage}</p>}
                         <Button
                             label="Confirmar"
-                            icon="pi pi-user"
                             className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans hover:bg-secundary"
                             type="submit"
                         />
