@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import { useUser } from "../../../context/UserContext"; // Importa el contexto del usuario
 import { useRouter } from "next/navigation"; // Usa next/navigation en lugar de next/router
 import { NextPage } from "next"; // Importa NextPage en lugar de React.FC
+import Link from "next/link";
 import Image from "next/image";
 import BannerLogin from "../../../../assets/login.png";
 
@@ -22,7 +23,6 @@ const Login: NextPage = () => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,8}$/;
         return passwordRegex.test(password);
     };
-
     // Función para validar el formato del correo electrónico
     const validateEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -101,6 +101,7 @@ const Login: NextPage = () => {
 
                     <div className="flex flex-col items-center gap-2 w-full">
                         <div className="flex flex-col w-2/4 items-center">
+                            <label htmlFor="role" className="text-dark text-left font-barlow"></label>
                             <select
                                 id="role"
                                 value={role}
@@ -116,11 +117,11 @@ const Login: NextPage = () => {
 
                     <div className="flex flex-col items-center gap-2 w-full">
                         <div className="flex flex-col w-2/4">
-                            <label htmlFor="email" className="text-dark text-left font-barlow">
+                            <label htmlFor="mail" className="text-dark text-left font-barlow">
                                 E-mail
                             </label>
                             <InputText
-                                id="email"
+                                id="mail"
                                 type="text"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -145,11 +146,13 @@ const Login: NextPage = () => {
                                 placeholder="Ingresa tu contraseña"
                             />
                             {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
+                            <p className="text-xs text-right mt-2 hover:underline">
+                                <Link href="/olvidarcontrasena">¿Olvidó contraseña?</Link>
+                            </p>
                         </div>
                         <Button
-                            label="Siguiente"
-                            icon="pi pi-user"
-                            className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans"
+                            label="Confirmar"
+                            className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans hover:bg-secundary"
                             type="submit"
                         />
                     </div>
