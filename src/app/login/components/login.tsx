@@ -18,16 +18,18 @@ const Login: NextPage = () => {
     const { setUser } = useUser(); // Usa el contexto del usuario
     const router = useRouter(); // Usa el hook useRouter
 
+    // Función para validar el formato de la contraseña
     const validatePassword = (password: string): boolean => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,8}$/;
         return passwordRegex.test(password);
     };
-
+    // Función para validar el formato del correo electrónico
     const validateEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
 
+    // Maneja el envío del formulario
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const newErrors: { email?: string; password?: string } = {};
@@ -48,9 +50,9 @@ const Login: NextPage = () => {
 
         if (Object.keys(newErrors).length === 0) {
             const roleToUrlMap: { [key: string]: string } = {
-                alumno: `${process.env.URL_BASE}/api/student/login`,
-                docente: `${process.env.URL_BASE}/api/teacher/login`,
-                admin: `${process.env.URL_BASE}/api/admin/login`,
+                alumno: `${process.env.NEXT_PUBLIC_URL_BASE}/api/student/login`,
+                docente: `${process.env.NEXT_PUBLIC_URL_BASE}/api/teacher/login`,
+                admin: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/login`,
             };
 
             const loginUrl = roleToUrlMap[role];
@@ -69,14 +71,14 @@ const Login: NextPage = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.success) {
+                    if (data.ok) {
                         const roleToRouteMap: { [key: string]: string } = {
-                            alumno: "/bienvenidos/alumno",
-                            docente: "/bienvenidos/docente",
-                            admin: "/bienvenidos/admin",
+                            alumno: "/bienvenidos",
+                            docente: "/bienvenidos",
+                            admin: "/bienvenidos",
                         };
                         const route = roleToRouteMap[role] || "/";
-                        router.push(route); // Redirige al inicio solo si fue exitoso
+                        router.push(route); // Redirige a bienvenida solo si fue exitoso
 
                         setUser(data); // Actualiza el contexto del usuario
                     } else {
@@ -165,4 +167,3 @@ const Login: NextPage = () => {
 };
 
 export default Login;
-//quiero que cuando el select este en profesor cambie la imagen de fondo
