@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import { useUser } from "../../../context/UserContext"; // Importa el contexto del usuario
 import { useRouter } from "next/navigation"; // Usa next/navigation en lugar de next/router
 import { NextPage } from "next"; // Importa NextPage en lugar de React.FC
+import Link from "next/link";
 import Image from "next/image";
 import BannerLogin from "../../../../assets/login.png";
 
@@ -70,9 +71,9 @@ const Login: NextPage = () => {
                     const data = await response.json();
                     if (data.success) {
                         const roleToRouteMap: { [key: string]: string } = {
-                            alumno: "/bienvenida/alumno",
-                            docente: "/bienvenida/docente",
-                            admin: "/bienvenida/admin",
+                            alumno: "/bienvenidos/alumno",
+                            docente: "/bienvenidos/docente",
+                            admin: "/bienvenidos/admin",
                         };
                         const route = roleToRouteMap[role] || "/";
                         router.push(route); // Redirige al inicio solo si fue exitoso
@@ -143,11 +144,14 @@ const Login: NextPage = () => {
                                 placeholder="Ingresa tu contraseña"
                             />
                             {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
+                            <p className="text-xs text-right mt-2 hover:underline">
+                                <Link href="/olvidarcontrasena">¿Olvidó contraseña?</Link>
+                            </p>
                         </div>
                         <Button
-                            label="Siguiente"
+                            label="Confirmar"
                             icon="pi pi-user"
-                            className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans"
+                            className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans hover:bg-secundary"
                             type="submit"
                         />
                     </div>
@@ -161,3 +165,4 @@ const Login: NextPage = () => {
 };
 
 export default Login;
+//quiero que cuando el select este en profesor cambie la imagen de fondo
