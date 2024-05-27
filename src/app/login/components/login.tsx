@@ -17,16 +17,19 @@ const Login: NextPage = () => {
     const { setUser } = useUser(); // Usa el contexto del usuario
     const router = useRouter(); // Usa el hook useRouter
 
+    // Función para validar el formato de la contraseña
     const validatePassword = (password: string): boolean => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,8}$/;
         return passwordRegex.test(password);
     };
 
+    // Función para validar el formato del correo electrónico
     const validateEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
 
+    // Maneja el envío del formulario
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const newErrors: { email?: string; password?: string } = {};
@@ -98,7 +101,6 @@ const Login: NextPage = () => {
 
                     <div className="flex flex-col items-center gap-2 w-full">
                         <div className="flex flex-col w-2/4 items-center">
-                            <label htmlFor="role" className="text-dark text-left font-barlow"></label>
                             <select
                                 id="role"
                                 value={role}
@@ -114,11 +116,11 @@ const Login: NextPage = () => {
 
                     <div className="flex flex-col items-center gap-2 w-full">
                         <div className="flex flex-col w-2/4">
-                            <label htmlFor="mail" className="text-dark text-left font-barlow">
+                            <label htmlFor="email" className="text-dark text-left font-barlow">
                                 E-mail
                             </label>
                             <InputText
-                                id="mail"
+                                id="email"
                                 type="text"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}

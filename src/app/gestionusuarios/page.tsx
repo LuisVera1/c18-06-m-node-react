@@ -5,9 +5,12 @@ function gestionusuarios() {
     return (
         // Sección principal que envuelve el contenido
         <>
-            <section className="flex-1">
+            <section className="flex">
                 {/* Insertamos el componente Sidebar */}
                 <Sidebar />
+                <div>
+                    buenas
+                </div>
             </section>
         </>
     );
