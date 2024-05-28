@@ -14,7 +14,7 @@ export default function Sidebar() {
     return (
         <div className='bg-grey h-screen p-4 w-80 shadow-md'>
             <nav className="lg:flex-1 overflow-y-auto w-80 mt-20">
-                <b className="text-primary m-4">Nombre de la institución</b>
+                <b className="text-primary m-4">MatrículaXpress</b>
                 <ul className="p-2 space-y-2 mt-40 text-justify mr-4">
                     <NavItem href="/" icon={<AiTwotoneHome className="size-5 m-4" />} text="Dashboard" isActive={pathname === "/"} />
                     <NavItem href="/gestionusuarios" icon={<BiRadar className="size-5 m-4" />} text="Gestión de usuarios" isActive={pathname === "/gestionusuarios"} />

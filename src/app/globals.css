@@ -46,3 +46,44 @@ body {
 .legend-text {
   font-size: 16px;
 }
+
+/* Añade estos estilos a tu archivo CSS global o específico del componente */
+
+.custom-table .p-datatable-thead > tr > th {
+  font-size: 1.2rem; /* Aumenta el tamaño de la fuente de los encabezados */
+  font-weight: bold; /* Hace que las letras sean más gruesas */
+  color: #3399b1; /* Cambia el color del texto a negro */
+}
+
+.custom-table .p-datatable-tbody > tr > td {
+  font-size: 1rem; /* Tamaño de la fuente de los datos */
+  color: #333; /* Color de los datos */
+}
+
+.custom-table .p-datatable-tbody > tr > td.status-column {
+  font-weight: bold; /* Hace que el texto del estado sea más grueso */
+}
+
+.bg-green-100 {
+  background-color: #d4edda; /* Fondo verde claro */
+}
+
+.text-green-800 {
+  color: #155724; /* Texto verde oscuro */
+}
+
+.bg-yellow-100 {
+  background-color: #fff3cd; /* Fondo amarillo claro */
+}
+
+.text-yellow-800 {
+  color: #856404; /* Texto amarillo oscuro */
+}
+
+.bg-red-100 {
+  background-color: #f8d7da; /* Fondo rojo claro */
+}
+
+.text-red-800 {
+  color: #721c24; /* Texto rojo oscuro */
+}
