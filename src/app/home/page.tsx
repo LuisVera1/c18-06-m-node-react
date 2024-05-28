@@ -2,6 +2,7 @@ import Sidebar from "../components/sidebar/sidebar";
 import Chart from "./components/Chart/chart";
 import ProgressBar from "./components/progressbar/progressbar"
 import DataTable from "./components/Table/table"
+import Avatar from "../components/avatar/avatar"
 
 // Definimos y exportamos el componente Matriculas
 function Home() {
@@ -10,7 +11,11 @@ function Home() {
             <Sidebar />
             {/* Contenido de la página */}
             <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8"> {/* Utilizamos w-full para móviles y fracciones de la pantalla para pantallas grandes */}
-                <h2 className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl mt-10 ml-10">Dashboard</h2>
+                <div className="flex justify-between items-center w-full px-10 mt-10">
+                    <h2 className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl">Dashboard</h2>
+                    <Avatar />
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-full lg:w-3/4 xl:w-5/6 mx-auto mt-40"> {/* Utilizamos grid-cols-1 para móviles y grid-cols-2 para pantallas grandes */}
                     <div className="p-4">
                         <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-3xl">De Estudiantes Matriculados</b>
