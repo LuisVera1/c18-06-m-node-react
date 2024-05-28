@@ -1,0 +1,136 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Career {
+  id       Int       @id @default(autoincrement())
+  title    String
+  credits  Int
+  class    Class[]
+  students Student[]
+  subject  Subject[]
+}
+
+model Class {
+  id        Int               @id @default(autoincrement())
+  title     String
+  credits   Int
+  spaces    Int               @default(0)
+  code      String
+  section   String
+  schedule  Schedule[]
+  carerrID  Int
+  career    Career            @relation(fields: [carerrID], references: [id])
+  teacherID Int?
+  teacher   Teacher?          @relation(fields: [teacherID], references: [id])
+  students  StudentsInClass[]
+  //creditsRequired Int @default(0)
+  //required String['ab1', 'ab2']
+  //type Optative, required
+}
+
+model Schedule {
+  id        Int    @id @default(autoincrement())
+  day       String
+  startH    Int
+  endH      Int
+  classroom String
+  classID   Int
+  class     Class  @relation(fields: [classID], references: [id])
+}
+
+model Teacher {
+  id       Int           @id @default(autoincrement())
+  code     Int?          @unique
+  email    String        @unique
+  name     String
+  password String
+  role     Role          @default(Teacher)
+  status   TeacherStatus @default(Active)
+  class    Class[]
+}
+
+model StudentsInClass {
+  id        Int     @id @default(autoincrement())
+  studentID Int
+  student   Student @relation(fields: [studentID], references: [id])
+  classID   Int
+  class     Class   @relation(fields: [classID], references: [id])
+}
+
+model Student {
+  id       Int               @id @default(autoincrement())
+  email    String            @unique
+  code     Int?              @unique
+  name     String
+  password String
+  plan     String
+  role     Role              @default(Student)
+  status   StudentStatus     @default(Active)
+  careerID Int
+  career   Career            @relation(fields: [careerID], references: [id])
+  class    StudentsInClass[]
+  subjects Subject[]
+}
+
+model Subject {
+  id        Int           @id @default(autoincrement())
+  title     String
+  credits   Int
+  code      String
+  status    StatusSubject
+  score     Int
+  year      Int
+  month     Int
+  careerID  Int
+  career    Career        @relation(fields: [careerID], references: [id])
+  studentID Int
+  student   Student       @relation(fields: [studentID], references: [id])
+}
+
+model Admin {
+  id       Int    @id @default(autoincrement())
+  code     Int?   @unique
+  email    String @unique
+  name     String
+  password String
+  role     Role   @default(Admin)
+  //status
+  //level
+}
+
+enum Role {
+  Student
+  Teacher
+  Admin
+}
+
+enum StudentStatus {
+  Active
+  Inactive
+  Graduate
+  Certificate
+}
+
+enum TeacherStatus {
+  Active
+  Inactive
+}
+
+enum StatusSubject {
+  Passed
+  Failed
+  Conditional
+  Repeated
+}

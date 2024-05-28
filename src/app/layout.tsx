@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import 'primereact/resources/themes/saga-blue/theme.css';  // Importa el tema de PrimeReact
+import 'primereact/resources/primereact.min.css';          // Importa los estilos de PrimeReact
+import 'primeicons/primeicons.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
