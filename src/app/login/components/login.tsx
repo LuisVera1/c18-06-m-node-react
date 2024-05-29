@@ -20,6 +20,7 @@ const Login: NextPage = () => {
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
     const { setUser } = useUser(); // Usa el contexto del usuario
     const router = useRouter(); // Usa el hook useRouter
+    const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
 
     // Función para validar el formato de la contraseña
     const validatePassword = (password: string): boolean => {
@@ -84,6 +85,7 @@ const Login: NextPage = () => {
                         router.push(route); // Redirige a bienvenida solo si fue exitoso
 
                         setUser(data); // Actualiza el contexto del usuario
+                        setLoginSuccess(true);
                     } else {
                         setErrors({ email: "Credenciales incorrectas" });
                     }
@@ -154,6 +156,9 @@ const Login: NextPage = () => {
                                 className="w-full border-2 h-8 border-grey rounded text-dark p-2 text-xs mb-1 font-sans"
                                 placeholder="Ingresa tu contraseña"
                             />
+                            {loginSuccess && (
+                                <p className="text-primary text-xs mb-5 font-medium font-sans text-justify w-1/2 mx-auto">Inicio de sesión exitoso</p>
+                            )}
                             {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
                             <p className="text-xs text-right mt-2 hover:underline">
                                 <Link href="/olvidarcontrasena">¿Olvidó contraseña?</Link>

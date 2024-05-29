@@ -46,7 +46,7 @@ function NewPass() {
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            const loginUrl = "/api/cambiarcontrasena"; // falta la ruta del servidor acá
+            const loginUrl = "URL_BASE/api/resetPassword/{token}";
 
             try {
                 const response = await fetch(loginUrl, {
@@ -81,7 +81,7 @@ function NewPass() {
                             <p className="text-primary text-center text-xs mb-4 font-medium font-sans">¡Su contraseña ha sido cambiada con éxito!</p>
                             <div className="flex flex-col items-center gap-2 w-full">
                                 <Image className="w-40 h-full object-cover" src={OkImage} alt="img-login" quality={100} priority />
-                                <Link href="/login" passHref>
+                                <Link href="/" passHref>
                                     <Button
                                         label="Iniciar sesión"
                                         icon="pi pi-user"
