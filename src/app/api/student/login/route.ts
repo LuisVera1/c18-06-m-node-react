@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 		// check if student exist
 		const response = await prisma.student.findUnique({
 			where: {
-				email: email,
+				email: email.toLowerCase(),
 			},
 		});
 
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
 		const token = await createToken({
 			email: response.email,
 			role: response.role,
-			code: response.code
+			code: response.code,
 		});
 
 		const loginUserData = {
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
 		});
 
 		return NextResponse.json(loginUserData, {
-			status: 200
+			status: 200,
 		});
 	} catch (err) {
 		console.error(err);

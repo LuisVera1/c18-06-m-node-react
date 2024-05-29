@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import { createToken, validateData } from '@/app/lib';
 
 const postSchema = yup.object({
-	email: yup.string().trim().email().required(),
+	email: yup.string().lowercase().trim().email().required(),
 	password: yup.string().required().trim().min(8),
 });
 

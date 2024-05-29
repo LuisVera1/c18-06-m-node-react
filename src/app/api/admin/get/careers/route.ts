@@ -1,4 +1,4 @@
-import { checkRole } from '@/app/lib';
+import { checkRole, typeUsers } from '@/app/lib';
 import prisma from '@/app/lib/prisma';
 import { NextResponse } from 'next/server';
 
@@ -12,7 +12,7 @@ export async function GET(req: Request) {
 		});
 
 		//validate session, token
-		const validSession = await checkRole('Admin');
+		const validSession = await checkRole(typeUsers.admin);
 		if (!validSession.token) {
 			return NextResponse.json(
 				{ ok: false, message: validSession.message },

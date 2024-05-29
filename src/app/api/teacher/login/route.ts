@@ -29,9 +29,10 @@ export async function POST(req: Request) {
 		// check if user exist
 		const response = await prisma.teacher.findUnique({
 			where: {
-				email: email,
+				email: email.toLowerCase(),
 			},
 		});
+		console.log("🚀 - response:", response)
 
 		if (!response) {
 			return NextResponse.json(

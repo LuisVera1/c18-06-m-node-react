@@ -3,14 +3,16 @@ import { NextResponse } from 'next/server';
 import prisma from '@/app/lib/prisma';
 import { hash } from 'bcrypt-ts';
 import * as yup from 'yup';
-import { validateData, checkRole, generatePass } from '@/app/lib';
+import { validateData, checkRole, generatePass, typeUsers } from '@/app/lib';
 
 const postSchema = yup.object({
-	email: yup.string().trim().email().required(),
+	career: yup.number(),
+	email: yup.string().lowercase().trim().email().required(),
 	name: yup.string().trim().required(),
+	plan: yup.string().trim().required(),
 });
 
-const startCode = 100000;
+const startCode = 1000000;
 
 export async function POST(req: Request, res: Response) {
 	const body = await req.json();
@@ -26,7 +28,7 @@ export async function POST(req: Request, res: Response) {
 	}
 
 	//validate session, token
-	const validSession = await checkRole('Admin');
+	const validSession = await checkRole(typeUsers.admin);
 	if (!validSession.token) {
 		return NextResponse.json(
 			{ ok: false, message: validSession.message },
@@ -35,13 +37,13 @@ export async function POST(req: Request, res: Response) {
 	}
 
 	// creating user
-	const { email, name } = dataValidation;
+	const { career, email, name, plan } = dataValidation;
 
 	try {
 		//check if user already exist
-		const user = await prisma.teacher.findUnique({
+		const user = await prisma.student.findUnique({
 			where: {
-				email: email,
+				email: email.toLowerCase(),
 			},
 		});
 
@@ -57,16 +59,18 @@ export async function POST(req: Request, res: Response) {
 			Number(process.env.SALT) || 10
 		);
 
-		const student = await prisma.teacher.create({
+		const student = await prisma.student.create({
 			data: {
-				email: email,
+				careerID: career,
+				email: email.toLowerCase(),
 				name: name,
 				password: hashedPassword,
+				plan: plan,
 			},
 		});
 
 		//add code
-		const response = await prisma.teacher.update({
+		const response = await prisma.student.update({
 			where: {
 				id: student.id,
 			},
