@@ -1,7 +1,7 @@
 import Sidebar from "../components/sidebar/sidebar";
 import Chart from "./components/Chart/chart";
 import ProgressBar from "./components/progressbar/progressbar"
-import DataTable from "./components/Table/table"
+import DataTable from "../components/Table/table"
 import Avatar from "../components/avatar/avatar"
 
 // Definimos y exportamos el componente Matriculas
