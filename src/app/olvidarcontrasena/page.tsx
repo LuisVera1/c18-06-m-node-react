@@ -13,7 +13,7 @@ const ForgetPassContent: NextPage = () => {
     const [email, setEmail] = useState<string>("");
     const [errors, setErrors] = useState<{ email?: string }>({});
     const [emailSent, setEmailSent] = useState<boolean>(false);
-    const [role, setRole] = useState<string>("alumno");
+    const [role, setRole] = useState<string>("Student");
     const { user } = useUser(); // Usa el contexto del usuario (solo lectura)
 
     const validateEmail = (email: string): boolean => {
@@ -41,9 +41,10 @@ const ForgetPassContent: NextPage = () => {
             };
 
             const loginUrl = roleToUrlMap[role];
+            const URL = `${process.env.NEXT_PUBLIC_URL_BASE}/api/resetpassword`
 
             try {
-                const response = await fetch(loginUrl, {
+                const response = await fetch(URL, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -91,7 +92,7 @@ const ForgetPassContent: NextPage = () => {
                                         onChange={(e) => setRole(e.target.value)}
                                         className="w-40 border-2 border-primary rounded bg-action text-primary py-1 px-2 text-xs font-medium font-sans text-center"
                                     >
-                                        <option value="Students">Alumno</option>
+                                        <option value="Student">Alumno</option>
                                         <option value="Teacher">Docente</option>
                                         <option value="Admin">Admin</option>
                                     </select>
@@ -133,13 +134,13 @@ const ForgetPassContent: NextPage = () => {
                             </p>
                         </div>
                         <div className="flex flex-col items-center gap-2 w-full">
-                            <Link href="/login" passHref>
+                            {/* <Link href="/login" passHref>
                                 <Button
                                     label="Iniciar sesión"
                                     icon="pi pi-user"
                                     className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans hover:bg-secundary"
                                 />
-                            </Link>
+                            </Link> */}
                         </div>
                     </div>
                 </div>

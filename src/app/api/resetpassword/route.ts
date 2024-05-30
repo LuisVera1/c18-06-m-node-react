@@ -1,6 +1,7 @@
 import { createToken, typeUsers, validateData } from '@/app/lib';
 import prisma from '@/app/lib/prisma';
 import { NextResponse } from 'next/server';
+// import { Resend } from 'resend';
 import * as yup from 'yup';
 
 const postSchema = yup.object({
@@ -68,10 +69,18 @@ export async function POST(req: Request) {
 
 		const token = await createToken(payload, '24h');
 
+		//send mail
+		// const resend = new Resend(process.env.RESEND_API_KEY);
+		// const { data, error } = await resend.emails.send({
+		// 	from: 'Acme <onboarding@resend.dev>',
+		// 	to: ['luisvera2318@gmail.com'],
+		// 	subject: '¡Felicidades, has sido admitido!',
+		// 	html: `<div><h1>Restablecer contraseña</h1></br><p>Hemos recibido una solicitud para restablecer tu contrasela, sigue este link para restablecerla, el link solo es valido 24 horas</p></br></br></br><a href="http://localhost:3000/restablecercontrasena/${token}">Restablecer contraseña</a></div>`,
+		// });
+
 		return NextResponse.json({
 			ok: true,
 			message: 'email sended',
-			data: token,
 		});
 	} catch (err) {
 		console.error(err);
