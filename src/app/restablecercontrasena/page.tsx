@@ -46,7 +46,7 @@ function NewPass() {
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            const loginUrl = "URL_BASE/api/resetPassword/{token}";
+            const loginUrl = `${process.env.NEXT_PUBLIC_URL_BASE}/api/resetpassword/token`;
 
             try {
                 const response = await fetch(loginUrl, {

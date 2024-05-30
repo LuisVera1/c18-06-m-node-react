@@ -1,6 +1,6 @@
-'use client';
-import React from 'react';
-import useAuth from './useAuth';
+"use client";
+import React from "react";
+import useAuth from "./useAuth";
 
 const App = ({ children }: { children: React.ReactNode }) => {
     useAuth();
