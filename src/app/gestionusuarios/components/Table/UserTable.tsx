@@ -44,13 +44,13 @@ const UserTable: NextPage = () => {
                 break;
             case "/gestionusuarios/docentes":
                 fetchedUser = [
-                    { name: "John Doe", email: "john@company.com", id: "987654321", program: "Computer Science", status: "Active", courses: 3, statusEnvio: "Pending", role: "Profesor" },
-                    { name: "Jane Smith", email: "jane@company.com", id: "456123789", program: "Mathematics", status: "Inactive", courses: 5, statusEnvio: "Sent", role: "Asistente" },
+                    { name: "John Doe", email: "john@company.com", id: "987654321", program: "Computer Science", status: "Activo", courses: 3, statusEnvio: "Pending", role: "Profesor" },
+                    { name: "Jane Smith", email: "jane@company.com", id: "456123789", program: "Mathematics", status: "Inactivo", courses: 5, statusEnvio: "Sent", role: "Asistente" },
                 ];
                 break;
             case "/gestionusuarios/administrador":
                 fetchedUser = [
-                    { name: "Admin User", email: "admin@company.com", id: "789456123", program: "Admin", status: "Active", role: "Administrador" },
+                    { name: "Admin User", email: "admin@company.com", id: "789456123", program: "Admin", status: "Activo", role: "Administrador" },
                 ];
                 break;
             default:
@@ -60,6 +60,8 @@ const UserTable: NextPage = () => {
 
         setUsers(fetchedUser);
     }, [pathname]);
+
+
     const statusBodyTemplate = (rowData: User) => {
         let statusClass = "";
 
