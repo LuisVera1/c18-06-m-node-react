@@ -109,10 +109,8 @@ const Login: NextPage = () => {
             <div className="card w-1/2 flex items-center justify-center">
                 <form className="flex flex-col gap-3 py-5 w-full" onSubmit={handleSubmit}>
                     <p className="text-primary font-bold text-3xl mb-10 text-center font-barlow">Iniciar sesión</p>
-
                     <div className="flex flex-col items-center gap-2 w-full">
                         <div className="flex flex-col w-2/4 items-center">
-                            <label htmlFor="role" className="text-dark text-left font-barlow"></label>
                             <select
                                 id="role"
                                 value={role}
@@ -125,7 +123,6 @@ const Login: NextPage = () => {
                             </select>
                         </div>
                     </div>
-
                     <div className="flex flex-col items-center gap-2 w-full">
                         <div className="flex flex-col w-2/4">
                             <label htmlFor="mail" className="text-dark text-left font-barlow">

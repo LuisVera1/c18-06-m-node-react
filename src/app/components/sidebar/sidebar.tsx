@@ -25,7 +25,7 @@ export default function Sidebar() {
                         href="/gestionusuarios"
                         icon={<BiRadar className="size-5 m-4" />}
                         text="Gestión de usuarios"
-                        isActive={pathname === "/gestionusuarios" || pathname === "/gestionusuarios/crearestudiante"}
+                        isActive={pathname === "/gestionusuarios" || pathname === "/gestionusuarios/crearestudiante" || pathname === "/gestionusuarios/docentes" || pathname === "/gestionusuarios/administrador"}
                     />
                     <NavItem
                         href="/gestioncursos"
@@ -72,9 +72,8 @@ interface NavItemProps {
 function NavItem({ href, icon, text, isActive }: NavItemProps) {
     return (
         <li
-            className={`font-bold flex items-center pl-4 py-2 text-base cursor-pointer ${
-                isActive ? "text-grey bg-primary" : "text-primary"
-            } rounded-xl bg-gray-100 bg-opacity-80`}
+            className={`font-bold flex items-center pl-4 py-2 text-base cursor-pointer ${isActive ? "text-grey bg-primary" : "text-primary"
+                } rounded-xl bg-gray-100 bg-opacity-80`}
         >
             <Link href={href}>
                 <button className="flex items-center w-full justify-between">

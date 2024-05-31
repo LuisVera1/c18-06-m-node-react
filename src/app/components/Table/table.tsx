@@ -4,19 +4,6 @@ import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
-interface Product {
-    id: string;
-    code: string;
-    name: string;
-    description: string;
-    image: string;
-    price: number;
-    category: string;
-    quantity: number;
-    inventoryStatus: string;
-    rating: number;
-}
-
 interface Student {
     id: string;
     Nombre: string;
@@ -30,14 +17,24 @@ export default function BasicDemo() {
     const [students, setStudents] = useState<Student[]>([]);
 
     useEffect(() => {
-        const fetchedStudents = [
-            { id: '1', Nombre: 'Juan Pérez', Fechasolicitud: '2023-09-01', IDEsttudiante: '12-3344', Programa: 'Administración', Estado: 'Aprobado', },
-            { id: '2', Nombre: 'María García', Fechasolicitud: '2023-09-02', IDEsttudiante: '12-4455', Programa: 'Economia', Estado: 'Pendiente' },
-            { id: '3', Nombre: 'Carlos López', Fechasolicitud: '2023-09-03', IDEsttudiante: '12-5566', Programa: 'Contabilidad', Estado: 'Rechazado' },
-            { id: '4', Nombre: 'Ana Martínez', Fechasolicitud: '2023-09-04', IDEsttudiante: '12-6677', Programa: 'Profesorado Adm', Estado: 'Aprobado' },
-            { id: '5', Nombre: 'Luis Rodríguez', Fechasolicitud: '2023-09-05', IDEsttudiante: '12-7788', Programa: 'Profesorado Contabilidad', Estado: 'Rechazado' }
-        ];
-        setStudents(fetchedStudents);
+        const fetchStudents = async () => {
+            try {
+                const response = await fetch('/api/admin/get/students'); // Ajusta la URL a la de tu endpoint real
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                if (data.ok) {
+                    setStudents(data.data);
+                } else {
+                    console.error(data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching students:', error);
+            }
+        };
+
+        fetchStudents();
     }, []);
 
     const statusBodyTemplate = (rowData: Student) => {
@@ -88,4 +85,3 @@ export default function BasicDemo() {
         </div>
     );
 }
-

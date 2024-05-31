@@ -3,7 +3,7 @@
 import { NextPage } from "next";
 import React, { useState } from "react";
 import Sidebar from "../../components/sidebar/sidebar";
-import Avatar from "../../components/avatar/Avatar";
+import Avatar from "../../components/avatar/avatar";
 import { AiOutlineLeft } from "react-icons/ai";
 import Link from "next/link";
 
@@ -284,9 +284,8 @@ const CrearEstudiante: NextPage = () => {
                                 <Link href="/gestionusuarios" passHref>
                                     <button
                                         type="button"
-                                        className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${
-                                            activeButton ? "bg-primary text-white" : "bg-action text-primary"
-                                        }`}
+                                        className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-primary text-white" : "bg-action text-primary"
+                                            }`}
                                         onClick={() => setActiveButton(false)}
                                     >
                                         Cancelar
@@ -294,9 +293,8 @@ const CrearEstudiante: NextPage = () => {
                                 </Link>
                                 <button
                                     type="submit"
-                                    className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${
-                                        activeButton ? "bg-action text-primary" : "bg-primary text-white"
-                                    }`}
+                                    className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-action text-primary" : "bg-primary text-white"
+                                        }`}
                                     onClick={() => setActiveButton(true)}
                                 >
                                     Crear estudiante
