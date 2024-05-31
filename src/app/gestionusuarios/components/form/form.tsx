@@ -22,9 +22,9 @@ interface FormData {
     nombreContactoEmergencia: string;
     telefonoContactoEmergencia: string;
 }
-interface CrearEstudianteProps {
-    // addStudent: (student: FormData) => void;
-}
+// interface CrearEstudianteProps {
+//     // addStudent: (student: FormData) => void;
+// }
 
 const CrearEstudiante: NextPage = () => {
     const [activeButton, setActiveButton] = useState(false);
@@ -121,7 +121,7 @@ const CrearEstudiante: NextPage = () => {
     return (
         <div className="flex min-h-screen">
             <main className="flex-1 bg-gray-200">
-                <header className="shadow p-6">
+                <header className=" px-3 mx-3">
                     <div className="flex justify-between items-center ml-6">
                         <Link href="/gestionusuarios" passHref>
                             <div className="flex justify-start items-center">
