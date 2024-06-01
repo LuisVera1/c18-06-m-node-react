@@ -9,13 +9,9 @@ import { Column } from "primereact/column";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { NextPage } from "next";
 import { usePathname } from "next/navigation";
-<<<<<<< HEAD
-import Link from "next/link";
-=======
 import ModalAlumno from "../ModalAlumno/ModalAlumno";
 import ModalDocente from "../ModalDocente/ModalDocente";
 import ModalAdmin from "../ModalAdmin/ModalAdmin";
->>>>>>> ramanuevapao
 
 interface User {
     name: string;
@@ -32,9 +28,6 @@ const UserTable: NextPage = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
-<<<<<<< HEAD
-    const pathname = usePathname();
-=======
     const [displayDialog, setDisplayDialog] = useState(false);
     const pathname = usePathname();
 
@@ -54,7 +47,6 @@ const UserTable: NextPage = () => {
     const handleOpenDialog = () => {
         setDisplayDialog(true);
     };
->>>>>>> ramanuevapao
 
     useEffect(() => {
         let fetchedUser: User[] = [];
@@ -98,11 +90,7 @@ const UserTable: NextPage = () => {
             case "/gestionusuarios/administrador":
                 fetchedUser = [
                     { name: "Admin User", email: "admin@company.com", id: "789456123", program: "Admin", status: "Activo", role: "Administrador" },
-<<<<<<< HEAD
-                    { name: "Admin John", email: "adminJonh@company.com", id: "154896665", program: "Admin", status: "Activo", role: "Administrador" }
-=======
                     { name: "Admin John", email: "adminJonh@company.com", id: "154896665", program: "Admin", status: "Activo", role: "Administrador" },
->>>>>>> ramanuevapao
                 ];
                 break;
             default:
@@ -117,15 +105,6 @@ const UserTable: NextPage = () => {
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value.toLowerCase();
         setSearchTerm(value);
-<<<<<<< HEAD
-        setFilteredUsers(users.filter(user =>
-            user.name.toLowerCase().includes(value) ||
-            user.email.toLowerCase().includes(value) ||
-            user.id.toLowerCase().includes(value) ||
-            user.program.toLowerCase().includes(value) ||
-            (user.role && user.role.toLowerCase().includes(value))
-        ));
-=======
         setFilteredUsers(
             users.filter(
                 (user) =>
@@ -136,7 +115,6 @@ const UserTable: NextPage = () => {
                     (user.role && user.role.toLowerCase().includes(value))
             )
         );
->>>>>>> ramanuevapao
     };
 
     const statusBodyTemplate = (rowData: User) => {
@@ -185,11 +163,7 @@ const UserTable: NextPage = () => {
                     <input
                         type="text"
                         placeholder="Buscar usuario"
-<<<<<<< HEAD
-                        className={`w-full p-2 pl-10 border rounded ${searchTerm ? 'border-primary' : ''}`}
-=======
                         className={`w-full p-2 pl-10 border rounded ${searchTerm ? "border-primary" : ""}`}
->>>>>>> ramanuevapao
                         value={searchTerm}
                         onChange={handleSearch}
                         onFocus={() => setSearchTerm(searchTerm)} // To trigger re-render for applying border-primary class
@@ -200,11 +174,6 @@ const UserTable: NextPage = () => {
                 </div>
                 <div className="flex space-x-2">
                     <Image src={Filter} alt="Filtro" className="mr-4 cursor-pointer" width={24} height={24} />
-<<<<<<< HEAD
-                    <Link href="/gestionusuarios/crearestudiante">
-                        <button className="bg-action text-primary py-2 px-4 rounded">Crear nuevo usuario</button>
-                    </Link>
-=======
 
                     <button className="bg-action text-primary py-2 px-4 rounded" onClick={() => setDisplayDialog(true)}>
                         Crear nuevo usuario
@@ -212,7 +181,6 @@ const UserTable: NextPage = () => {
                     <Dialog visible={displayDialog} onHide={() => setDisplayDialog(false)}>
                         {dialogContent()}
                     </Dialog>
->>>>>>> ramanuevapao
                     <button className="bg-action text-primary py-2 px-4 rounded">Carga masiva</button>
                 </div>
             </div>
@@ -222,17 +190,12 @@ const UserTable: NextPage = () => {
                 <Column field="email" header="Correo" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
                 <Column field="id" header="ID" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
                 <Column field="program" header="Programa" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
-<<<<<<< HEAD
-                {pathname === "/gestionusuarios/docentes" && <Column field="courses" header="# Cursos asignados" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>}
-                {pathname === "/gestionusuarios/docentes" && <Column field="statusEnvio" header="Estado envío" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>}
-=======
                 {pathname === "/gestionusuarios/docentes" && (
                     <Column field="courses" header="# Cursos asignados" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
                 )}
                 {pathname === "/gestionusuarios/docentes" && (
                     <Column field="statusEnvio" header="Estado envío" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
                 )}
->>>>>>> ramanuevapao
                 <Column
                     field="status"
                     header="Estado Académico"
