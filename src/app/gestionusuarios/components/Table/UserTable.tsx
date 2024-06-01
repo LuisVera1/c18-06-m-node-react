@@ -1,14 +1,21 @@
-'use client';
+"use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Filter from "../../../../../assets/Filter.png";
 import Search from "../../../../../assets/Search.png";
 import { DataTable } from "primereact/datatable";
+import { Dialog } from "primereact/dialog";
 import { Column } from "primereact/column";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { NextPage } from "next";
 import { usePathname } from "next/navigation";
+<<<<<<< HEAD
 import Link from "next/link";
+=======
+import ModalAlumno from "../ModalAlumno/ModalAlumno";
+import ModalDocente from "../ModalDocente/ModalDocente";
+import ModalAdmin from "../ModalAdmin/ModalAdmin";
+>>>>>>> ramanuevapao
 
 interface User {
     name: string;
@@ -25,7 +32,29 @@ const UserTable: NextPage = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
+<<<<<<< HEAD
     const pathname = usePathname();
+=======
+    const [displayDialog, setDisplayDialog] = useState(false);
+    const pathname = usePathname();
+
+    const dialogContent = () => {
+        switch (pathname) {
+            case "/gestionusuarios":
+                return <ModalAlumno />;
+            case "/gestionusuarios/docentes":
+                return <ModalDocente />;
+            case "/gestionusuarios/administrador":
+                return <ModalAdmin />;
+            default:
+                return null;
+        }
+    };
+
+    const handleOpenDialog = () => {
+        setDisplayDialog(true);
+    };
+>>>>>>> ramanuevapao
 
     useEffect(() => {
         let fetchedUser: User[] = [];
@@ -44,14 +73,36 @@ const UserTable: NextPage = () => {
                 break;
             case "/gestionusuarios/docentes":
                 fetchedUser = [
-                    { name: "John Doe", email: "john@company.com", id: "987654321", program: "Computer Science", status: "Activo", courses: 3, statusEnvio: "Pending", role: "Profesor" },
-                    { name: "Jane Smith", email: "jane@company.com", id: "456123789", program: "Mathematics", status: "Inactivo", courses: 5, statusEnvio: "Sent", role: "Asistente" },
+                    {
+                        name: "John Doe",
+                        email: "john@company.com",
+                        id: "987654321",
+                        program: "Computer Science",
+                        status: "Activo",
+                        courses: 3,
+                        statusEnvio: "Pending",
+                        role: "Profesor",
+                    },
+                    {
+                        name: "Jane Smith",
+                        email: "jane@company.com",
+                        id: "456123789",
+                        program: "Mathematics",
+                        status: "Inactivo",
+                        courses: 5,
+                        statusEnvio: "Sent",
+                        role: "Asistente",
+                    },
                 ];
                 break;
             case "/gestionusuarios/administrador":
                 fetchedUser = [
                     { name: "Admin User", email: "admin@company.com", id: "789456123", program: "Admin", status: "Activo", role: "Administrador" },
+<<<<<<< HEAD
                     { name: "Admin John", email: "adminJonh@company.com", id: "154896665", program: "Admin", status: "Activo", role: "Administrador" }
+=======
+                    { name: "Admin John", email: "adminJonh@company.com", id: "154896665", program: "Admin", status: "Activo", role: "Administrador" },
+>>>>>>> ramanuevapao
                 ];
                 break;
             default:
@@ -66,6 +117,7 @@ const UserTable: NextPage = () => {
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value.toLowerCase();
         setSearchTerm(value);
+<<<<<<< HEAD
         setFilteredUsers(users.filter(user =>
             user.name.toLowerCase().includes(value) ||
             user.email.toLowerCase().includes(value) ||
@@ -73,6 +125,18 @@ const UserTable: NextPage = () => {
             user.program.toLowerCase().includes(value) ||
             (user.role && user.role.toLowerCase().includes(value))
         ));
+=======
+        setFilteredUsers(
+            users.filter(
+                (user) =>
+                    user.name.toLowerCase().includes(value) ||
+                    user.email.toLowerCase().includes(value) ||
+                    user.id.toLowerCase().includes(value) ||
+                    user.program.toLowerCase().includes(value) ||
+                    (user.role && user.role.toLowerCase().includes(value))
+            )
+        );
+>>>>>>> ramanuevapao
     };
 
     const statusBodyTemplate = (rowData: User) => {
@@ -121,7 +185,11 @@ const UserTable: NextPage = () => {
                     <input
                         type="text"
                         placeholder="Buscar usuario"
+<<<<<<< HEAD
                         className={`w-full p-2 pl-10 border rounded ${searchTerm ? 'border-primary' : ''}`}
+=======
+                        className={`w-full p-2 pl-10 border rounded ${searchTerm ? "border-primary" : ""}`}
+>>>>>>> ramanuevapao
                         value={searchTerm}
                         onChange={handleSearch}
                         onFocus={() => setSearchTerm(searchTerm)} // To trigger re-render for applying border-primary class
@@ -132,9 +200,19 @@ const UserTable: NextPage = () => {
                 </div>
                 <div className="flex space-x-2">
                     <Image src={Filter} alt="Filtro" className="mr-4 cursor-pointer" width={24} height={24} />
+<<<<<<< HEAD
                     <Link href="/gestionusuarios/crearestudiante">
                         <button className="bg-action text-primary py-2 px-4 rounded">Crear nuevo usuario</button>
                     </Link>
+=======
+
+                    <button className="bg-action text-primary py-2 px-4 rounded" onClick={() => setDisplayDialog(true)}>
+                        Crear nuevo usuario
+                    </button>
+                    <Dialog visible={displayDialog} onHide={() => setDisplayDialog(false)}>
+                        {dialogContent()}
+                    </Dialog>
+>>>>>>> ramanuevapao
                     <button className="bg-action text-primary py-2 px-4 rounded">Carga masiva</button>
                 </div>
             </div>
@@ -144,8 +222,17 @@ const UserTable: NextPage = () => {
                 <Column field="email" header="Correo" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
                 <Column field="id" header="ID" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
                 <Column field="program" header="Programa" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
+<<<<<<< HEAD
                 {pathname === "/gestionusuarios/docentes" && <Column field="courses" header="# Cursos asignados" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>}
                 {pathname === "/gestionusuarios/docentes" && <Column field="statusEnvio" header="Estado envío" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>}
+=======
+                {pathname === "/gestionusuarios/docentes" && (
+                    <Column field="courses" header="# Cursos asignados" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
+                )}
+                {pathname === "/gestionusuarios/docentes" && (
+                    <Column field="statusEnvio" header="Estado envío" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
+                )}
+>>>>>>> ramanuevapao
                 <Column
                     field="status"
                     header="Estado Académico"
