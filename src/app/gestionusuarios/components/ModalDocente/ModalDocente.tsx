@@ -2,7 +2,6 @@
 
 import { NextPage } from "next";
 import React, { useState } from "react";
-import ImageDemo from "@/app/components/avatar/avatar";
 import { AiOutlineLeft } from "react-icons/ai";
 import Link from "next/link";
 
@@ -118,14 +117,14 @@ const CrearDocente: NextPage = () => {
                 <header className=" px-3 mx-3">
                     <div className="flex justify-between items-center ml-6">
                         <Link href="/gestionusuarios" passHref>
-                            <div className="flex justify-start items-center">
+                            <div className="flex justify-start items-center py-5">
                                 <AiOutlineLeft className="mr-4 text-primary font-black" />
                                 <h1 className="text-2xl text-primary font-bold">Información del docente</h1>
                             </div>
                         </Link>
-                        <ImageDemo />
                     </div>
                 </header>
+
                 <div className="w-100 m-4 bg-white rounded py-4  shadow-md">
                     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-3 bg-white rounded-lg">
                         <p className="text-xl font-semibold mb-10">Información básica</p>
@@ -308,7 +307,7 @@ const CrearDocente: NextPage = () => {
                                 }`}
                                 onClick={() => setActiveButton(true)}
                             >
-                                Crear estudiante
+                                Crear docente
                             </button>
                         </div>
                     </form>

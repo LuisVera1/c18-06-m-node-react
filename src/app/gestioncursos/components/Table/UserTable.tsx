@@ -1,9 +1,11 @@
-'use client';
+"use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Filter from "../../../../../assets/Filter.png";
 import Search from "../../../../../assets/Search.png";
+import ModalCurso from "../ModalCurso/ModalCurso";
 import { DataTable } from "primereact/datatable";
+import { Dialog } from "primereact/dialog";
 import { Column } from "primereact/column";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { NextPage } from "next";
@@ -25,6 +27,11 @@ const CourseTable: NextPage = () => {
     const [activeButton, setActiveButton] = useState<string | null>(null);
     const pathname = usePathname();
 
+    const [displayDialog, setDisplayDialog] = useState(false);
+    const toggleDialog = () => {
+        setDisplayDialog(!displayDialog);
+    };
+
     useEffect(() => {
         const fetchedCourses: Course[] = [
             { curso: "Diseño Gráfico", descripción: "Curso de diseño avanzado", carrera: "Diseño", cupos: 30, codigo: "DG101" },
@@ -45,25 +52,31 @@ const CourseTable: NextPage = () => {
     };
 
     const handleDelete = (courseCode: string) => {
-        const updatedCourses = courses.filter(course => course.codigo !== courseCode);
+        const updatedCourses = courses.filter((course) => course.codigo !== courseCode);
         setCourses(updatedCourses);
-        setFilteredCourses(updatedCourses.filter(course =>
-            course.curso.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            course.descripción.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            course.carrera.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            course.codigo.toLowerCase().includes(searchTerm.toLowerCase())
-        ));
+        setFilteredCourses(
+            updatedCourses.filter(
+                (course) =>
+                    course.curso.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    course.descripción.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    course.carrera.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    course.codigo.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        );
     };
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value.toLowerCase();
         setSearchTerm(value);
-        setFilteredCourses(courses.filter(course =>
-            course.curso.toLowerCase().includes(value) ||
-            course.descripción.toLowerCase().includes(value) ||
-            course.carrera.toLowerCase().includes(value) ||
-            course.codigo.toLowerCase().includes(value)
-        ));
+        setFilteredCourses(
+            courses.filter(
+                (course) =>
+                    course.curso.toLowerCase().includes(value) ||
+                    course.descripción.toLowerCase().includes(value) ||
+                    course.carrera.toLowerCase().includes(value) ||
+                    course.codigo.toLowerCase().includes(value)
+            )
+        );
     };
 
     const handleButtonClick = (button: string) => {
@@ -88,30 +101,26 @@ const CourseTable: NextPage = () => {
             <h1 className="font-bold text-primary text-2xl mb-5">Cursos</h1>
             <div className="flex justify-between mb-4">
                 <div className="relative w-full sm:w-1/2">
-                    <input
-                        type="text"
-                        placeholder="Buscar curso"
-                        className="w-full p-2 pl-10 border rounded"
-                        value={searchTerm}
-                        onChange={handleSearch}
-                    />
+                    <input type="text" placeholder="Buscar curso" className="w-full p-2 pl-10 border rounded" value={searchTerm} onChange={handleSearch} />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <Image src={Search} alt="Buscar" width={20} height={20} />
                     </div>
                 </div>
                 <div className="flex space-x-2">
                     <Image src={Filter} alt="Filtro" className="mr-4 cursor-pointer" width={24} height={24} />
-                    <Link href="/gestionusuarios/crearestudiante">
-                        <button
-                            onClick={() => handleButtonClick('crear')}
-                            className={`py-2 px-4 rounded ${activeButton === 'crear' ? 'bg-primary text-white' : 'bg-action text-primary'}`}
-                        >
-                            Crear nuevo curso
-                        </button>
-                    </Link>
+
                     <button
-                        onClick={() => handleButtonClick('carga')}
-                        className={`py-2 px-4 rounded ${activeButton === 'carga' ? 'bg-primary text-white' : 'bg-action text-primary'}`}
+                        onClick={toggleDialog}
+                        className={`py-2 px-4 rounded ${activeButton === "crear" ? "bg-primary text-white" : "bg-action text-primary"}`}
+                    >
+                        Crear nuevo curso
+                    </button>
+                    <Dialog visible={displayDialog} onHide={toggleDialog}>
+                        <ModalCurso />
+                    </Dialog>
+                    <button
+                        onClick={() => handleButtonClick("carga")}
+                        className={`py-2 px-4 rounded ${activeButton === "carga" ? "bg-primary text-white" : "bg-action text-primary"}`}
                     >
                         Carga masiva
                     </button>
