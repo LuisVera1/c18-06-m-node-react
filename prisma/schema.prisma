@@ -98,6 +98,9 @@ model Student {
   class    StudentsInClass[]
   subjects Subject[]
   profile  ProfileStudent?
+  tickets Boolean? @default(false)
+  payment Boolean? @default(false)
+  creation DateTime? @default(now())
 }
 
 model ProfileStudent {

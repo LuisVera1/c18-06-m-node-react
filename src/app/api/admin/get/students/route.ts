@@ -62,6 +62,19 @@ export async function GET(req: Request) {
 				where: {
 					careerID: career == 0 ? undefined : career,
 				},
+				select: {
+					email: true,
+					code: true,
+					name: true,
+					status: true,
+					creation: true,
+					career: {
+						select: {
+							title: true,
+							code: true,
+						},
+					},
+				},
 			});
 		} else {
 			response = await prisma.student.findMany({
@@ -70,6 +83,19 @@ export async function GET(req: Request) {
 				where: {
 					careerID: career == 0 ? undefined : career,
 					status: status,
+				},
+				select: {
+					email: true,
+					code: true,
+					name: true,
+					status: true,
+					creation: true,
+					career: {
+						select: {
+							title: true,
+							code: true,
+						},
+					},
 				},
 			});
 		}
