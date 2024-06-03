@@ -13,7 +13,7 @@ import BannerLoginAlumn from "../../../../assets/login.png"; // Imagen para alum
 import BannerLoginTeacher from "../../../../assets/teacher 1.png"; // Imagen para docentes
 import BannerLoginAdmin from "../../../../assets/container_2.png"; // Imagen para administradores
 
-const Login: NextPage = ({ onLogin }) => {
+const Login: NextPage = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [role, setRole] = useState<string>("alumno");
