@@ -1,12 +1,13 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar/sidebar";
 import Chart from "./components/Chart/chart";
-import { ProgressBar } from 'primereact/progressbar'; // Asegúrate de importar correctamente desde 'primereact/progressbar'
+import { ProgressBar } from "primereact/progressbar"; // Asegúrate de importar correctamente desde 'primereact/progressbar'
 import DataTable from "../components/Table/table";
-import Avatar from "../components/avatar/avatar";
-import 'primereact/resources/themes/saga-blue/theme.css'; // Importar tema PrimeReact
-import 'primereact/resources/primereact.min.css'; // Importar estilos PrimeReact
+import Avatar from "../components/avatar/Avatar";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
+import "primereact/resources/themes/saga-blue/theme.css"; // Importar tema PrimeReact
+import "primereact/resources/primereact.min.css"; // Importar estilos PrimeReact
 
 interface Student {
     id: string;
@@ -19,6 +20,7 @@ interface Student {
 
 // Definimos y exportamos el componente Home
 function Home() {
+    useAuthRedirect();
     // Estado para almacenar los datos de los estudiantes
     const [matriculas, setMatriculas] = useState<Student[]>([]);
     const [aprobados, setAprobados] = useState<Student[]>([]);
@@ -29,24 +31,24 @@ function Home() {
         const fetchStudents = async () => {
             try {
                 // Realiza la solicitud a la API
-                const response = await fetch('http://localhost:3000/api/admin/get/students'); // Ajusta la URL a la de tu endpoint real
+                const response = await fetch("http://localhost:3000/api/admin/get/students"); // Ajusta la URL a la de tu endpoint real
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
 
                 // Verifica si la respuesta es correcta y actualiza los estados
                 if (data.ok) {
                     setMatriculas(data.data);
-                    const aprobados = data.data.filter((student: Student) => student.Estado === 'Aprobado');
-                    const pendientes = data.data.filter((student: Student) => student.Estado === 'Pendiente');
+                    const aprobados = data.data.filter((student: Student) => student.Estado === "Aprobado");
+                    const pendientes = data.data.filter((student: Student) => student.Estado === "Pendiente");
                     setAprobados(aprobados);
                     setPendientes(pendientes);
                 } else {
                     console.error(data.message);
                 }
             } catch (error) {
-                console.error('Error fetching students:', error);
+                console.error("Error fetching students:", error);
             }
         };
 
@@ -60,17 +62,14 @@ function Home() {
 
     return (
         <div className="flex flex-col md:flex-row">
-            {/* Utilizamos flex-col para móviles y flex-row para pantallas grandes */}
             <Sidebar />
-            {/* Contenido de la página */}
+
             <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8">
-                {/* Utilizamos w-full para móviles y fracciones de la pantalla para pantallas grandes */}
                 <div className="flex justify-between items-center w-full px-10 mt-10">
                     <h2 className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl">Dashboard</h2>
                     <Avatar />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-full lg:w-3/4 xl:w-5/6 mx-auto mt-10">
-                    {/* Utilizamos grid-cols-1 para móviles y grid-cols-2 para pantallas grandes */}
                     <div className="p-4">
                         <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-3xl"># De Estudiantes Matriculados</b>
                         <div className="flex justify-between mt-4">
@@ -99,10 +98,6 @@ function Home() {
                             </div>
                             <p>{pendientes.length}</p>
                         </div>
-
-
-
-
                     </div>
                     <div className="p-4">
                         <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-3xl">Pagos</b>
@@ -121,5 +116,4 @@ function Home() {
     );
 }
 
-// Exportamos el componente para que pueda ser utilizado en otras partes de la aplicación
 export default Home;

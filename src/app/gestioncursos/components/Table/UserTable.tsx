@@ -115,7 +115,7 @@ const CourseTable: NextPage = () => {
                     >
                         Crear nuevo curso
                     </button>
-                    <Dialog visible={displayDialog} onHide={toggleDialog}>
+                    <Dialog className="w-full" visible={displayDialog} onHide={toggleDialog}>
                         <ModalCurso />
                     </Dialog>
                     <button

@@ -178,7 +178,7 @@ const UserTable: NextPage = () => {
                     <button className="bg-action text-primary py-2 px-4 rounded" onClick={() => setDisplayDialog(true)}>
                         Crear nuevo usuario
                     </button>
-                    <Dialog visible={displayDialog} onHide={() => setDisplayDialog(false)}>
+                    <Dialog className="w-full h-auto" visible={displayDialog} onHide={() => setDisplayDialog(false)}>
                         {dialogContent()}
                     </Dialog>
                     <button className="bg-action text-primary py-2 px-4 rounded">Carga masiva</button>

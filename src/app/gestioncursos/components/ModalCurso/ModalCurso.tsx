@@ -15,7 +15,7 @@ interface FormData {
     descripcion: string;
 }
 
-const CrearDocente: NextPage = () => {
+const CrearCurso: NextPage = () => {
     const [activeButton, setActiveButton] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [studentData, setStudentData] = useState<FormData[]>([]);
@@ -228,4 +228,4 @@ const CrearDocente: NextPage = () => {
     );
 };
 
-export default CrearDocente;
+export default CrearCurso;
