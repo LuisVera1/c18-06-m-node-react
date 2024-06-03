@@ -7,12 +7,12 @@ import { validateData, checkRole, generatePass, typeUsers } from '@/app/lib';
 // import { Resend } from 'resend';
 
 const postSchema = yup.object({
-	career: yup.number(),
 	email: yup.string().lowercase().trim().email().required(),
 	name: yup.string().trim().required(),
+	phone: yup.string().trim().optional(),
 });
 
-const startCode = 1000000;
+const startCode = 100000;
 
 export async function POST(req: Request, res: Response) {
 	const body = await req.json();
@@ -36,12 +36,22 @@ export async function POST(req: Request, res: Response) {
 		);
 	}
 
+	//validate superAdmin
+	console.log(validSession);
+
+	if (!validSession.tokenData.superAdmin) {
+		return NextResponse.json(
+			{ ok: false, message: 'Forbidden' },
+			{ status: 403 }
+		);
+	}
+
 	// creating user
-	const { career, email, name } = dataValidation;
+	const { email, name, phone } = dataValidation;
 
 	try {
 		//check if user already exist
-		const user = await prisma.student.findUnique({
+		const user = await prisma.admin.findUnique({
 			where: {
 				email: email.toLowerCase(),
 			},
@@ -60,22 +70,22 @@ export async function POST(req: Request, res: Response) {
 			Number(process.env.SALT) || 10
 		);
 
-		const student = await prisma.student.create({
+		const admin = await prisma.admin.create({
 			data: {
-				careerID: career,
 				email: email.toLowerCase(),
 				name: name,
 				password: hashedPassword,
+				phone: phone || '',
 			},
 		});
 
 		//add code
-		const response = await prisma.student.update({
+		const response = await prisma.admin.update({
 			where: {
-				id: student.id,
+				id: admin.id,
 			},
 			data: {
-				code: student.id + startCode,
+				code: admin.id + startCode,
 			},
 		});
 

@@ -40,6 +40,16 @@ export async function POST(req: Request) {
 			);
 		}
 
+		//check status
+		const userStatusAccepted = ['Activo', 'Graduado', 'Titulado'];
+
+		if (!userStatusAccepted.includes(response.status)) {
+			return NextResponse.json(
+				{ ok: false, message: 'the user is not active' },
+				{ status: 403 }
+			);
+		}
+
 		// matching password
 		const matching = await compare(password, response.password);
 

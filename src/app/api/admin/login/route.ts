@@ -40,6 +40,14 @@ export async function POST(req: Request) {
 			);
 		}
 
+		//check status
+		if (response.status !== 'Activo') {
+			return NextResponse.json(
+				{ ok: false, message: 'the user is not active' },
+				{ status: 403 }
+			);
+		}
+
 		// matching password
 		const matching = await compare(password, response.password);
 
@@ -55,6 +63,7 @@ export async function POST(req: Request) {
 			email: response.email,
 			role: response.role,
 			code: response.code,
+			superAdmin: response.superAdmin,
 		});
 
 		const loginUserData = {

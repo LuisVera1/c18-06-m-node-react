@@ -36,9 +36,6 @@ model Class {
   teacherID Int?
   teacher   Teacher?          @relation(fields: [teacherID], references: [id])
   students  StudentsInClass[]
-  //creditsRequired Int @default(0)
-  //required String['ab1', 'ab2']
-  //type [IQ: required, QFB: optative, LQ: optative]
 }
 
 model Schedule {
@@ -52,15 +49,32 @@ model Schedule {
 }
 
 model Teacher {
-  id       Int           @id @default(autoincrement())
-  code     Int?          @unique
-  email    String        @unique
+  id       Int             @id @default(autoincrement())
+  code     Int?            @unique
+  email    String          @unique
   name     String
   password String
-  role     Role          @default(Teacher)
-  status   TeacherStatus @default(Active)
+  role     Role            @default(Teacher)
+  status   TeacherStatus   @default(Activo)
   class    Class[]
-  //profile
+  profile  ProfileTeacher?
+}
+
+model ProfileTeacher {
+  id             Int     @id @default(autoincrement())
+  birthdate      String?
+  phone          String?
+  //identification?
+  //institutional mail
+  address        String?
+  grade          String?
+  specialization String?
+  department     String?
+  expertise      String?
+  contact        String?
+  contactPhone   String?
+  teacherID      Int     @unique
+  teacher        Teacher @relation(fields: [teacherID], references: [id])
 }
 
 model StudentsInClass {
@@ -77,14 +91,27 @@ model Student {
   code     Int?              @unique
   name     String
   password String
-  plan     String
   role     Role              @default(Student)
-  status   StudentStatus     @default(Active)
+  status   StudentStatus     @default(Activo)
   careerID Int
   career   Career            @relation(fields: [careerID], references: [id])
   class    StudentsInClass[]
   subjects Subject[]
-  //profile
+  profile  ProfileStudent?
+}
+
+model ProfileStudent {
+  id           Int     @id @default(autoincrement())
+  birthdate    String?
+  phone        String?
+  //# identification
+  // institutional mail
+  year         Int?
+  currentCycle String?
+  contact      String?
+  contactPhone String?
+  studentID    Int     @unique
+  student      Student @relation(fields: [studentID], references: [id])
 }
 
 model Subject {
@@ -103,15 +130,20 @@ model Subject {
 }
 
 model Admin {
-  id       Int    @id @default(autoincrement())
-  code     Int?   @unique
-  email    String @unique
-  name     String
-  password String
-  role     Role   @default(Admin)
-  //status
+  id          Int         @id @default(autoincrement())
+  code        Int?        @unique
+  email       String      @unique
+  name        String
+  password    String
+  status      AdminStatus @default(Activo)
+  role        Role        @default(Admin)
+  phone       String?
+  //department
+  //institutional mail
   //level
-  //profile
+  superAdmin  Boolean     @default(false)
+  manageUsers Boolean     @default(true)
+  createAdmin Boolean     @default(false)
 }
 
 enum Role {
@@ -121,22 +153,29 @@ enum Role {
 }
 
 enum StudentStatus {
-  Active
-  Inactive
-  Graduate
-  Certificate
-  DroppingOut
-  TempWithdraw
+  Activo
+  Inactivo
+  Graduado
+  Titulado
+  Baja
+  BajaTemporal
 }
 
 enum TeacherStatus {
-  Active
-  Inactive
+  Activo
+  Inactivo
+  Baja
+}
+
+enum AdminStatus {
+  Activo
+  Inactivo
+  Baja
 }
 
 enum StatusSubject {
-  Passed
-  Failed
-  Conditional
-  Repeated
+  Aprobada
+  Reprobada
+  Extraordinario
+  Repetida
 }

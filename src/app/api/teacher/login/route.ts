@@ -32,12 +32,20 @@ export async function POST(req: Request) {
 				email: email.toLowerCase(),
 			},
 		});
-		console.log("🚀 - response:", response)
+		console.log('🚀 - response:', response);
 
 		if (!response) {
 			return NextResponse.json(
 				{ ok: false, message: 'wrong email or password' },
 				{ status: 400 }
+			);
+		}
+
+		//check status
+		if (response.status !== 'Activo') {
+			return NextResponse.json(
+				{ ok: false, message: 'the user is not active' },
+				{ status: 403 }
 			);
 		}
 

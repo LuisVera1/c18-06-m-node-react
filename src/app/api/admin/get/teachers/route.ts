@@ -4,18 +4,9 @@ import prisma from '@/app/lib/prisma';
 
 import * as yup from 'yup';
 
-const enumStatus = [
-	'Activo',
-	'Inactivo',
-	'Graduado',
-	'Titulado',
-	'Baja',
-	'BajaTemporal',
-	'Empty',
-];
+const enumStatus = ['Activo', 'Inactivo', 'Baja', 'Empty'];
 
 const postSchema = yup.object({
-	career: yup.number().optional(),
 	status: yup.string().oneOf(enumStatus),
 	page: yup.number().min(1).default(1),
 	number: yup.number().default(10),
@@ -26,7 +17,6 @@ export async function GET(req: Request) {
 
 	//data validation
 	const filterData = {
-		career: Number(searchParams.get('career')),
 		status: searchParams.get('status') ?? 'Empty',
 		page: Number(searchParams.get('page')) || 1,
 		number: Number(searchParams.get('number')) || 10,
@@ -49,30 +39,18 @@ export async function GET(req: Request) {
 			{ status: validSession.status }
 		);
 	}
-	const { career, status, page, number } = validation;
+	const { status, page, number } = validation;
 
 	const skip = (page - 1) * number;
 
 	try {
-		let response;
-		if (status === 'Empty') {
-			response = await prisma.student.findMany({
-				skip: skip,
-				take: number,
-				where: {
-					careerID: career == 0 ? undefined : career,
-				},
-			});
-		} else {
-			response = await prisma.student.findMany({
-				skip: skip,
-				take: number,
-				where: {
-					careerID: career == 0 ? undefined : career,
-					status: status,
-				},
-			});
-		}
+		const response = await prisma.teacher.findMany({
+			skip: skip,
+			take: number,
+			where: {
+				status: status === 'Empty' ? undefined : status,
+			},
+		});
 
 		return NextResponse.json(
 			{ ok: true, message: '', data: response },

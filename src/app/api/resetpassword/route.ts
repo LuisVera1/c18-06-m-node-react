@@ -81,6 +81,7 @@ export async function POST(req: Request) {
 		return NextResponse.json({
 			ok: true,
 			message: 'email sended',
+			data: token,
 		});
 	} catch (err) {
 		console.error(err);
