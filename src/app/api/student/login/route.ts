@@ -65,6 +65,8 @@ export async function POST(req: Request) {
 			email: response.email,
 			role: response.role,
 			code: response.code,
+			career: response.careerID,
+			userID: response.id,
 		});
 
 		const loginUserData = {

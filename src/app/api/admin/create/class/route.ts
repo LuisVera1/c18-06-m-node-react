@@ -6,17 +6,18 @@ import { validateData, checkRole, typeUsers } from '@/app/lib';
 
 const postSchema = yup.object({
 	title: yup.string().trim().required(),
-	credits: yup.number().required(),
+	// credits: yup.number().required(),
 	spaces: yup.number().required(),
 	code: yup.string().trim().required(),
-	section: yup.string().trim().required(),
+	// section: yup.string().trim().required(),
 	careerID: yup.number().required(),
+	teacherID: yup.number().optional().default(null),
 	schedule: yup.array().of(
 		yup.object().shape({
 			day: yup.string().trim().required(),
 			startH: yup.number().required(),
 			endH: yup.number().required(),
-			classroom: yup.string().trim().required(),
+			// classroom: yup.string().trim().required(),
 		})
 	),
 });
@@ -36,6 +37,7 @@ export async function POST(req: Request, res: Response) {
 
 	//validate session, token
 	const validSession = await checkRole(typeUsers.admin);
+	console.log('🚀 - validSession:', validSession);
 	if (!validSession.token) {
 		return NextResponse.json(
 			{ ok: false, message: validSession.message },
@@ -43,19 +45,32 @@ export async function POST(req: Request, res: Response) {
 		);
 	}
 
-	// creating career
-	const { title, credits, spaces, code, section, careerID, schedule } =
-		dataValidation;
-
 	try {
+		const { title, spaces, code, careerID, teacherID, schedule } =
+			dataValidation;
+
+		//verify active teacher
+		const teacher = await prisma.teacher.findUnique({
+			where: {
+				id: teacherID,
+			},
+		});
+
+		if (teacher && teacher.status != 'Activo') {
+			return NextResponse.json(
+				{ ok: false, message: 'only active teachers can be selected' },
+				{ status: 400 }
+			);
+		}
+
+		// creating class
 		const response = await prisma.class.create({
 			data: {
 				title: title,
-				credits: credits,
 				spaces: spaces,
 				code: code,
-				section: section,
 				carerrID: careerID,
+				teacherID: teacherID,
 				schedule: {
 					createMany: {
 						data: schedule,
