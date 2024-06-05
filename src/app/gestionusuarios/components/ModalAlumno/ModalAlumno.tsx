@@ -25,7 +25,7 @@ interface FormData {
 //     // addStudent: (student: FormData) => void;
 // }
 
-const CrearEstudiante: NextPage = () => {
+const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
     const [activeButton, setActiveButton] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         nombreCompleto: "",
@@ -124,8 +124,10 @@ const CrearEstudiante: NextPage = () => {
                     <div className="flex justify-between items-center ml-6">
                         <Link href="/gestionusuarios" passHref>
                             <div className="flex justify-start items-center py-5">
-                                <AiOutlineLeft className="mr-4 text-primary font-black" />
-                                <h1 className="text-2xl text-primary font-bold">Información del estudiante</h1>
+                                <button className="flex justify-start items-center py-5" onClick={onHide}>
+                                    <AiOutlineLeft className="mr-4 text-primary font-black" />
+                                    <h1 className="text-2xl text-primary font-bold">Información del estudiante</h1>
+                                </button>
                             </div>
                         </Link>
                     </div>
@@ -310,7 +312,7 @@ const CrearEstudiante: NextPage = () => {
                                     className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${
                                         activeButton ? "bg-primary text-white" : "bg-action text-primary"
                                     }`}
-                                    onClick={() => setActiveButton(false)}
+                                    onClick={onHide}
                                 >
                                     Cancelar
                                 </button>

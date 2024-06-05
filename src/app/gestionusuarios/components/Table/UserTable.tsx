@@ -34,20 +34,19 @@ const UserTable: NextPage = () => {
     const dialogContent = () => {
         switch (pathname) {
             case "/gestionusuarios":
-                return <ModalAlumno />;
+                return <ModalAlumno onHide={toggleDialog} />;
             case "/gestionusuarios/docentes":
-                return <ModalDocente />;
+                return <ModalDocente onHide={toggleDialog} />;
             case "/gestionusuarios/administrador":
-                return <ModalAdmin />;
+                return <ModalAdmin onHide={toggleDialog} />;
             default:
                 return null;
         }
     };
 
-    const handleOpenDialog = () => {
-        setDisplayDialog(true);
+    const toggleDialog = () => {
+        setDisplayDialog(!displayDialog);
     };
-
     useEffect(() => {
         let fetchedUser: User[] = [];
 
@@ -178,10 +177,10 @@ const UserTable: NextPage = () => {
                     <button className="bg-action text-primary py-2 px-4 rounded" onClick={() => setDisplayDialog(true)}>
                         Crear nuevo usuario
                     </button>
-                    <Dialog className="w-full h-auto" visible={displayDialog} onHide={() => setDisplayDialog(false)}>
+                    <Dialog onHide={toggleDialog} className="w-3/4 h-auto" visible={displayDialog}>
                         {dialogContent()}
                     </Dialog>
-                    <button className="bg-action text-primary py-2 px-4 rounded">Carga masiva</button>
+                    <button className="bg-primary text-white py-2 px-4 rounded">Carga masiva</button>
                 </div>
             </div>
 

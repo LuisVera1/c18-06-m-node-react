@@ -115,12 +115,12 @@ const CourseTable: NextPage = () => {
                     >
                         Crear nuevo curso
                     </button>
-                    <Dialog className="w-full" visible={displayDialog} onHide={toggleDialog}>
-                        <ModalCurso />
+                    <Dialog className="w-3/4" visible={displayDialog} onHide={toggleDialog}>
+                        <ModalCurso onHide={toggleDialog} />
                     </Dialog>
                     <button
                         onClick={() => handleButtonClick("carga")}
-                        className={`py-2 px-4 rounded ${activeButton === "carga" ? "bg-primary text-white" : "bg-action text-primary"}`}
+                        className={`py-2 px-4 rounded ${activeButton === "carga" ? "bg-action text-primary" : "bg-primary text-white"}`}
                     >
                         Carga masiva
                     </button>

@@ -20,7 +20,7 @@ interface Student {
 
 // Definimos y exportamos el componente Home
 function Home() {
-    useAuthRedirect();
+    // useAuthRedirect();
     // Estado para almacenar los datos de los estudiantes
     const [matriculas, setMatriculas] = useState<Student[]>([]);
     const [aprobados, setAprobados] = useState<Student[]>([]);
@@ -61,7 +61,7 @@ function Home() {
     const pendingPercentage = totalStudents ? (pendientes.length / totalStudents) * 100 : 0;
 
     return (
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row ">
             <Sidebar />
 
             <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8">

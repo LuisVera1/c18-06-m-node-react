@@ -3,7 +3,6 @@
 import { NextPage } from "next";
 import React, { useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
-import Link from "next/link";
 
 interface FormData {
     nombreCurso: string;
@@ -15,9 +14,8 @@ interface FormData {
     descripcion: string;
 }
 
-const CrearCurso: NextPage = () => {
+const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
     const [activeButton, setActiveButton] = useState(false);
-    const [modalOpen, setModalOpen] = useState(false);
     const [studentData, setStudentData] = useState<FormData[]>([]);
     const [errors, setErrors] = useState<Partial<FormData>>({});
     const [formData, setFormData] = useState<FormData>({
@@ -73,12 +71,12 @@ const CrearCurso: NextPage = () => {
             <main className="flex-1 bg-gray-200">
                 <header className="px-3 mx-3">
                     <div className="flex justify-between items-center ml-2">
-                        <Link href="/gestioncursos" passHref>
-                            <div className="flex justify-start items-center py-5">
+                        <div>
+                            <button className="flex justify-start items-center py-5" onClick={onHide}>
                                 <AiOutlineLeft className="mr-4 text-primary font-black" />
                                 <h1 className="text-2xl text-primary font-bold">Información del curso</h1>
-                            </div>
-                        </Link>
+                            </button>
+                        </div>
                     </div>
                 </header>
                 <div className="w-100 m-4 bg-white rounded py-4 shadow-md">
@@ -90,7 +88,7 @@ const CrearCurso: NextPage = () => {
                                 <input
                                     type="text"
                                     name="nombreCurso"
-                                    value={formData.nombreCurso}
+                                    defaultValue={formData.nombreCurso}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 />
@@ -102,7 +100,7 @@ const CrearCurso: NextPage = () => {
                                 <input
                                     type="text"
                                     name="codigoCurso"
-                                    value={formData.codigoCurso}
+                                    defaultValue={formData.codigoCurso}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 />
@@ -114,7 +112,7 @@ const CrearCurso: NextPage = () => {
                                 <input
                                     type="text"
                                     name="carreraPlan"
-                                    value={formData.carreraPlan}
+                                    defaultValue={formData.carreraPlan}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 />
@@ -125,7 +123,7 @@ const CrearCurso: NextPage = () => {
                                 <label className="w-1/3">Asignacion Docente</label>
                                 <select
                                     name="asignacionDocente"
-                                    value={formData.asignacionDocente}
+                                    defaultValue={formData.asignacionDocente}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 >
@@ -143,7 +141,7 @@ const CrearCurso: NextPage = () => {
                                 <input
                                     type="tel"
                                     name="capacidad"
-                                    value={formData.capacidad}
+                                    defaultValue={formData.capacidad}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl "
                                 />
@@ -155,15 +153,19 @@ const CrearCurso: NextPage = () => {
                                     <label className="block">Horario</label>
                                     <p className="text-xs">Seleccionar día y hora</p>
                                 </div>
-                                <div className="flex space-x-2 mb-2">
-                                    {["lu", "ma", "mi", "ju", "vi", "sa"].map((day) => (
-                                        <button key={day} type="button" className="px-2 py-1 bg-gray-200 rounded-lg hover:bg-gray-300">
+                                <div className="flex space-x-2 mb-2 ">
+                                    {["LU", "MA", "MI", "JU", "VI", "SA"].map((day) => (
+                                        <button
+                                            key={day}
+                                            type="button"
+                                            className="px-2 py-1 bg-transparent text-primary rounded-lg hover:bg-action border border-solid border-primary"
+                                        >
                                             {day}
                                         </button>
                                     ))}
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                    <select className="p-2 border border-dark rounded-xl">
+                                    <select className="p-2 border  border-dark rounded-xl">
                                         <option value="08:00">08:00</option>
                                         <option value="09:00">09:00</option>
                                         <option value="10:00">10:00</option>
@@ -195,7 +197,11 @@ const CrearCurso: NextPage = () => {
                             <div className="md:col-span-2">
                                 <label className="block mb-2">
                                     Descripción
-                                    <textarea name="descripcion" value={formData.descripcion} className="w-full mt-2 h-48 p-2 border border-dark rounded-xl" />
+                                    <textarea
+                                        name="descripcion"
+                                        defaultValue={formData.descripcion}
+                                        className="w-full mt-2 h-48 p-2 border border-dark rounded-xl"
+                                    />
                                 </label>
                                 {errors.descripcion && <p className="text-red-500 text-sm mt-1">{errors.descripcion}</p>}
                             </div>
@@ -203,12 +209,13 @@ const CrearCurso: NextPage = () => {
 
                         <div className="flex justify-end mt-6">
                             <button
+                                onClick={onHide}
                                 type="button"
                                 className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${
                                     activeButton ? "bg-primary text-white" : "bg-action text-primary"
                                 }`}
                             >
-                                <Link href="/gestioncursos">Cancelar</Link>
+                                Cancelar
                             </button>
 
                             <button
