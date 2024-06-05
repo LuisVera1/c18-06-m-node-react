@@ -2,7 +2,7 @@
 import React from 'react';
 import { Avatar } from 'primereact/avatar';
 
-export default function ImageDemo() {
+export default function ImageAvatar() {
     return (
         <div className="card">
             <div className="flex flex-wrap gap-5">

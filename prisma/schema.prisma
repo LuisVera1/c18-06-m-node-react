@@ -43,7 +43,6 @@ model Schedule {
   day     String
   startH  Int
   endH    Int
-  // classroom String
   classID Int
   class   Class  @relation(fields: [classID], references: [id])
 }
@@ -64,8 +63,7 @@ model ProfileTeacher {
   id             Int     @id @default(autoincrement())
   birthdate      String?
   phone          String?
-  //identification?
-  //institutional mail
+  emailI         String?
   address        String?
   grade          String?
   specialization String?
@@ -107,8 +105,7 @@ model ProfileStudent {
   id           Int     @id @default(autoincrement())
   birthdate    String?
   phone        String?
-  //# identification
-  // institutional mail
+  emailI       String?
   year         Int?
   currentCycle String?
   contact      String?
@@ -141,9 +138,7 @@ model Admin {
   status      AdminStatus @default(Activo)
   role        Role        @default(Admin)
   phone       String?
-  //department
-  //institutional mail
-  //level
+  emailI      String?
   superAdmin  Boolean     @default(false)
   manageUsers Boolean     @default(true)
   createAdmin Boolean     @default(false)

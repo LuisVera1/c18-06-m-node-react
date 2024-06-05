@@ -4,7 +4,7 @@ import Sidebar from "../components/sidebar/sidebar";
 import Chart from "./components/Chart/chart";
 import { ProgressBar } from "primereact/progressbar"; // Asegúrate de importar correctamente desde 'primereact/progressbar'
 import DataTable from "../components/Table/table";
-import Avatar from "../components/avatar/Avatar";
+import ImageAvatar from "../components/avatar/Avatar";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
 import "primereact/resources/themes/saga-blue/theme.css"; // Importar tema PrimeReact
 import "primereact/resources/primereact.min.css"; // Importar estilos PrimeReact
@@ -67,7 +67,7 @@ function Home() {
             <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8">
                 <div className="flex justify-between items-center w-full px-10 mt-10">
                     <h2 className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl">Dashboard</h2>
-                    <Avatar />
+                    <ImageAvatar />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-full lg:w-3/4 xl:w-5/6 mx-auto mt-10">
                     <div className="p-4">
