@@ -14,7 +14,11 @@ export async function GET(req: Request) {
 	}
 
 	try {
-		const response = await prisma.class.findMany({});
+		const response = await prisma.class.findMany({
+			where: {
+				carerrID: validSession.tokenData.career,
+			},
+		});
 
 		return NextResponse.json(
 			{ ok: true, message: '', data: response },

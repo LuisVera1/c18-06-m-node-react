@@ -4,13 +4,6 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
 	try {
-		const response = await prisma.career.findMany({
-			select: {
-				id: true,
-				title: true,
-			},
-		});
-
 		//validate session, token
 		const validSession = await checkRole(typeUsers.admin);
 		if (!validSession.token) {
@@ -19,6 +12,13 @@ export async function GET(req: Request) {
 				{ status: validSession.status }
 			);
 		}
+
+		const response = await prisma.career.findMany({
+			select: {
+				id: true,
+				title: true,
+			},
+		});
 
 		return NextResponse.json(
 			{ ok: true, message: '', data: response },

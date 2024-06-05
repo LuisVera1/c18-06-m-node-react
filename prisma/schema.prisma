@@ -26,10 +26,10 @@ model Career {
 model Class {
   id        Int               @id @default(autoincrement())
   title     String
-  credits   Int
+  credits   Int?
   spaces    Int               @default(0)
   code      String
-  section   String
+  section   String?
   schedule  Schedule[]
   carerrID  Int
   career    Career            @relation(fields: [carerrID], references: [id])
@@ -39,13 +39,13 @@ model Class {
 }
 
 model Schedule {
-  id        Int    @id @default(autoincrement())
-  day       String
-  startH    Int
-  endH      Int
-  classroom String
-  classID   Int
-  class     Class  @relation(fields: [classID], references: [id])
+  id      Int    @id @default(autoincrement())
+  day     String
+  startH  Int
+  endH    Int
+  // classroom String
+  classID Int
+  class   Class  @relation(fields: [classID], references: [id])
 }
 
 model Teacher {
@@ -98,9 +98,9 @@ model Student {
   class    StudentsInClass[]
   subjects Subject[]
   profile  ProfileStudent?
-  tickets Boolean? @default(false)
-  payment Boolean? @default(false)
-  creation DateTime? @default(now())
+  tickets  Boolean?          @default(false)
+  payment  Boolean?          @default(false)
+  creation DateTime?         @default(now())
 }
 
 model ProfileStudent {
