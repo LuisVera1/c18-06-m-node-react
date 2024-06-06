@@ -1,71 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import { Chart } from 'primereact/chart';
-interface Student {
-    id: string;
-    Nombre: string;
-    Fechasolicitud: string;
-    IDEsttudiante: string;
-    Programa: string;
-    Estado: string;
-    Tickets: number;
+
+interface StatisticsData {
+    approved: string;
+    dropout: string;
+    enrolled: number;
+    paymentsApproved: string;
+    paymentsPending: string;
+    pending: string;
+    tickets: string;
+    total: string;
+    totalCourses: number;
+    totalIncome: number;
 }
 
 export default function DoughnutChartDemo() {
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
-    const [tickets, setTickets] = useState<Student[]>([]);
-    const [aprobados, setAprobados] = useState<Student[]>([]);
-    const [pendientes, setPendientes] = useState<Student[]>([]);
+    const [statisticsData, setStatisticsData] = useState<StatisticsData | null>(null);
 
     useEffect(() => {
-        const fetchStudents = async () => {
+        const fetchStatistics = async () => {
             try {
-                const response = await fetch('/api/admin/get/students');
+                const response = await fetch('/api/admin/get/statistics');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
                 if (data.ok) {
-                    const ticketsData = data.data.filter((student: Student) => student.Tickets === 0);
-                    const aprobadosData = data.data.filter((student: Student) => student.Estado === 'Aprobado');
-                    const pendientesData = data.data.filter((student: Student) => student.Estado === 'Pendiente');
-
-                    setTickets(ticketsData)
-                    setAprobados(aprobadosData);
-                    setPendientes(pendientesData);
-
-                    const chartData = {
-                        datasets: [
-                            {
-                                data: [pendientesData.length, aprobadosData.length],
-                                backgroundColor: ['#fe7148', '#22c998'],
-                            }
-                        ]
-                    };
-
-                    setChartData(chartData);
+                    setStatisticsData(data.data);
                 } else {
                     console.error(data.message);
                 }
             } catch (error) {
-                console.error('Error fetching students:', error);
+                console.error('Error fetching statistics:', error);
             }
         };
 
-        fetchStudents();
+        fetchStatistics();
     }, []);
 
+    useEffect(() => {
+        if (statisticsData) {
+            const ticketsPercentage = parseFloat(statisticsData.tickets);
+            const pendingPercentage = parseFloat(statisticsData.pending);
+            const approvedPercentage = 100 - ticketsPercentage - pendingPercentage;
+
+            const data = {
+                datasets: [
+                    {
+                        data: [ticketsPercentage, approvedPercentage, pendingPercentage],
+                        backgroundColor: ['#5b40ff', '#fe7148', '#22c998'],
+                    }
+                ]
+            };
+
+            setChartData(data);
+        }
+    }, [statisticsData]);
 
     useEffect(() => {
-        const data = {
-            datasets: [
-                {
-                    data: [300, 50, 100],
-                    backgroundColor: ['#5b40ff', '#fe7148', '#22c998'],
-                }
-            ]
-        };
-
         const options = {
             cutout: '60%',
             plugins: {
@@ -99,45 +93,47 @@ export default function DoughnutChartDemo() {
                 }
             }
         };
-        setChartData(data);
         setChartOptions(options);
     }, []);
 
     return (
         <div className="card flex justify-content-center">
             <Chart type="doughnut" data={chartData} options={chartOptions} className="w-full md:w-30rem" />
-            <div className="legend-container w-full p-5 mt-10">
-                <div className="legend-item grid">
-                    <span className="color-box" style={{ backgroundColor: '#5b40ff' }}></span>
-                    <div className='grid'>
-                        <span className="legend-text">Tickets de soporte abiertos</span>
-                        <div className='flex'>
-                            <b className="legend-text">{tickets.length}</b>
-                            <p className="legend-text ml-4">{((tickets.length / (aprobados.length + pendientes.length)) * 100).toFixed(2)}%</p>
+            {statisticsData && (
+                <div className="legend-container w-full p-5 mt-10">
+                    <div className="legend-item grid">
+                        <span className="color-box" style={{ backgroundColor: '#5b40ff' }}></span>
+                        <div className='grid'>
+                            <span className="legend-text">Tickets de soporte abiertos</span>
+                            <div className='flex'>
+                                <b className="legend-text">{statisticsData.tickets}</b>
+                                <p className="legend-text ml-4">{parseFloat(statisticsData.tickets).toFixed(2)}%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="legend-item">
+                        <span className="color-box" style={{ backgroundColor: '#fe7148' }}></span>
+                        <div className='grid'>
+                            <span className="legend-text">Pagos pendientes</span>
+                            <div className='flex'>
+                                <b className="legend-text">{statisticsData.pending}</b>
+                                <p className="legend-text ml-4">{parseFloat(statisticsData.pending).toFixed(2)}%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="legend-item">
+                        <span className="color-box" style={{ backgroundColor: '#22c998' }}></span>
+                        <div className='grid'>
+                            <span className="legend-text">Pagos aprobados</span>
+                            <div className='flex'>
+                                <b className="legend-text">{statisticsData.approved}</b>
+                                <p className="legend-text ml-4">{parseFloat(statisticsData.approved).toFixed(2)}%</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="legend-item">
-                    <span className="color-box" style={{ backgroundColor: '#fe7148' }}></span>
-                    <div className='grid'>
-                        <span className="legend-text">Pagos pendientes</span>
-                        <div className='flex'>
-                            <b className="legend-text">{pendientes.length}</b>
-                            <p className="legend-text ml-4">{((pendientes.length / (aprobados.length + pendientes.length)) * 100).toFixed(2)}%</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="legend-item">
-                    <span className="color-box" style={{ backgroundColor: '#22c998' }}></span>
-                    <div className='grid'>
-                        <span className="legend-text">Pagos aprobados</span>
-                        <div className='flex'>
-                            <b className="legend-text">{aprobados.length}</b>
-                            <p className="legend-text ml-4">{((aprobados.length / (aprobados.length + pendientes.length)) * 100).toFixed(2)}%</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            )}
         </div>
     );
 }
+

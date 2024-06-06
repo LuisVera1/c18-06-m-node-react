@@ -31,12 +31,11 @@ function Home() {
         const fetchStudents = async () => {
             try {
                 // Realiza la solicitud a la API
-                const response = await fetch("http://localhost:3000/api/admin/get/students"); // Ajusta la URL a la de tu endpoint real
+                const response = await fetch("/api/admin/get/students"); // Ajusta la URL a la de tu endpoint real
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
-
                 // Verifica si la respuesta es correcta y actualiza los estados
                 if (data.ok) {
                     setMatriculas(data.data);
@@ -84,7 +83,7 @@ function Home() {
                             <p>{totalStudents}</p>
                         </div>
                         <div className="mb-4 mt-10 flex items-center space-x-4">
-                            <h3>Pendientes</h3>
+                            <h3>Aprobados</h3>
                             <div className="flex-1">
                                 <ProgressBar value={approvedPercentage} />
                             </div>

@@ -47,58 +47,41 @@ const UserTable: NextPage = () => {
     const toggleDialog = () => {
         setDisplayDialog(!displayDialog);
     };
+
     useEffect(() => {
-        let fetchedUser: User[] = [];
+        const fetchData = async () => {
+            try {
+                let apiUrl = "";
+                switch (pathname) {
+                    case "/gestionusuarios":
+                        apiUrl = "/api/admin/get/students";
+                        break;
+                    case "/gestionusuarios/docentes":
+                        apiUrl = "/api/admin/get/teachers";
+                        break;
+                    case "/gestionusuarios/administrador":
+                        apiUrl = "/api/admin/get/admins";
+                        break;
+                    default:
+                        throw new Error("Invalid pathname");
+                }
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                if (data.ok) {
+                    setUsers(data.data);
+                    setFilteredUsers(data.data);
+                } else {
+                    console.error(data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        };
 
-        switch (pathname) {
-            case "/gestionusuarios":
-                fetchedUser = [
-                    { name: "Hanna Baker", email: "hanna@company.com", id: "123456789", program: "Diseño", status: "Activo" },
-                    { name: "Hanna Baker", email: "hanna@company.com", id: "123456789", program: "Economía", status: "Graduado" },
-                    { name: "Hanna Baker", email: "hanna@company.com", id: "123456789", program: "Contaduría", status: "Inactivo" },
-                    { name: "Hanna Baker", email: "hanna@company.com", id: "123456789", program: "Ing. civil", status: "Activo" },
-                    { name: "Hanna Baker", email: "hanna@company.com", id: "123456789", program: "Ing. industrial", status: "Graduado" },
-                    { name: "Hanna Baker", email: "hanna@company.com", id: "123456789", program: "Publicidad", status: "Inactivo" },
-                    { name: "Hanna Baker", email: "hanna@company.com", id: "123456789", program: "Ing. civil", status: "Activo" },
-                ];
-                break;
-            case "/gestionusuarios/docentes":
-                fetchedUser = [
-                    {
-                        name: "John Doe",
-                        email: "john@company.com",
-                        id: "987654321",
-                        program: "Computer Science",
-                        status: "Activo",
-                        courses: 3,
-                        statusEnvio: "Pending",
-                        role: "Profesor",
-                    },
-                    {
-                        name: "Jane Smith",
-                        email: "jane@company.com",
-                        id: "456123789",
-                        program: "Mathematics",
-                        status: "Inactivo",
-                        courses: 5,
-                        statusEnvio: "Sent",
-                        role: "Asistente",
-                    },
-                ];
-                break;
-            case "/gestionusuarios/administrador":
-                fetchedUser = [
-                    { name: "Admin User", email: "admin@company.com", id: "789456123", program: "Admin", status: "Activo", role: "Administrador" },
-                    { name: "Admin John", email: "adminJonh@company.com", id: "154896665", program: "Admin", status: "Activo", role: "Administrador" },
-                ];
-                break;
-            default:
-                fetchedUser = [];
-                break;
-        }
-
-        setUsers(fetchedUser);
-        setFilteredUsers(fetchedUser);
+        fetchData();
     }, [pathname]);
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,7 +156,6 @@ const UserTable: NextPage = () => {
                 </div>
                 <div className="flex space-x-2">
                     <Image src={Filter} alt="Filtro" className="mr-4 cursor-pointer" width={24} height={24} />
-
                     <button className="bg-action text-primary py-2 px-4 rounded" onClick={() => setDisplayDialog(true)}>
                         Crear nuevo usuario
                     </button>
