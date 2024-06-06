@@ -1,47 +1,53 @@
-<<<<<<< HEAD
-=======
-# Sistema de matrícula de estudiantes
+<img  src="./assets/logonova.png" style="width: 180px; height: 50px;">
 
-Plataforma EdTech diseñada y desarrollada para una institución específica, que facilita la información de manera actualizada donde podrán acceder tanto alumnos como profesores. Los alumnos pueden elegir sus materias según un horario que se les asignará por su promedio dependiendo de la oferta disponible. El profesor podrá revisar información sobre alumnos y respectivas clases.
+### Abriendo puertas hacia la educación moderna
 
-### Roles 👥
+Plataforma EdTech diseñada y desarrollada para una institución en particular, que promete facilitar el trabajo a alumnos y docentes.
 
--   **Alumno**: Esperar al horario que le corresponde para elegir sus materias, y matricularse en ellas.
--   **Maestro**: Podrá administrar sus clases y sus alumnos, notas, etc.
--   **Personal administrativo**: Dar de alta una clase, su horario (horas y días), maestro, número de alumnos, código de identificación, etc.
+Cuenta con un sistema de matriculación online, fácil contacto con el área administrativa de la institución y foro de debate dentro de la misma plataforma.
 
-### ¡Explora nuestro sitio y mantente informado sobre tus matriculas en tiempo real!
+### Público Objetivo 👥
+
+-   **Alumno**: Podrán matricularse a materias y estar en contacto con sus compañeros y docentes.
+
+-   **Docente**: Tendrán control de sus alumnos, calificaciones y promedios además de interactuar con ellos.
+
+-   **Administrador**: Tendrá acceso a la información de todo el personal de la institución y podrá controlarlo.
+
+-   **Universidad**: Es la encargada de administrar la plataforma y asignar administradores.
+
+## Resolvemos
+
+### Intuición - Diseño - Practicidad - Administración
 
 ## Equipo de Trabajo 🚀
-
-## Equipo de Proyecto
 
 <div style="display: flex; flex-wrap: wrap; justify-content: center;">
 
   <div style="text-align: center; margin: 10px;">
-    <img src="path_to_silvia_image" style="width: 100px; height: 100px; border-radius: 50px;">
+    <img src="https://media.licdn.com/dms/image/D4D35AQGffb9q8SF6Sg/profile-framedphoto-shrink_800_800/0/1700855601895?e=1718298000&v=beta&t=O-X29IyXsleV2ymZSSu_x5Cq51hYPIHsYfhXkHmy4QY" style="width: 100px; height: 100px; border-radius: 50px;">
     <p><strong>Silvia Gallo</strong></p>
     <p><em>UX/UI</em></p>
     <div>
-      <a href="https://www.linkedin.com/in/">
+      <a href="https://www.linkedin.com/in/silvia-g-s-49aabb251/">
         <img src="https://img.shields.io/static/v1?label=LinkedIn&message=Connect&color=blue&logo=linkedin" alt="LinkedIn">
       </a>
     </div>
   </div>
 
   <div style="text-align: center; margin: 10px;">
-    <img src="https://media.licdn.com/dms/image/D4E35AQHubFwdbQ3vOg/profile-framedphoto-shrink_800_800/0/1709847820234?e=1717023600&v=beta&t=SDyn2veMvWt8vuFiww215EiSddhJs0TK40RpIzUr5wg" style="width: 100px; height: 100px; border-radius: 50px;">
+    <img src="https://media.licdn.com/dms/image/D4E03AQE90EN7u881DA/profile-displayphoto-shrink_400_400/0/1709847819091?e=1723075200&v=beta&t=H48w6a0VV92rI3LH-SzjEvubLsJserIS8cC6NpKMNYw" style="width: 100px; height: 100px; border-radius: 50px;">
     <p><strong>Carlos Hidalgo</strong></p>
     <p><em>UX/UI</em></p>
     <div>
-      <a href="https://www.linkedin.com/in/carlos-andr%C3%A9s-hidalgo-le%C3%B3n-02657b223?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAADglrV4BHfGYolccugVLE3b1rPPs7ZVc9hg&lipi=urn%3Ali%3Apage%3Ad_flagship3_search_srp_people%3BEmSs8V2%2FShCjH4mPth6QcQ%3D%3D">
+      <a href="https://www.linkedin.com/in/carlos-andr%C3%A9s-hidalgo-le%C3%B3n-02657b223/">
         <img src="https://img.shields.io/static/v1?label=LinkedIn&message=Connect&color=blue&logo=linkedin" alt="LinkedIn">
       </a>
     </div>
   </div>
 
   <div style="text-align: center; margin: 10px;">
-    <img src="path_to_luis_image" style="width: 100px; height: 100px; border-radius: 50px;">
+    <img src="https://media.licdn.com/dms/image/D5635AQEOmdXj20oWxA/profile-framedphoto-shrink_800_800/0/1714185313974?e=1718298000&v=beta&t=7fUOt4oLvD90DzMHYRPmPmXAnc1rNr3J_3UwZLL6t2E" style="width: 100px; height: 100px; border-radius: 50px;">
     <p><strong>Luis Vera</strong></p>
     <p><em>Back-end</em></p>
     <div>
@@ -50,7 +56,7 @@ Plataforma EdTech diseñada y desarrollada para una institución específica, qu
       </a>
     </div>
     <div>
-      <a href="https://www.linkedin.com/in/">
+      <a href="https://www.linkedin.com/in/luisverag/">
         <img src="https://img.shields.io/static/v1?label=LinkedIn&message=Connect&color=blue&logo=linkedin" alt="LinkedIn">
       </a>
     </div>
@@ -71,8 +77,9 @@ Plataforma EdTech diseñada y desarrollada para una institución específica, qu
       </a>
     </div>
   </div>
+
   <div style="text-align: center; margin: 10px;">
-    <img src="https://media.licdn.com/dms/image/D4E35AQH3pI_BCD3lNw/profile-framedphoto-shrink_400_400/0/1715258400223?e=1716879600&v=beta&t=a-GK0xjEl_Q6unEUFOQTCxuFhrBEC-YPymQhFuJ4Qvg" style="width: 100px; height: 100px; border-radius: 50px;">
+    <img src="https://media.licdn.com/dms/image/D4E35AQFoYrXJJr0d2Q/profile-framedphoto-shrink_400_400/0/1716871116418?e=1718298000&v=beta&t=vEgHNb9uPcdDLz2rfg0vGx9eQH7yTOVUa1zNjKqgXu4" style="width: 100px; height: 100px; border-radius: 50px;">
     <p><strong>Paola González</strong></p>
     <p><em>Front-end</em></p>
     <div>
@@ -95,6 +102,8 @@ Plataforma EdTech diseñada y desarrollada para una institución específica, qu
 
 <div style="display: flex; justify-content: start;">
   <img src="https://icon.icepanel.io/Technology/svg/Figma.svg" alt="Figma" style="width: 50px; height: 50px; margin: 10px;">
+ <img src="https://static-00.iconduck.com/assets.00/apps-google-slides-icon-2048x2044-t0skfbak.png" alt="Figma" style="width: 50px; height: 50px; margin: 10px;">
+  
 </div>
 
 ### Front-end
@@ -109,13 +118,11 @@ Plataforma EdTech diseñada y desarrollada para una institución específica, qu
 ### Back-end
 
 <div style="display: flex; justify-content: start;">
-  <img src="https://icon.icepanel.io/Technology/svg/Node.js.svg" alt="Node.js" style="width: 50px; height: 50px; margin: 10px;">
-</div>
+ <img src=" https://icons.veryicon.com/png/o/business/vscode-program-item-icon/prisma.png" alt="Node.js" style="width: 50px; height: 50px; margin: 10px;">
+ <img src="https://icon.icepanel.io/Technology/svg/Insomnia.svg" alt="Node.js" style="width: 50px; height: 50px; margin: 10px;">
+  <img src="https://icon.icepanel.io/Technology/svg/PostgresSQL.svg" alt="Node.js" style="width: 50px; height: 50px; margin: 10px;">
+    <img src="https://jwt.io/img/pic_logo.svg" alt="Node.js" style="width: 50px; height: 50px; margin: 10px;">
 
-### QA
-
-<div style="display: flex; justify-content: start;">
-  <img src="https://icon.icepanel.io/Technology/svg/Jest.svg" alt="Jest" style="width: 50px; height: 50px; margin: 10px;">
 </div>
 
 ### Herramientas de Organización/Comunicación
@@ -130,9 +137,8 @@ Plataforma EdTech diseñada y desarrollada para una institución específica, qu
 ## Enlaces de Proyecto 🔗
 
 -   Repositorio: [https://github.com/No-Country/c18-06-m-node-react](https://github.com/No-Country/c18-06-m-node-react)
--   Sitio web: [https://github.com/No-Country/c18-06-m-node-react](https://github.com/No-Country/c18-06-m-node-react)
+-   Sitio web: [](https://github.com/No-Country/c18-06-m-node-react)
 
 ## Expresiones de Gratitud 🙌🏻
 
 Agradecimientos a No Country
->>>>>>> 9156b988936f79ab7c4e526447c65a0ab3a7d89e

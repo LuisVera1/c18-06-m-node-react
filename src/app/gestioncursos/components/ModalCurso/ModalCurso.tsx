@@ -78,12 +78,10 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
             //     const { curso, capacidad, carreraPlan, codigoCurso, descripcion } = formData;
 
             //     const requestData = {
-            //         title: curso,
-            //         credits: capacidad, // Supongo que capacidad es equivalente a créditos
-            //         code: codigoCurso,
+            //        code: codigoCurso,
             //     };
 
-            //     const response = await fetch("http://localhost:3000/api/admin/create/career", {
+            //     const response = await fetch("http://localhost:3000/api/admin/create/class", {
             //         method: "POST",
             //         headers: {
             //             "Content-Type": "application/json",

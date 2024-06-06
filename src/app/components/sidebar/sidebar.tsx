@@ -11,17 +11,25 @@ import { BsClipboard2DataFill, BsChevronRight, BsChevronDoubleRight } from "reac
 import { IoSettings } from "react-icons/io5";
 import { CiCircleQuestion } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
-import Image from 'next/image';
-import Logo from '../../../../assets/logonova.png'
+import Image from "next/image";
+import Logo from "../../../../assets/logonova.png";
 
 export default function Sidebar() {
     const pathname = usePathname();
 
-    const Logoo = Logo
+    const Logoo = Logo;
+
+    const handleLogout = () => {
+        // Ejemplo de eliminación de tokens (esto dependerá de cómo manejas la autenticación)
+        localStorage.removeItem("token");
+
+        // Redirige a la página de inicio de sesión
+        window.location.href = "/login";
+    };
 
     return (
         <div className="bg-action p-4 w-80 shadow-md flex flex-col justify-between ">
-            <nav className="lg:flex-1 overflow-y-auto w-80  mt-20 text-center text-xl max-h-screen ">
+            <nav className="lg:flex-1 overflow-y-auto w-80 mt-20 text-center text-xl max-h-screen">
                 <Image src={Logoo} alt="Logo" width={250} height={150} className="m-auto w-50" />
                 <ul className="p-2 space-y-2 mt-40 text-justify mr-4">
                     <NavItem href="/" icon={<AiTwotoneHome className="size-5 m-4" />} text="Dashboard" isActive={pathname === "/"} />
@@ -65,7 +73,7 @@ export default function Sidebar() {
             <div className="flex justify-around text-primary mt-4">
                 <IoSettings className="text-2xl cursor-pointer" />
                 <CiCircleQuestion className="text-2xl cursor-pointer" />
-                <IoIosLogOut className="text-2xl cursor-pointer" />
+                <IoIosLogOut className="text-2xl cursor-pointer" onClick={handleLogout} /> {/* Asocia la función al onClick */}
             </div>
         </div>
     );
@@ -81,8 +89,9 @@ interface NavItemProps {
 function NavItem({ href, icon, text, isActive }: NavItemProps) {
     return (
         <li
-            className={`font-bold flex items-center pl-4 py-2 text-base cursor-pointer ${isActive ? "text-grey bg-primary" : "text-primary"
-                } rounded-xl bg-gray-100 bg-opacity-80`}
+            className={`font-bold flex items-center pl-4 py-2 text-base cursor-pointer ${
+                isActive ? "text-grey bg-primary" : "text-primary"
+            } rounded-xl bg-gray-100 bg-opacity-80`}
         >
             <Link href={href}>
                 <button className="flex items-center w-full justify-between">
