@@ -72,7 +72,7 @@ export async function POST(req: Request) {
 		const loginUserData = {
 			ok: true,
 			message: 'successful login',
-			data: response,
+			data: {...response, password: ''},
 		};
 
 		cookies().set({

@@ -8,9 +8,9 @@ const enumStatus = [
 	'Activo',
 	'Inactivo',
 	'Graduado',
-	'Titulado',
-	'Baja',
-	'BajaTemporal',
+	// 'Titulado',
+	// 'Baja',
+	// 'BajaTemporal',
 	'Empty',
 ];
 
