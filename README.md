@@ -69,39 +69,6 @@ Plataforma EdTech diseñada y desarrollada para una institución específica, qu
       </a>
     </div>
   </div>
-
-  <div style="text-align: center; margin: 10px;">
-    <img src="https://media.licdn.com/dms/image/D4D35AQE8ElTdXJYqBA/profile-framedphoto-shrink_800_800/0/1700160998167?e=1717023600&v=beta&t=WIump-LfZMM2ZWe268obpiZ_3NRgMtKLl0KcPUpTOEo" style="width: 100px; height: 100px; border-radius: 50px;">
-    <p><strong>Marcos Rillo</strong></p>
-    <p><em>Front-end</em></p>
-    <div>
-      <a href="https://github.com/MarcosRillo">
-        <img src="https://img.shields.io/static/v1?label=GitHub&message=Follow&color=black&logo=github" alt="GitHub">
-      </a>
-    </div>
-    <div>
-      <a href="https://www.linkedin.com/in/marcos-rillo-cabanne-a252a5246?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAADzpSX0BylZv-66kFQaWxhJMIG04p7y8h1g&lipi=urn%3Ali%3Apage%3Ad_flagship3_search_srp_all%3B3NLgxhDiQaWi8mTXEBxoiQ%3D%3D">
-        <img src="https://img.shields.io/static/v1?label=LinkedIn&message=Connect&color=blue&logo=linkedin" alt="LinkedIn">
-      </a>
-    </div>
-  </div>
-
-  <div style="text-align: center; margin: 10px;">
-    <img src="https://media.licdn.com/dms/image/D4E35AQHcdWiuwJCGDQ/profile-framedphoto-shrink_800_800/0/1714829897467?e=1717023600&v=beta&t=YBpDn9Yd-e-8Iu28dcNjkbzl2noWrkGpbZBjLTVY1nU" style="width: 100px; height: 100px; border-radius: 50px;">
-    <p><strong>Nilton Loli</strong></p>
-    <p><em>Front-end</em></p>
-    <div>
-      <a href="https://github.com/">
-        <img src="https://img.shields.io/static/v1?label=GitHub&message=Follow&color=black&logo=github" alt="GitHub">
-      </a>
-    </div>
-    <div>
-      <a href="https://www.linkedin.com/in/nilton-daniel-loli//">
-        <img src="https://img.shields.io/static/v1?label=LinkedIn&message=Connect&color=blue&logo=linkedin" alt="LinkedIn">
-      </a>
-    </div>
-  </div>
-
   <div style="text-align: center; margin: 10px;">
     <img src="https://media.licdn.com/dms/image/D4E35AQH3pI_BCD3lNw/profile-framedphoto-shrink_400_400/0/1715258400223?e=1716879600&v=beta&t=a-GK0xjEl_Q6unEUFOQTCxuFhrBEC-YPymQhFuJ4Qvg" style="width: 100px; height: 100px; border-radius: 50px;">
     <p><strong>Paola González</strong></p>
