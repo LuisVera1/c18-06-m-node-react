@@ -88,16 +88,17 @@ const UserTable: NextPage = () => {
         const value = event.target.value.toLowerCase();
         setSearchTerm(value);
         setFilteredUsers(
-            users.filter(
-                (user) =>
-                    user.name.toLowerCase().includes(value) ||
-                    user.email.toLowerCase().includes(value) ||
-                    user.id.toLowerCase().includes(value) ||
-                    user.program.toLowerCase().includes(value) ||
-                    (user.role && user.role.toLowerCase().includes(value))
+            users.filter((user) =>
+                (user.name?.toLowerCase().includes(value)) ||
+                (user.email?.toLowerCase().includes(value)) ||
+                (typeof user.id === 'string' && user.id.toLowerCase().includes(value)) || // Verificamos si user.id es una cadena antes de llamar a toLowerCase()
+                (user.program?.toLowerCase().includes(value)) ||
+                (user.role?.toLowerCase().includes(value))
             )
         );
     };
+
+
 
     const statusBodyTemplate = (rowData: User) => {
         let statusClass = "";

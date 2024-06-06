@@ -11,14 +11,18 @@ import { BsClipboard2DataFill, BsChevronRight, BsChevronDoubleRight } from "reac
 import { IoSettings } from "react-icons/io5";
 import { CiCircleQuestion } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
+import Image from 'next/image';
+import Logo from '../../../../assets/logonova.png'
 
 export default function Sidebar() {
     const pathname = usePathname();
 
+    const Logoo = Logo
+
     return (
         <div className="bg-action p-4 w-80 shadow-md flex flex-col justify-between ">
             <nav className="lg:flex-1 overflow-y-auto w-80  mt-20 text-center text-xl max-h-screen ">
-                <b className="text-primary m-4 font-normal">EDUNOVA</b>
+                <Image src={Logoo} alt="Logo" width={250} height={150} className="m-auto w-50" />
                 <ul className="p-2 space-y-2 mt-40 text-justify mr-4">
                     <NavItem href="/" icon={<AiTwotoneHome className="size-5 m-4" />} text="Dashboard" isActive={pathname === "/"} />
                     <NavItem
@@ -77,9 +81,8 @@ interface NavItemProps {
 function NavItem({ href, icon, text, isActive }: NavItemProps) {
     return (
         <li
-            className={`font-bold flex items-center pl-4 py-2 text-base cursor-pointer ${
-                isActive ? "text-grey bg-primary" : "text-primary"
-            } rounded-xl bg-gray-100 bg-opacity-80`}
+            className={`font-bold flex items-center pl-4 py-2 text-base cursor-pointer ${isActive ? "text-grey bg-primary" : "text-primary"
+                } rounded-xl bg-gray-100 bg-opacity-80`}
         >
             <Link href={href}>
                 <button className="flex items-center w-full justify-between">

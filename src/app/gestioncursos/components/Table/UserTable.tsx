@@ -136,11 +136,10 @@ const CourseTable: NextPage = () => {
 
                     <button
                         onClick={() => handleButtonClick("crear")}
-                        className={`py-2 px-4 rounded ${
-                            activeButton === "crear"
+                        className={`py-2 px-4 rounded ${activeButton === "crear"
                                 ? "bg-action text-primary hover:bg-secundary hover:text-white"
                                 : "bg-action text-primary hover:bg-secundary hover:text-white"
-                        }`}
+                            }`}
                     >
                         Crear nuevo curso
                     </button>

@@ -65,7 +65,7 @@ function Home() {
 
             <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8">
                 <div className="flex justify-between items-center w-full px-10 mt-10">
-                    <h2 className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl">Dashboard</h2>
+                    <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl">Dashboard</b>
                     <ImageAvatar />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-full lg:w-3/4 xl:w-5/6 mx-auto mt-10">

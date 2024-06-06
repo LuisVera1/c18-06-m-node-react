@@ -27,6 +27,7 @@ export default function DoughnutChartDemo() {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
+                console.log(data);
                 if (data.ok) {
                     setStatisticsData(data.data);
                 } else {
@@ -44,12 +45,11 @@ export default function DoughnutChartDemo() {
         if (statisticsData) {
             const ticketsPercentage = parseFloat(statisticsData.tickets);
             const pendingPercentage = parseFloat(statisticsData.pending);
-            const approvedPercentage = 100 - ticketsPercentage - pendingPercentage;
-
+            const approvedPercentage = parseFloat(statisticsData.approved);
             const data = {
                 datasets: [
                     {
-                        data: [ticketsPercentage, approvedPercentage, pendingPercentage],
+                        data: [ticketsPercentage, pendingPercentage, approvedPercentage],
                         backgroundColor: ['#5b40ff', '#fe7148', '#22c998'],
                     }
                 ]
@@ -136,4 +136,3 @@ export default function DoughnutChartDemo() {
         </div>
     );
 }
-

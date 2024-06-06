@@ -7,7 +7,7 @@ import { Column } from 'primereact/column';
 interface Student {
     code: string;
     name: string;
-    creation: string;
+    creation: string; // La fecha en formato ISO 8601
     email: string;
     status: string;
 }
@@ -24,7 +24,10 @@ export default function BasicDemo() {
                 }
                 const data = await response.json();
                 if (data.ok) {
-                    setStudents(data.data);
+                    setStudents(data.data.map((student: Student) => ({
+                        ...student,
+                        creation: formatDate(student.creation) // Formatear la fecha
+                    })));
                 } else {
                     console.error(data.message);
                 }
@@ -35,6 +38,11 @@ export default function BasicDemo() {
 
         fetchStudents();
     }, []);
+
+    // Función para formatear la fecha
+    const formatDate = (dateString: string): string => {
+        return new Date(dateString).toLocaleDateString('es-ES');
+    };
 
     const statusBodyTemplate = (rowData: Student) => {
         let statusClass = '';
