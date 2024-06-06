@@ -10,14 +10,13 @@ import { Column } from "primereact/column";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { NextPage } from "next";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 
 interface Course {
     curso: string;
-    descripción: string;
-    carrera: string;
-    cupos: number;
-    codigo: string;
+    descripcion: string;
+    carreraPlan: string;
+    capacidad: number;
+    codigoCurso: string;
 }
 
 const CourseTable: NextPage = () => {
@@ -31,16 +30,24 @@ const CourseTable: NextPage = () => {
     const toggleDialog = () => {
         setDisplayDialog(!displayDialog);
     };
+    const [courseToDelete, setCourseToDelete] = useState<Course | null>(null); // Estado para almacenar el curso que se eliminará
+    const [displayConfirmationDialog, setDisplayConfirmationDialog] = useState(false); // Estado para mostrar/ocultar el modal de confirmación de eliminación
 
     useEffect(() => {
         const fetchedCourses: Course[] = [
-            { curso: "Diseño Gráfico", descripción: "Curso de diseño avanzado", carrera: "Diseño", cupos: 30, codigo: "DG101" },
-            { curso: "Economía Básica", descripción: "Introducción a la economía", carrera: "Economía", cupos: 25, codigo: "EB102" },
-            { curso: "Contabilidad", descripción: "Fundamentos de contabilidad", carrera: "Contaduría", cupos: 20, codigo: "CT103" },
-            { curso: "Ingeniería Civil", descripción: "Principios de ingeniería civil", carrera: "Ing. Civil", cupos: 40, codigo: "IC104" },
-            { curso: "Ingeniería Industrial", descripción: "Procesos industriales", carrera: "Ing. Industrial", cupos: 35, codigo: "II105" },
-            { curso: "Publicidad y Marketing", descripción: "Estrategias de marketing", carrera: "Publicidad", cupos: 28, codigo: "PM106" },
-            { curso: "Ingeniería Civil Avanzada", descripción: "Temas avanzados de ingeniería civil", carrera: "Ing. Civil", cupos: 22, codigo: "ICA107" },
+            { curso: "Diseño Gráfico", descripcion: "Curso de diseño avanzado", carreraPlan: "Diseño", capacidad: 30, codigoCurso: "DG101" },
+            { curso: "Economía Básica", descripcion: "Introducción a la economía", carreraPlan: "Economía", capacidad: 25, codigoCurso: "EB102" },
+            { curso: "Contabilidad", descripcion: "Fundamentos de contabilidad", carreraPlan: "Contaduría", capacidad: 20, codigoCurso: "CT103" },
+            { curso: "Ingeniería Civil", descripcion: "Principios de ingeniería civil", carreraPlan: "Ing. Civil", capacidad: 40, codigoCurso: "IC104" },
+            { curso: "Ingeniería Industrial", descripcion: "Procesos industriales", carreraPlan: "Ing. Industrial", capacidad: 35, codigoCurso: "II105" },
+            { curso: "Publicidad y Marketing", descripcion: "Estrategias de marketing", carreraPlan: "Publicidad", capacidad: 28, codigoCurso: "PM106" },
+            {
+                curso: "Ingeniería Civil Avanzada",
+                descripcion: "Temas avanzados de ingeniería civil",
+                carreraPlan: "Ing. Civil",
+                capacidad: 22,
+                codigoCurso: "ICA107",
+            },
         ];
 
         setCourses(fetchedCourses);
@@ -51,18 +58,27 @@ const CourseTable: NextPage = () => {
         // Lógica para editar curso
     };
 
-    const handleDelete = (courseCode: string) => {
-        const updatedCourses = courses.filter((course) => course.codigo !== courseCode);
-        setCourses(updatedCourses);
-        setFilteredCourses(
-            updatedCourses.filter(
-                (course) =>
-                    course.curso.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    course.descripción.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    course.carrera.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    course.codigo.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-        );
+    const handleDelete = (course: Course) => {
+        setCourseToDelete(course); // Almacenar el curso que se va a eliminar
+        setDisplayConfirmationDialog(true); // Mostrar el diálogo de confirmación
+    };
+
+    const confirmDelete = () => {
+        if (courseToDelete) {
+            const updatedCourses = courses.filter((course) => course.codigoCurso !== courseToDelete.codigoCurso);
+            setCourses(updatedCourses);
+            setFilteredCourses(
+                updatedCourses.filter(
+                    (course) =>
+                        course.curso.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        course.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        course.carreraPlan.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        course.codigoCurso.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+            );
+            setCourseToDelete(null); // Reiniciar el curso a eliminar
+            setDisplayConfirmationDialog(false); // Ocultar el diálogo de confirmación
+        }
     };
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,15 +88,18 @@ const CourseTable: NextPage = () => {
             courses.filter(
                 (course) =>
                     course.curso.toLowerCase().includes(value) ||
-                    course.descripción.toLowerCase().includes(value) ||
-                    course.carrera.toLowerCase().includes(value) ||
-                    course.codigo.toLowerCase().includes(value)
+                    course.descripcion.toLowerCase().includes(value) ||
+                    course.carreraPlan.toLowerCase().includes(value) ||
+                    course.codigoCurso.toLowerCase().includes(value)
             )
         );
     };
 
     const handleButtonClick = (button: string) => {
         setActiveButton(button);
+        if (button === "crear") {
+            setDisplayDialog(true); // Mostrar el modal de creación de curso al hacer clic en el botón "Crear nuevo curso"
+        }
     };
 
     const actionBodyTemplate = (rowData: Course) => {
@@ -89,11 +108,17 @@ const CourseTable: NextPage = () => {
                 <button className="text-primary" onClick={() => handleEdit(rowData)}>
                     <AiOutlineEdit size={20} />
                 </button>
-                <button className="text-primary" onClick={() => handleDelete(rowData.codigo)}>
+                <button className="text-primary" onClick={() => handleDelete(rowData)}>
                     <AiOutlineDelete size={20} />
                 </button>
             </div>
         );
+    };
+
+    // Nueva función para agregar curso
+    const addCourse = (course: Course) => {
+        setCourses([...courses, course]);
+        setFilteredCourses([...courses, course]);
     };
 
     return (
@@ -110,13 +135,17 @@ const CourseTable: NextPage = () => {
                     <Image src={Filter} alt="Filtro" className="mr-4 cursor-pointer" width={24} height={24} />
 
                     <button
-                        onClick={toggleDialog}
-                        className={`py-2 px-4 rounded ${activeButton === "crear" ? "bg-primary text-white" : "bg-action text-primary"}`}
+                        onClick={() => handleButtonClick("crear")}
+                        className={`py-2 px-4 rounded ${
+                            activeButton === "crear"
+                                ? "bg-action text-primary hover:bg-secundary hover:text-white"
+                                : "bg-action text-primary hover:bg-secundary hover:text-white"
+                        }`}
                     >
                         Crear nuevo curso
                     </button>
                     <Dialog className="w-3/4" visible={displayDialog} onHide={toggleDialog}>
-                        <ModalCurso onHide={toggleDialog} />
+                        <ModalCurso onHide={toggleDialog} addCourse={addCourse} />
                     </Dialog>
                     <button
                         onClick={() => handleButtonClick("carga")}
@@ -129,12 +158,29 @@ const CourseTable: NextPage = () => {
 
             <DataTable value={filteredCourses} tableStyle={{ minWidth: "50rem" }} className="custom-table">
                 <Column field="curso" header="Curso" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="descripción" header="Descripción" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="carrera" header="Carrera/Plan" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="cupos" header="#Cupos" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="codigo" header="Codigo" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="descripcion" header="Descripción" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="carreraPlan" header="Carrera/Plan" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="capacidad" header="#Cupos" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="codigoCurso" header="Codigo" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column body={actionBodyTemplate} headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
             </DataTable>
+            <Dialog visible={displayConfirmationDialog} onHide={() => setDisplayConfirmationDialog(false)} modal>
+                <div className="flex flex-col items-center gap-4 px-4">
+                    <p className="text-center text-primary text-xl font-semibold">¿Está seguro de que desea eliminar el curso {courseToDelete?.curso}?</p>
+                    <div className="flex space-x-4 items-center justify-center">
+                        <button onClick={confirmDelete} className="py-2 px-4 bg-primary text-white rounded hover:bg-secundary">
+                            Sí
+                        </button>
+                        <button
+                            onClick={() => setDisplayConfirmationDialog(false)}
+                            className="py-2 px-4 bg-action text-primary rounded hover:bg-secundary hover:text-white"
+                        >
+                            No
+                        </button>
+                    </div>
+                    <p className="text-gray-400 pt-4 text-sm">Nota: se eliminarán los datos de forma permanente</p>
+                </div>
+            </Dialog>
         </div>
     );
 };

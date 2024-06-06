@@ -1,11 +1,14 @@
 "use client";
-
 import { NextPage } from "next";
 import React, { useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
+import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
+import Image from "next/image";
+import OkImage from "./../../../../../assets/Check Mark.png";
 
 interface FormData {
-    nombreCurso: string;
+    curso: string;
     capacidad: string;
     carreraPlan: string;
     horario: string;
@@ -14,12 +17,12 @@ interface FormData {
     descripcion: string;
 }
 
-const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
+const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => void }> = ({ onHide, addCourse }) => {
     const [activeButton, setActiveButton] = useState(false);
-    const [studentData, setStudentData] = useState<FormData[]>([]);
+    const [showModal, setShowModal] = useState(false);
     const [errors, setErrors] = useState<Partial<FormData>>({});
     const [formData, setFormData] = useState<FormData>({
-        nombreCurso: "",
+        curso: "",
         capacidad: "",
         carreraPlan: "",
         horario: "",
@@ -28,34 +31,72 @@ const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
         descripcion: "",
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+
+        // Eliminar el error asociado con el campo cuando se completa
+        if (value.trim() !== "") {
+            setErrors((prevErrors) => {
+                const newErrors = { ...prevErrors };
+                delete (newErrors as any)[name]; // Aquí realizamos el type assertion a 'any'
+                return newErrors;
+            });
+        }
     };
 
     const validate = (): boolean => {
         const newErrors: Partial<FormData> = {};
-        const numeroRegex = /^[0-9]+$/;
 
-        if (!formData.nombreCurso) newErrors.nombreCurso = "Nombre del curso es requerido";
-        if (!formData.carreraPlan) {
-            newErrors.carreraPlan = "Carrera/plan es requerido";
-        } else if (!numeroRegex.test(formData.carreraPlan)) {
-            newErrors.carreraPlan = "Carrera/plan solo debe contener letras";
-        }
+        if (!formData.curso) newErrors.curso = "Nombre del curso es requerido";
+        else delete newErrors.curso; // Elimina el error si el campo no está vacío
+
+        if (!formData.carreraPlan) newErrors.carreraPlan = "Carrera/plan es requerido";
+        else delete newErrors.carreraPlan; // Elimina el error si el campo no está vacío
+
         if (!formData.codigoCurso) newErrors.codigoCurso = "Código de curso es requerido";
+        else delete newErrors.codigoCurso; // Elimina el error si el campo no está vacío
+
         if (!formData.descripcion) newErrors.descripcion = "Descripción es requerida";
+        else delete newErrors.descripcion; // Elimina el error si el campo no está vacío
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const showSuccessModal = () => {
+        setShowModal(true);
+        setTimeout(() => {
+            setShowModal(false);
+        }, 3000); // El modal se cerrará después de 3 segundos
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validate()) {
-            console.log(formData);
-            setStudentData([...studentData, formData]);
+            // try {
+            //     const { curso, capacidad, carreraPlan, codigoCurso, descripcion } = formData;
+
+            //     const requestData = {
+            //         title: curso,
+            //         credits: capacidad, // Supongo que capacidad es equivalente a créditos
+            //         code: codigoCurso,
+            //     };
+
+            //     const response = await fetch("http://localhost:3000/api/admin/create/career", {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //         },
+            //         body: JSON.stringify(requestData),
+            //     });
+            //     if (response.ok) {
+            //         const data = await response.json();
+
+            // console.log(data);
+            addCourse(formData);
             setFormData({
-                nombreCurso: "",
+                curso: "",
                 capacidad: "",
                 carreraPlan: "",
                 horario: "",
@@ -63,6 +104,16 @@ const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                 asignacionDocente: "",
                 descripcion: "",
             });
+            onHide();
+            showSuccessModal();
+            //         } else {
+            //             throw new Error("Error al crear el curso");
+            //         }
+            //     } catch (error) {
+            //         console.error(error);
+            //         // Manejo de errores
+            //     }
+            // }
         }
     };
 
@@ -87,20 +138,20 @@ const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                 <label className="w-1/3">Nombre del curso</label>
                                 <input
                                     type="text"
-                                    name="nombreCurso"
-                                    defaultValue={formData.nombreCurso}
+                                    name="curso"
+                                    value={formData.curso}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 />
                             </div>
-                            {errors.nombreCurso && <p className="text-red-500 text-sm ml-4">{errors.nombreCurso}</p>}
+                            {errors.curso && <p className="text-red-500 text-sm ml-4">{errors.curso}</p>}
 
                             <div className="flex items-center">
                                 <label className="w-1/3">Código del curso</label>
                                 <input
                                     type="text"
                                     name="codigoCurso"
-                                    defaultValue={formData.codigoCurso}
+                                    value={formData.codigoCurso}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 />
@@ -112,7 +163,7 @@ const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                 <input
                                     type="text"
                                     name="carreraPlan"
-                                    defaultValue={formData.carreraPlan}
+                                    value={formData.carreraPlan}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 />
@@ -123,7 +174,7 @@ const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                 <label className="w-1/3">Asignacion Docente</label>
                                 <select
                                     name="asignacionDocente"
-                                    defaultValue={formData.asignacionDocente}
+                                    value={formData.asignacionDocente}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 >
@@ -141,7 +192,7 @@ const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                 <input
                                     type="tel"
                                     name="capacidad"
-                                    defaultValue={formData.capacidad}
+                                    value={formData.capacidad}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl "
                                 />
@@ -194,20 +245,18 @@ const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                 </div>
                             </div>
 
-                            <div className="md:col-span-2">
-                                <label className="block mb-2">
-                                    Descripción
-                                    <textarea
-                                        name="descripcion"
-                                        defaultValue={formData.descripcion}
-                                        className="w-full mt-2 h-48 p-2 border border-dark rounded-xl"
-                                    />
-                                </label>
-                                {errors.descripcion && <p className="text-red-500 text-sm mt-1">{errors.descripcion}</p>}
+                            <div className="flex flex-col">
+                                <label>Descripción</label>
+                                <textarea
+                                    name="descripcion"
+                                    value={formData.descripcion}
+                                    onChange={handleChange}
+                                    className="p-2 border border-dark rounded-xl resize-none"
+                                />
                             </div>
+                            {errors.descripcion && <p className="text-red-500 text-sm ml-4">{errors.descripcion}</p>}
                         </div>
-
-                        <div className="flex justify-end mt-6">
+                        <div className="flex justify-center mt-6">
                             <button
                                 onClick={onHide}
                                 type="button"
@@ -217,13 +266,10 @@ const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                             >
                                 Cancelar
                             </button>
-
                             <button
                                 type="submit"
-                                className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${
-                                    activeButton ? "bg-action text-primary" : "bg-primary text-white"
-                                }`}
-                                onClick={() => setActiveButton(true)}
+                                className="py-2 px-4 bg-primary text-white rounded hover:bg-primary-dark disabled:opacity-50"
+                                disabled={Object.keys(errors).length > 0}
                             >
                                 Crear curso
                             </button>
@@ -231,6 +277,12 @@ const CrearCurso: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                     </form>
                 </div>
             </main>
+            <Dialog visible={showModal} onHide={() => setShowModal(false)} modal>
+                <div className="flex flex-col items-center gap-2 w-full">
+                    <p className="text-primary text-xl font-bold">Curso creado exitosamente</p>
+                    <Image className="w-40 h-full object-cover" src={OkImage} alt="img-login" quality={100} priority />
+                </div>
+            </Dialog>
         </div>
     );
 };
