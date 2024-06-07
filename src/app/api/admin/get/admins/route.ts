@@ -52,8 +52,18 @@ export async function GET(req: Request) {
 			},
 		});
 
+		//add type
+		const program = response.map(admin => {
+			return {
+				...admin,
+				career: {
+					title: admin.superAdmin ? 'Superadministrador': 'Gestión de usuarios'
+				}
+			}
+		})
+
 		return NextResponse.json(
-			{ ok: true, message: '', data: response },
+			{ ok: true, message: '', data: program },
 			{ status: 200 }
 		);
 	} catch (err) {

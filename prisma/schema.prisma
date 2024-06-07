@@ -21,21 +21,23 @@ model Career {
   class    Class[]
   students Student[]
   subject  Subject[]
+  Teacher  Teacher[]
 }
 
 model Class {
-  id        Int               @id @default(autoincrement())
-  title     String
-  credits   Int?
-  spaces    Int               @default(0)
-  code      String
-  section   String?
-  schedule  Schedule[]
-  carerrID  Int
-  career    Career            @relation(fields: [carerrID], references: [id])
-  teacherID Int?
-  teacher   Teacher?          @relation(fields: [teacherID], references: [id])
-  students  StudentsInClass[]
+  id          Int               @id @default(autoincrement())
+  title       String
+  credits     Int?
+  spaces      Int               @default(0)
+  code        String
+  section     String?
+  description String?
+  schedule    Schedule[]
+  carerrID    Int
+  career      Career            @relation(fields: [carerrID], references: [id])
+  teacherID   Int?
+  teacher     Teacher?          @relation(fields: [teacherID], references: [id])
+  students    StudentsInClass[]
 }
 
 model Schedule {
@@ -57,6 +59,8 @@ model Teacher {
   status   TeacherStatus   @default(Activo)
   class    Class[]
   profile  ProfileTeacher?
+  careerID Int?
+  career   Career?         @relation(fields: [careerID], references: [id])
 }
 
 model ProfileTeacher {

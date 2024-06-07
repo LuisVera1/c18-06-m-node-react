@@ -12,6 +12,7 @@ const postSchema = yup.object({
 	// section: yup.string().trim().required(),
 	careerID: yup.number().required(),
 	teacherID: yup.number().optional().default(null),
+	description: yup.string().optional().default(null),
 	schedule: yup.array().of(
 		yup.object().shape({
 			day: yup.string().trim().required(),
@@ -46,7 +47,7 @@ export async function POST(req: Request, res: Response) {
 	}
 
 	try {
-		const { title, spaces, code, careerID, teacherID, schedule } =
+		const { title, spaces, code, description, careerID, teacherID, schedule } =
 			dataValidation;
 
 		//verify active teacher
@@ -71,6 +72,7 @@ export async function POST(req: Request, res: Response) {
 				code: code,
 				carerrID: careerID,
 				teacherID: teacherID,
+				description: description,
 				schedule: {
 					createMany: {
 						data: schedule,

@@ -63,6 +63,7 @@ export async function GET(req: Request) {
 					careerID: career == 0 ? undefined : career,
 				},
 				select: {
+					id: true,
 					email: true,
 					code: true,
 					name: true,
@@ -85,6 +86,7 @@ export async function GET(req: Request) {
 					status: status,
 				},
 				select: {
+					id: true,
 					email: true,
 					code: true,
 					name: true,

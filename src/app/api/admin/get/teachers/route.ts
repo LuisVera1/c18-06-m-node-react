@@ -50,10 +50,29 @@ export async function GET(req: Request) {
 			where: {
 				status: status === 'Empty' ? undefined : status,
 			},
+			select: {
+				id: true,
+				code: true,
+				email: true,
+				name: true,
+				status: true,
+				class: true,
+				role: true,
+				career: {
+					select: {
+						title: true,
+						code: true,
+					},
+				},
+			},
+		});
+
+		const responseCountCourses = response.map((teacher) => {
+			return { ...teacher, courses: teacher.class.length, role: 'Docente' };
 		});
 
 		return NextResponse.json(
-			{ ok: true, message: '', data: response },
+			{ ok: true, message: '', data: responseCountCourses },
 			{ status: 200 }
 		);
 	} catch (err) {
