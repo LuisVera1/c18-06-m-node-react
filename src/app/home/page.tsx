@@ -26,7 +26,26 @@ function Home() {
     const [aprobados, setAprobados] = useState<Student[]>([]);
     const [pendientes, setPendientes] = useState<Student[]>([]);
 
+
+    const [statistics, setStatistics] = useState({
+        total: "0",
+		approved: "0",
+		pending: "0",
+    });
+    useEffect(()=> {
+        const dataFecth = async () => {
+            const fetchData = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/statistics`);
+            const response = await fetchData.json();
+
+            if(response.ok){
+                setStatistics(response.data);
+            }
+        }
+        dataFecth();
+    }, [])
+
     // useEffect para obtener los datos de los estudiantes al montar el componente
+    /*
     useEffect(() => {
         const fetchStudents = async () => {
             try {
@@ -54,10 +73,11 @@ function Home() {
         // Llama a la función para obtener los estudiantes
         fetchStudents();
     }, []);
+    */
 
-    const totalStudents = matriculas.length;
-    const approvedPercentage = totalStudents ? (aprobados.length / totalStudents) * 100 : 0;
-    const pendingPercentage = totalStudents ? (pendientes.length / totalStudents) * 100 : 0;
+    // const totalStudents = matriculas.length;
+    // const approvedPercentage = totalStudents ? (aprobados.length / totalStudents) * 100 : 0;
+    // const pendingPercentage = totalStudents ? (pendientes.length / totalStudents) * 100 : 0;
 
     return (
         <div className="flex flex-col md:flex-row ">
@@ -78,24 +98,24 @@ function Home() {
                         <div className="mb-4 mt-10 flex items-center space-x-4">
                             <h3>Estudiantes</h3>
                             <div className="flex-1">
-                                <ProgressBar value={totalStudents} />
+                                <ProgressBar value={Number(statistics.total)} />
                             </div>
-                            <p>{totalStudents}</p>
+                            <p>{Number(statistics.total)}</p>
                         </div>
                         <div className="mb-4 mt-10 flex items-center space-x-4">
                             <h3>Aprobados</h3>
                             <div className="flex-1">
-                                <ProgressBar value={approvedPercentage} />
+                                <ProgressBar value={Number(statistics.approved)} />
                             </div>
-                            <p>{aprobados.length}</p>
+                            <p>{Number(statistics.approved)}</p>
                         </div>
 
                         <div className="mb-4 mt-10 flex items-center space-x-4">
                             <h3>Pendientes</h3>
                             <div className="flex-1">
-                                <ProgressBar value={pendingPercentage} />
+                                <ProgressBar value={Number(statistics.pending)} />
                             </div>
-                            <p>{pendientes.length}</p>
+                            <p>{Number(statistics.pending)}</p>
                         </div>
                     </div>
                     <div className="p-4">

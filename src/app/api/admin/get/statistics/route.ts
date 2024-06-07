@@ -43,9 +43,9 @@ export async function GET(req: Request) {
 		const courses = await prisma.class.count({});
 
 		const response = {
-			total: '0',
-			approved: '0',
-			pending: '100',
+			total: active,
+			approved: '12',
+			pending: '88',
 			tickets: ((tickets / active) * 100).toFixed(1),
 			paymentsApproved: ((payment / active) * 100).toFixed(1),
 			paymentsPending: (100 - Number(((payment / active) * 100).toFixed(1))).toFixed(1),

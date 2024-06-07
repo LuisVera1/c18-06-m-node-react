@@ -27,7 +27,6 @@ export default function DoughnutChartDemo() {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log(data);
                 if (data.ok) {
                     setStatisticsData(data.data);
                 } else {
@@ -44,8 +43,8 @@ export default function DoughnutChartDemo() {
     useEffect(() => {
         if (statisticsData) {
             const ticketsPercentage = parseFloat(statisticsData.tickets);
-            const pendingPercentage = parseFloat(statisticsData.pending);
-            const approvedPercentage = parseFloat(statisticsData.approved);
+            const pendingPercentage = parseFloat(statisticsData.paymentsPending);
+            const approvedPercentage = parseFloat(statisticsData.paymentsApproved);
             const data = {
                 datasets: [
                     {
@@ -107,7 +106,7 @@ export default function DoughnutChartDemo() {
                             <span className="legend-text">Tickets de soporte abiertos</span>
                             <div className='flex'>
                                 <b className="legend-text">{statisticsData.tickets}</b>
-                                <p className="legend-text ml-4">{parseFloat(statisticsData.tickets).toFixed(2)}%</p>
+                                {/* <p className="legend-text ml-4">{parseFloat(statisticsData.tickets)}%</p> */}
                             </div>
                         </div>
                     </div>
@@ -116,8 +115,8 @@ export default function DoughnutChartDemo() {
                         <div className='grid'>
                             <span className="legend-text">Pagos pendientes</span>
                             <div className='flex'>
-                                <b className="legend-text">{statisticsData.pending}</b>
-                                <p className="legend-text ml-4">{parseFloat(statisticsData.pending).toFixed(2)}%</p>
+                                <b className="legend-text">{statisticsData.paymentsPending}%</b>
+                                {/* <p className="legend-text ml-4">{parseFloat(statisticsData.paymentsPending)}%</p> */}
                             </div>
                         </div>
                     </div>
@@ -126,8 +125,8 @@ export default function DoughnutChartDemo() {
                         <div className='grid'>
                             <span className="legend-text">Pagos aprobados</span>
                             <div className='flex'>
-                                <b className="legend-text">{statisticsData.approved}</b>
-                                <p className="legend-text ml-4">{parseFloat(statisticsData.approved).toFixed(2)}%</p>
+                                <b className="legend-text">{statisticsData.paymentsApproved}%</b>
+                                {/* <p className="legend-text ml-4">{parseFloat(statisticsData.paymentsApproved)}%</p> */}
                             </div>
                         </div>
                     </div>
