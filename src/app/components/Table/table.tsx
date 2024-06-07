@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from 'react';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { DataTable } from 'primereact/datatable';
