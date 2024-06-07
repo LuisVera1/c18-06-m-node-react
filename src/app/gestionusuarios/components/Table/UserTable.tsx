@@ -170,14 +170,14 @@ const UserTable: NextPage = () => {
             <DataTable value={filteredUsers} tableStyle={{ minWidth: "50rem" }} className="custom-table">
                 <Column field="name" header="Nombre" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
                 <Column field="email" header="Correo" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
-                <Column field="id" header="ID" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
-                <Column field="program" header="Programa" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
+                <Column field="code" header="ID" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
+                <Column field="career.title" header="Programa" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
                 {pathname === "/gestionusuarios/docentes" && (
                     <Column field="courses" header="# Cursos asignados" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
                 )}
-                {pathname === "/gestionusuarios/docentes" && (
+                {/* {pathname === "/gestionusuarios/docentes" && (
                     <Column field="statusEnvio" header="Estado envío" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
-                )}
+                )} */}
                 <Column
                     field="status"
                     header="Estado Académico"
