@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useUser } from "../../../context/UserContext"; // Importa el contexto del usuario
@@ -32,24 +32,28 @@ const Login: NextPage = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
+    useEffect(() => {
+        // Verificar si hay información de inicio de sesión exitosa en localStorage al cargar el componente
+        const loginSuccessFromStorage = localStorage.getItem("loginSuccess");
+        if (loginSuccessFromStorage === "true") {
+            setLoginSuccess(true);
+        }
+    }, []);
 
     // Maneja el envío del formulario
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const newErrors: { email?: string; password?: string } = {};
-
         if (!email) {
             newErrors.email = "El e-mail es obligatorio";
         } else if (!validateEmail(email)) {
             newErrors.email = "El e-mail no es válido";
         }
-
         if (!password) {
             newErrors.password = "La contraseña es obligatoria";
         } else if (!validatePassword(password)) {
             newErrors.password = "La contraseña debe tener entre 6 y 8 caracteres, al menos una mayúscula y un número";
         }
-
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
@@ -58,7 +62,6 @@ const Login: NextPage = () => {
                 docente: `${process.env.NEXT_PUBLIC_URL_BASE}/api/teacher/login`,
                 admin: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/login`,
             };
-
             const loginUrl = roleToUrlMap[role];
 
             try {
@@ -82,10 +85,10 @@ const Login: NextPage = () => {
                             admin: "/bienvenidos",
                         };
                         const route = roleToRouteMap[role] || "/";
-                        router.push(route); // Redirige a bienvenida solo si fue exitoso
-
-                        setUser(data); // Actualiza el contexto del usuario
+                        router.push(route);
+                        setUser(data);
                         setLoginSuccess(true);
+                        localStorage.setItem("loginSuccess", "true");
                     } else {
                         setErrors({ email: "Credenciales incorrectas" });
                     }
@@ -97,6 +100,7 @@ const Login: NextPage = () => {
             }
         }
     };
+
     // Mapea los roles a las imágenes correspondientes
     const roleToImageMap: { [key: string]: StaticImageData } = {
         alumno: BannerLoginAlumn,

@@ -54,14 +54,11 @@ export default function BasicDemo() {
             case 'Titulado':
                 statusClass = 'bg-yellow-100 text-yellow-800';
                 break;
-            case 'Baja':
-                statusClass = 'bg-red-100 text-red-800';
-                break;
             case 'Activo':
                 statusClass = 'bg-blue-100 text-blue-800';
                 break;
             case 'Inactivo':
-                statusClass = 'bg-gray-100 text-gray-800';
+                statusClass = 'bg-red-100 text-gray-800';
                 break;
             default:
                 statusClass = 'bg-gray-100 text-gray-800';
@@ -78,8 +75,12 @@ export default function BasicDemo() {
     const actionBodyTemplate = () => {
         return (
             <div className="flex justify-around">
-                <button className="text-blue-500"><AiOutlineEdit size={20} /></button>
-                <button className="text-red-500"><AiOutlineDelete size={20} /></button>
+                <button className="text-primary ">
+                    <AiOutlineEdit size={20} />
+                </button>
+                <button className="text-primary">
+                    <AiOutlineDelete size={20} />
+                </button>
             </div>
         );
     };

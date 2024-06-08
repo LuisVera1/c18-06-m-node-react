@@ -29,15 +29,15 @@ function Home() {
 
     const [statistics, setStatistics] = useState({
         total: "0",
-		approved: "0",
-		pending: "0",
+        approved: "0",
+        pending: "0",
     });
-    useEffect(()=> {
+    useEffect(() => {
         const dataFecth = async () => {
             const fetchData = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/statistics`);
             const response = await fetchData.json();
 
-            if(response.ok){
+            if (response.ok) {
                 setStatistics(response.data);
             }
         }
@@ -103,7 +103,7 @@ function Home() {
                             <p>{Number(statistics.total)}</p>
                         </div>
                         <div className="mb-4 mt-10 flex items-center space-x-4">
-                            <h3>Aprobados</h3>
+                            <h3>Pendientes</h3>
                             <div className="flex-1">
                                 <ProgressBar value={Number(statistics.approved)} />
                             </div>
@@ -111,7 +111,7 @@ function Home() {
                         </div>
 
                         <div className="mb-4 mt-10 flex items-center space-x-4">
-                            <h3>Pendientes</h3>
+                            <h3>Aprobados</h3>
                             <div className="flex-1">
                                 <ProgressBar value={Number(statistics.pending)} />
                             </div>

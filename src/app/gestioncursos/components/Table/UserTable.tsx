@@ -12,11 +12,12 @@ import { NextPage } from "next";
 import { usePathname } from "next/navigation";
 
 interface Course {
-    curso: string;
+    course: string;
     descripcion: string;
     carreraPlan: string;
-    capacidad: number;
+    space?: number;
     codigoCurso: string;
+    code?: number;
 }
 
 const CourseTable: NextPage = () => {
@@ -33,51 +34,45 @@ const CourseTable: NextPage = () => {
     const [courseToDelete, setCourseToDelete] = useState<Course | null>(null); // Estado para almacenar el curso que se eliminará
     const [displayConfirmationDialog, setDisplayConfirmationDialog] = useState(false); // Estado para mostrar/ocultar el modal de confirmación de eliminación
 
-    useEffect(() => {
-        const fetchedCourses: Course[] = [
-            { curso: "Diseño Gráfico", descripcion: "Curso de diseño avanzado", carreraPlan: "Diseño", capacidad: 30, codigoCurso: "DG101" },
-            { curso: "Economía Básica", descripcion: "Introducción a la economía", carreraPlan: "Economía", capacidad: 25, codigoCurso: "EB102" },
-            { curso: "Contabilidad", descripcion: "Fundamentos de contabilidad", carreraPlan: "Contaduría", capacidad: 20, codigoCurso: "CT103" },
-            { curso: "Ingeniería Civil", descripcion: "Principios de ingeniería civil", carreraPlan: "Ing. Civil", capacidad: 40, codigoCurso: "IC104" },
-            { curso: "Ingeniería Industrial", descripcion: "Procesos industriales", carreraPlan: "Ing. Industrial", capacidad: 35, codigoCurso: "II105" },
-            { curso: "Publicidad y Marketing", descripcion: "Estrategias de marketing", carreraPlan: "Publicidad", capacidad: 28, codigoCurso: "PM106" },
-            {
-                curso: "Ingeniería Civil Avanzada",
-                descripcion: "Temas avanzados de ingeniería civil",
-                carreraPlan: "Ing. Civil",
-                capacidad: 22,
-                codigoCurso: "ICA107",
-            },
-        ];
 
-        setCourses(fetchedCourses);
-        setFilteredCourses(fetchedCourses);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("/api/admin/get/classes");
+                const data = await response.json();
+                if (data.ok) {
+                    setCourses(data.data);
+                    setFilteredCourses(data.data);
+                } else {
+                    console.error("Error fetching classes:", data.message);
+                }
+            } catch (error) {
+                console.error("Error fetching classes:", error);
+            }
+        };
+
+        fetchData();
     }, [pathname]);
 
+
+
     const handleEdit = (course: Course) => {
-        // Lógica para editar curso
+        // Aquí puedes implementar la lógica para editar el curso, por ejemplo, abrir un modal de edición
+        console.log("Editar curso:", course);
     };
 
     const handleDelete = (course: Course) => {
         setCourseToDelete(course); // Almacenar el curso que se va a eliminar
-        setDisplayConfirmationDialog(true); // Mostrar el diálogo de confirmación
+        setDisplayConfirmationDialog(true); // Mostrar el diálogo de confirmación de eliminación
     };
 
     const confirmDelete = () => {
         if (courseToDelete) {
-            const updatedCourses = courses.filter((course) => course.codigoCurso !== courseToDelete.codigoCurso);
-            setCourses(updatedCourses);
-            setFilteredCourses(
-                updatedCourses.filter(
-                    (course) =>
-                        course.curso.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        course.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        course.carreraPlan.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        course.codigoCurso.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-            );
+            const updatedCourses = courses.filter((course) => course.code !== courseToDelete.code);
+            setCourses(updatedCourses); // Actualizar la lista de cursos sin el curso eliminado
+            setFilteredCourses(updatedCourses); // Actualizar la lista filtrada de cursos
             setCourseToDelete(null); // Reiniciar el curso a eliminar
-            setDisplayConfirmationDialog(false); // Ocultar el diálogo de confirmación
+            setDisplayConfirmationDialog(false); // Ocultar el diálogo de confirmación de eliminación
         }
     };
 
@@ -85,15 +80,16 @@ const CourseTable: NextPage = () => {
         const value = event.target.value.toLowerCase();
         setSearchTerm(value);
         setFilteredCourses(
-            courses.filter(
-                (course) =>
-                    course.curso.toLowerCase().includes(value) ||
-                    course.descripcion.toLowerCase().includes(value) ||
-                    course.carreraPlan.toLowerCase().includes(value) ||
-                    course.codigoCurso.toLowerCase().includes(value)
+            courses.filter((course) =>
+                (course.course?.toLowerCase()?.includes(value)) ||
+                (course.descripcion?.toLowerCase()?.includes(value)) ||
+                (course.carreraPlan?.toLowerCase()?.includes(value)) ||
+                (course.space?.toString()?.toLowerCase()?.includes(value)) ||
+                (course.codigoCurso?.toLowerCase()?.includes(value))
             )
         );
     };
+
 
     const handleButtonClick = (button: string) => {
         setActiveButton(button);
@@ -115,6 +111,7 @@ const CourseTable: NextPage = () => {
         );
     };
 
+
     // Nueva función para agregar curso
     const addCourse = (course: Course) => {
         setCourses([...courses, course]);
@@ -122,9 +119,11 @@ const CourseTable: NextPage = () => {
     };
 
     return (
-        <div className="flex-1 p-6 bg-white rounded-lg shadow m-4">
-            <h1 className="font-bold text-primary text-2xl mb-5">Cursos</h1>
-            <div className="flex justify-between mb-4">
+        <div className="flex-1 p-6 bg-white rounded-lg shadow mt-20">
+            <div className="flex justify-between items-center w-full px-10 mt-10">
+                <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl ml-10">Cursos</b></div>
+
+            <div className="flex justify-between mb-4 mt-40">
                 <div className="relative w-full sm:w-1/2">
                     <input type="text" placeholder="Buscar curso" className="w-full p-2 pl-10 border rounded" value={searchTerm} onChange={handleSearch} />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -137,8 +136,9 @@ const CourseTable: NextPage = () => {
                     <button
                         onClick={() => handleButtonClick("crear")}
                         className={`py-2 px-4 rounded ${activeButton === "crear"
-                                ? "bg-action text-primary hover:bg-secundary hover:text-white"
-                                : "bg-action text-primary hover:bg-secundary hover:text-white"
+                            ? "bg-action text-primary hover:bg-secundary hover:text-white"
+                            : "bg-primary text-action hover:bg-white hover:text-secundary"
+
                             }`}
                     >
                         Crear nuevo curso
@@ -156,16 +156,16 @@ const CourseTable: NextPage = () => {
             </div>
 
             <DataTable value={filteredCourses} tableStyle={{ minWidth: "50rem" }} className="custom-table">
-                <Column field="curso" header="Curso" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="descripcion" header="Descripción" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="carreraPlan" header="Carrera/Plan" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="capacidad" header="#Cupos" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="codigoCurso" header="Codigo" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="title" header="Título" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="description" header="Descripción" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="career.title" header="Carrera/Plan" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="spaces" header="# Cupos" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="code" header="Código" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column body={actionBodyTemplate} headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
             </DataTable>
             <Dialog visible={displayConfirmationDialog} onHide={() => setDisplayConfirmationDialog(false)} modal>
                 <div className="flex flex-col items-center gap-4 px-4">
-                    <p className="text-center text-primary text-xl font-semibold">¿Está seguro de que desea eliminar el curso {courseToDelete?.curso}?</p>
+                    <p className="text-center text-primary text-xl font-semibold">¿Está seguro de que desea eliminar el curso {courseToDelete?.course}?</p>
                     <div className="flex space-x-4 items-center justify-center">
                         <button onClick={confirmDelete} className="py-2 px-4 bg-primary text-white rounded hover:bg-secundary">
                             Sí

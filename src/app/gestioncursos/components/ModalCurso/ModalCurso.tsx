@@ -78,10 +78,12 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
             //     const { curso, capacidad, carreraPlan, codigoCurso, descripcion } = formData;
 
             //     const requestData = {
-            //        code: codigoCurso,
+            //         title: curso,
+            //         credits: capacidad, // Supongo que capacidad es equivalente a créditos
+            //         code: codigoCurso,
             //     };
 
-            //     const response = await fetch("http://localhost:3000/api/admin/create/class", {
+            //     const response = await fetch("http://localhost:3000/api/admin/create/career", {
             //         method: "POST",
             //         headers: {
             //             "Content-Type": "application/json",
@@ -116,8 +118,8 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
     };
 
     return (
-        <div className="flex min-h-screen">
-            <main className="flex-1 bg-gray-200">
+        <div className="flex  justify-center items-center">
+            <main className="px-6 py-8  rounded-md">
                 <header className="px-3 mx-3">
                     <div className="flex justify-between items-center ml-2">
                         <div>
@@ -128,8 +130,8 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                         </div>
                     </div>
                 </header>
-                <div className="w-100 m-4 bg-white rounded py-4 shadow-md">
-                    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-3 bg-white rounded-lg">
+                <div className="w-100 m-4  rounded py-4">
+                    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-3  rounded-lg">
                         <p className="text-xl font-semibold mb-10">Diligencia los siguientes campos</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="flex items-center">
@@ -258,9 +260,8 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                             <button
                                 onClick={onHide}
                                 type="button"
-                                className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${
-                                    activeButton ? "bg-primary text-white" : "bg-action text-primary"
-                                }`}
+                                className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-primary text-white" : "bg-action text-primary"
+                                    }`}
                             >
                                 Cancelar
                             </button>

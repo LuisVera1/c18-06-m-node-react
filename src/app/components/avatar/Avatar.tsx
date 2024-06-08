@@ -1,13 +1,16 @@
 
 import React from 'react';
-import { Avatar } from 'primereact/avatar';
+import Image from "next/image";
+import Avatar from "../../../../assets/AvatarGestionEstudiante.png"
 
 export default function ImageAvatar() {
+    const Avatarr = Avatar;
+
     return (
         <div className="card">
             <div className="flex flex-wrap gap-5">
                 <div className="flex-auto">
-                    <Avatar image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png" className="mr-2" size="xlarge" shape="circle" />
+                    <Image src={Avatarr} alt="Descripción de la imagen" width={56} height={56} />
                 </div>
             </div>
         </div>

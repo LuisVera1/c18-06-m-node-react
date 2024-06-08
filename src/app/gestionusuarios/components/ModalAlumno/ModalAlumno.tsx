@@ -118,22 +118,20 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
     };
 
     return (
-        <div className="flex min-h-screen">
-            <main className="flex-1 bg-gray-200">
-                <header className=" px-3 mx-3">
-                    <div className="flex justify-between items-center ml-6">
-                        <Link href="/gestionusuarios" passHref>
-                            <div className="flex justify-start items-center py-5">
-                                <button className="flex justify-start items-center py-5" onClick={onHide}>
-                                    <AiOutlineLeft className="mr-4 text-primary font-black" />
-                                    <h1 className="text-2xl text-primary font-bold">Información del estudiante</h1>
-                                </button>
-                            </div>
-                        </Link>
-                    </div>
+        <div className="flex  justify-center items-center">
+            <main className="px-6 py-8  rounded-md">
+                <header className="mb-6 flex justify-between items-center">
+                    <Link href="/gestionusuarios" passHref>
+                        <button className="flex items-center text-primary font-semibold" onClick={onHide}>
+                            <AiOutlineLeft className="mr-5" />
+                            <h1 className="text-2xl ml-2 text-primary font-bold">Información del estudiante</h1>
+                        </button>
+                    </Link>
+
                 </header>
-                <div className="w-100 m-4 bg-white rounded py-4  shadow-md">
-                    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-3 bg-white rounded-lg">
+
+                <div className="m-4 w-full rounded py-4">
+                    <form onSubmit={handleSubmit} className="p-3 bg-white rounded-lg">
                         <p className="text-xl font-semibold mb-10">Información básica</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div className="flex items-center mb-2">
@@ -205,113 +203,118 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                 {errors.correoInstitucional && <p className="text-red-500 text-sm ml-4">{errors.correoInstitucional}</p>}
                             </div>
                         </div>
+                        <div className="flex w-full mt-10">
+                            <div className="col1 m-4">
+                                <p className="text-xl font-semibold mb-10">Información academica</p>
+                                <div className="flex flex-col mb-4 mt-2">
+                                    <label className="mb-2">ID Estudiante</label>
+                                    <input
+                                        type="text"
+                                        name="idEstudiante"
+                                        value={formData.idEstudiante}
+                                        onChange={handleChange}
+                                        className="p-2 border border-dark rounded-xl"
+                                    />
+                                    {errors.idEstudiante && <p className="text-red-500 text-sm mt-1">{errors.idEstudiante}</p>}
+                                </div>
+                                <div className="flex flex-col mb-4">
+                                    <label className="mb-2">Programa de Estudio</label>
+                                    <input
+                                        type="text"
+                                        name="programaEstudio"
+                                        value={formData.programaEstudio}
+                                        onChange={handleChange}
+                                        className="p-2 border border-dark rounded-xl"
+                                    />
+                                    {errors.programaEstudio && <p className="text-red-500 text-sm mt-1">{errors.programaEstudio}</p>}
+                                </div>
+                                <div className="flex flex-col mb-4">
+                                    <label className="mb-2">Año de Ingreso</label>
+                                    <input
+                                        type="text"
+                                        name="añoIngreso"
+                                        value={formData.añoIngreso}
+                                        onChange={handleChange}
+                                        className="p-2 border border-dark rounded-xl"
+                                    />
+                                    {errors.añoIngreso && <p className="text-red-500 text-sm mt-1">{errors.añoIngreso}</p>}
+                                </div>
+                            </div>
+                            <div className="col2 m-4 mt-20">
 
-                        <p className="text-xl font-semibold my-10">Información académica</p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="flex items-center mb-2">
-                                <label className="mr-4 w-1/3">ID Estudiante</label>
-                                <input
-                                    type="text"
-                                    name="idEstudiante"
-                                    value={formData.idEstudiante}
-                                    onChange={handleChange}
-                                    className="flex-1 p-2 border border-dark rounded-xl"
-                                />
-                                {errors.idEstudiante && <p className="text-red-500 text-sm ml-4">{errors.idEstudiante}</p>}
+                                <div className="flex flex-col mb-4">
+                                    <label className="mb-2">Cursos Matriculados</label>
+                                    <input
+                                        type="text"
+                                        name="cursosMatriculados"
+                                        value={formData.cursosMatriculados}
+                                        onChange={handleChange}
+                                        className="p-2 border border-dark rounded-xl"
+                                    />
+                                    {errors.cursosMatriculados && <p className="text-red-500 text-sm mt-1">{errors.cursosMatriculados}</p>}
+                                </div>
+                                <div className="flex flex-col mb-4">
+                                    <label className="mb-2">Semestre/Ciclo Actual</label>
+                                    <input
+                                        type="text"
+                                        name="semestreActual"
+                                        value={formData.semestreActual}
+                                        onChange={handleChange}
+                                        className="p-2 border border-dark rounded-xl"
+                                    />
+                                    {errors.semestreActual && <p className="text-red-500 text-sm mt-1">{errors.semestreActual}</p>}
+                                </div>
+                                <div className="flex flex-col mb-4">
+                                    <label className="mb-2">Estado Académico</label>
+                                    <select
+                                        name="estadoAcademico"
+                                        value={formData.estadoAcademico}
+                                        onChange={(e) => setFormData({ ...formData, estadoAcademico: e.target.value })}
+                                        className="p-2 border border-dark rounded-xl"
+                                    >
+                                        <option value="Activo">Activo</option>
+                                        <option value="Inactivo">Inactivo</option>
+                                        <option value="Graduado">Graduado</option>
+                                    </select>
+                                </div>
                             </div>
-
-                            <div className="flex items-center mb-2">
-                                <label className="mr-4 w-1/3">Programa de Estudio</label>
-                                <input
-                                    type="text"
-                                    name="programaEstudio"
-                                    value={formData.programaEstudio}
-                                    onChange={handleChange}
-                                    className="flex-1 p-2 border border-dark rounded-xl"
-                                />
-                                {errors.programaEstudio && <p className="text-red-500 text-sm ml-4">{errors.programaEstudio}</p>}
-                            </div>
-                            <div className="flex items-center mb-2">
-                                <label className="mr-4 w-1/3">Año de Ingreso</label>
-                                <input
-                                    type="text"
-                                    name="añoIngreso"
-                                    value={formData.añoIngreso}
-                                    onChange={handleChange}
-                                    className="flex-1 p-2 border border-dark rounded-xl"
-                                />
-                                {errors.añoIngreso && <p className="text-red-500 text-sm ml-4">{errors.añoIngreso}</p>}
-                            </div>
-                            <div className="flex items-center mb-2">
-                                <label className="mr-4 w-1/3">Cursos Matriculados</label>
-                                <input
-                                    type="text"
-                                    name="cursosMatriculados"
-                                    value={formData.cursosMatriculados}
-                                    onChange={handleChange}
-                                    className="flex-1 p-2 border border-dark rounded-xl"
-                                />
-                                {errors.cursosMatriculados && <p className="text-red-500 text-sm ml-4">{errors.cursosMatriculados}</p>}
-                            </div>
-
-                            <div className="flex items-center mb-2">
-                                <label className="mr-4 w-1/3">Semestre/Ciclo Actual</label>
-                                <input
-                                    type="text"
-                                    name="semestreActual"
-                                    value={formData.semestreActual}
-                                    onChange={handleChange}
-                                    className="flex-1 p-2 border border-dark rounded-xl"
-                                />
-                                {errors.semestreActual && <p className="text-red-500 text-sm ml-4">{errors.semestreActual}</p>}
-                            </div>
-
-                            <div className="flex items-center mb-2">
-                                <label className="mr-4 w-1/3">Estado Académico</label>
-                                <select
-                                    name="estadoAcademico"
-                                    value={formData.estadoAcademico}
-                                    onChange={(e) => setFormData({ ...formData, estadoAcademico: e.target.value })}
-                                    className="flex-1 p-2 border border-dark rounded-xl"
-                                >
-                                    <option value="Activo">Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
-                                    <option value="Graduado">Graduado</option>
-                                </select>
+                            <div className="m-4">
+                                <div className="mb-10">
+                                    <p className="text-xl font-semibold mb-10">Información de emergencia</p>
+                                    <div className="flex flex-col mb-4">
+                                        <label className="mb-2">Nombre de Contacto</label>
+                                        <input
+                                            type="text"
+                                            name="nombreContactoEmergencia"
+                                            value={formData.nombreContactoEmergencia}
+                                            onChange={handleChange}
+                                            className="p-2 border border-dark rounded-xl"
+                                        />
+                                        {errors.nombreContactoEmergencia && <p className="text-red-500 text-sm mt-1">{errors.nombreContactoEmergencia}</p>}
+                                    </div>
+                                    <div className="flex flex-col mb-4">
+                                        <label className="mb-2">Teléfono de Contacto</label>
+                                        <input
+                                            type="tel"
+                                            name="telefonoContactoEmergencia"
+                                            value={formData.telefonoContactoEmergencia}
+                                            onChange={handleChange}
+                                            className="p-2 border border-dark rounded-xl"
+                                        />
+                                        {errors.telefonoContactoEmergencia && <p className="text-red-500 text-sm mt-1">{errors.telefonoContactoEmergencia}</p>}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <p className="text-xl font-semibold my-10">Información de emergencia</p>
-                        <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-10">
-                            <div className="flex items-center mb-2">
-                                <label className="mr-2 w-1/3">Nombre de Contacto</label>
-                                <input
-                                    type="text"
-                                    name="nombreContactoEmergencia"
-                                    value={formData.nombreContactoEmergencia}
-                                    onChange={handleChange}
-                                    className="flex-1 p-2 border border-dark rounded-xl"
-                                />
-                                {errors.nombreContactoEmergencia && <p className="text-red-500 text-sm ml-4">{errors.nombreContactoEmergencia}</p>}
-                            </div>
-                            <div className="flex items-center mb-2">
-                                <label className="mr-2 w-1/3">Teléfono de Contacto</label>
-                                <input
-                                    type="tel"
-                                    name="telefonoContactoEmergencia"
-                                    value={formData.telefonoContactoEmergencia}
-                                    onChange={handleChange}
-                                    className="flex-1 p-2 border border-dark rounded-xl"
-                                />
-                                {errors.telefonoContactoEmergencia && <p className="text-red-500 text-sm ml-4">{errors.telefonoContactoEmergencia}</p>}
-                            </div>
-                        </div>
+
+
+
                         <div className="flex justify-end mt-6">
                             <Link href="/gestionusuarios" passHref>
                                 <button
                                     type="button"
-                                    className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${
-                                        activeButton ? "bg-primary text-white" : "bg-action text-primary"
-                                    }`}
+                                    className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-primary text-white" : "bg-action text-primary"
+                                        }`}
                                     onClick={onHide}
                                 >
                                     Cancelar
@@ -319,9 +322,8 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                             </Link>
                             <button
                                 type="submit"
-                                className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${
-                                    activeButton ? "bg-action text-primary" : "bg-primary text-white"
-                                }`}
+                                className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-action text-primary" : "bg-primary text-white"
+                                    }`}
                                 onClick={() => setActiveButton(true)}
                             >
                                 Crear estudiante
