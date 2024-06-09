@@ -20,12 +20,11 @@ interface Student {
 
 // Definimos y exportamos el componente Home
 function Home() {
-    // useAuthRedirect();
+    useAuthRedirect();
     // Estado para almacenar los datos de los estudiantes
     const [matriculas, setMatriculas] = useState<Student[]>([]);
     const [aprobados, setAprobados] = useState<Student[]>([]);
     const [pendientes, setPendientes] = useState<Student[]>([]);
-
 
     const [statistics, setStatistics] = useState({
         total: "0",
@@ -40,9 +39,9 @@ function Home() {
             if (response.ok) {
                 setStatistics(response.data);
             }
-        }
+        };
         dataFecth();
-    }, [])
+    }, []);
 
     // useEffect para obtener los datos de los estudiantes al montar el componente
     /*

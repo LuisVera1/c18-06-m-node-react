@@ -34,7 +34,6 @@ const CourseTable: NextPage = () => {
     const [courseToDelete, setCourseToDelete] = useState<Course | null>(null); // Estado para almacenar el curso que se eliminará
     const [displayConfirmationDialog, setDisplayConfirmationDialog] = useState(false); // Estado para mostrar/ocultar el modal de confirmación de eliminación
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -53,8 +52,6 @@ const CourseTable: NextPage = () => {
 
         fetchData();
     }, [pathname]);
-
-
 
     const handleEdit = (course: Course) => {
         // Aquí puedes implementar la lógica para editar el curso, por ejemplo, abrir un modal de edición
@@ -80,16 +77,16 @@ const CourseTable: NextPage = () => {
         const value = event.target.value.toLowerCase();
         setSearchTerm(value);
         setFilteredCourses(
-            courses.filter((course) =>
-                (course.course?.toLowerCase()?.includes(value)) ||
-                (course.descripcion?.toLowerCase()?.includes(value)) ||
-                (course.carreraPlan?.toLowerCase()?.includes(value)) ||
-                (course.space?.toString()?.toLowerCase()?.includes(value)) ||
-                (course.codigoCurso?.toLowerCase()?.includes(value))
+            courses.filter(
+                (course) =>
+                    course.course?.toLowerCase()?.includes(value) ||
+                    course.descripcion?.toLowerCase()?.includes(value) ||
+                    course.carreraPlan?.toLowerCase()?.includes(value) ||
+                    course.space?.toString()?.toLowerCase()?.includes(value) ||
+                    course.codigoCurso?.toLowerCase()?.includes(value)
             )
         );
     };
-
 
     const handleButtonClick = (button: string) => {
         setActiveButton(button);
@@ -111,7 +108,6 @@ const CourseTable: NextPage = () => {
         );
     };
 
-
     // Nueva función para agregar curso
     const addCourse = (course: Course) => {
         setCourses([...courses, course]);
@@ -119,13 +115,20 @@ const CourseTable: NextPage = () => {
     };
 
     return (
-        <div className="flex-1 p-6 bg-white rounded-lg shadow mt-20">
-            <div className="flex justify-between items-center w-full px-10 mt-10">
-                <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl ml-10">Cursos</b></div>
+        <div className="flex-1 p-10 bg-grey ">
+            <div className="flex justify-between items-center w-full">
+                <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-3xl">Cursos</b>
+            </div>
 
             <div className="flex justify-between mb-4 mt-40">
                 <div className="relative w-full sm:w-1/2">
-                    <input type="text" placeholder="Buscar curso" className="w-full p-2 pl-10 border rounded" value={searchTerm} onChange={handleSearch} />
+                    <input
+                        type="text"
+                        placeholder="Buscar curso"
+                        className="w-full p-2 pl-10 border border-primary rounded-xl"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                    />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <Image src={Search} alt="Buscar" width={20} height={20} />
                     </div>
@@ -135,11 +138,11 @@ const CourseTable: NextPage = () => {
 
                     <button
                         onClick={() => handleButtonClick("crear")}
-                        className={`py-2 px-4 rounded ${activeButton === "crear"
-                            ? "bg-action text-primary hover:bg-secundary hover:text-white"
-                            : "bg-primary text-action hover:bg-white hover:text-secundary"
-
-                            }`}
+                        className={`py-2 px-4 rounded bg-action text-primary${
+                            activeButton === "crear"
+                                ? "bg-action text-primary hover:bg-secundary hover:text-action"
+                                : "bg-primary text-primary hover:bg-secundary hover:text-white "
+                        }`}
                     >
                         Crear nuevo curso
                     </button>
@@ -158,7 +161,7 @@ const CourseTable: NextPage = () => {
             <DataTable value={filteredCourses} tableStyle={{ minWidth: "50rem" }} className="custom-table">
                 <Column field="title" header="Título" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column field="description" header="Descripción" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="career.title" header="Carrera/Plan" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="careerID" header="Carrera/Plan" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column field="spaces" header="# Cupos" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column field="code" header="Código" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column body={actionBodyTemplate} headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
