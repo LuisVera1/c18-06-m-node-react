@@ -25,6 +25,8 @@ const CourseTable: NextPage = () => {
     const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [activeButton, setActiveButton] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1); // Estado para el número de página actual
+    const [itemsPerPage, setItemsPerPage] = useState(5); // Estado para la cantidad de elementos por página
     const pathname = usePathname();
 
     const [displayDialog, setDisplayDialog] = useState(false);
@@ -52,6 +54,14 @@ const CourseTable: NextPage = () => {
 
         fetchData();
     }, [pathname]);
+
+    useEffect(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        setFilteredCourses(courses.slice(startIndex, endIndex));
+    }, [currentPage, itemsPerPage, courses]);
+
+    const totalPages = Math.ceil(courses.length / itemsPerPage);
 
     const handleEdit = (course: Course) => {
         // Aquí puedes implementar la lógica para editar el curso, por ejemplo, abrir un modal de edición
@@ -140,7 +150,7 @@ const CourseTable: NextPage = () => {
                         onClick={() => handleButtonClick("crear")}
                         className={`py-2 px-4 rounded bg-action text-primary${
                             activeButton === "crear"
-                                ? "bg-action text-primary hover:bg-secundary hover:text-action"
+                                ? "bg-action text-primary hover:bg-secundary hover:text-white"
                                 : "bg-primary text-primary hover:bg-secundary hover:text-white "
                         }`}
                     >
@@ -183,6 +193,25 @@ const CourseTable: NextPage = () => {
                     <p className="text-gray-400 pt-4 text-sm">Nota: se eliminarán los datos de forma permanente</p>
                 </div>
             </Dialog>
+            <div className="flex justify-center mt-4 bg-action">
+                <button
+                    className="text-action font-normal hover:bg-secundary hover:text-white bg-primary m-2 p-2 rounded-xl"
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                    Anterior
+                </button>
+                <span className="m-2 p-2  text-primary font-normal ">
+                    Página {currentPage} de {totalPages}
+                </span>
+                <button
+                    className="text-action font-normal hover:bg-secundary hover:text-white bg-primary  m-2 p-2 rounded-xl"
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                    Siguiente
+                </button>
+            </div>
         </div>
     );
 };
