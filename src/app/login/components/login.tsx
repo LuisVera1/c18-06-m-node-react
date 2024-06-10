@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { useUser } from "../../../context/UserContext"; // Importa el contexto del usuario
+// import { useUser } from "../../../context/UserContext"; // Importa el contexto del usuario
 import { useRouter } from "next/navigation"; // Usa next/navigation en lugar de next/router
 import { NextPage } from "next"; // Importa NextPage en lugar de React.FC
 import type { StaticImageData } from "next/image";
@@ -18,7 +18,7 @@ const Login: NextPage = () => {
     const [password, setPassword] = useState<string>("");
     const [role, setRole] = useState<string>("alumno");
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-    const { setUser } = useUser(); // Usa el contexto del usuario
+    // const { setUser } = useUser(); // Usa el contexto del usuario
     const router = useRouter(); // Usa el hook useRouter
     const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
 
@@ -86,7 +86,7 @@ const Login: NextPage = () => {
                         };
                         const route = roleToRouteMap[role] || "/";
                         router.push(route);
-                        setUser({ ...data, email }); // Añadir el correo electrónico al usuario antes de guardarlo en el contexto
+                        // setUser({ ...data, email }); // Añadir el correo electrónico al usuario antes de guardarlo en el contexto
                         setLoginSuccess(true);
                         localStorage.setItem("loginSuccess", "true");
                     } else {

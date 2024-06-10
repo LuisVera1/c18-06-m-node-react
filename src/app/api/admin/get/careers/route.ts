@@ -1,8 +1,11 @@
 import { checkRole, typeUsers } from '@/app/lib';
 import prisma from '@/app/lib/prisma';
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
 export async function GET(req: Request) {
+	const session = cookies().get('session')?.value;
+
 	try {
 		//validate session, token
 		const validSession = await checkRole(typeUsers.admin);
