@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { NextPage } from "next";
-import { UserProvider } from "./../../context/UserContext";
+// import { UserProvider } from "./../../context/UserContext";
 import Link from "next/link";
 import Image from "next/image";
 import BannerCambio from "./../../../assets/container_2.png";
@@ -153,9 +153,9 @@ const ForgetPassContent: NextPage = () => {
 };
 
 const ForgetPass: NextPage = () => (
-    <UserProvider>
+    // <UserProvider>
         <ForgetPassContent />
-    </UserProvider>
+    // </UserProvider>
 );
 
 export default ForgetPass;
