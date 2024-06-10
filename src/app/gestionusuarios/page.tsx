@@ -8,7 +8,7 @@ const Docente: NextPage = () => {
         <div className="flex min-h-screen">
             <Sidebar />
             <main className="flex-1">
-                <header className="bg-gray-200 shadow">
+                <header className="bg-gray-200 shadow p-6">
                     <Navbar />
                 </header>
                 <UserTable />

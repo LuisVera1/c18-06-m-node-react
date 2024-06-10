@@ -1,5 +1,5 @@
-"use client";
-
+'use client'
+// context.tsx
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 // Define la interfaz para el objeto de usuario
@@ -17,7 +17,7 @@ interface UserContextType {
 }
 
 // Crea el contexto de usuario
-const UserContext = createContext<UserContextType | undefined>(undefined);
+export const UserContext = createContext<UserContextType | undefined>(undefined); // Exporta UserContext aquí
 
 // Define el componente UserProvider
 export const UserProvider = ({ children }: { children: ReactNode }) => {

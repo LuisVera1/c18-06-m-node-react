@@ -10,6 +10,7 @@ import { Column } from "primereact/column";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { NextPage } from "next";
 import { usePathname } from "next/navigation";
+import ImageAvatar from "@/app/components/avatar/Avatar";
 
 interface Course {
     course: string;
@@ -121,7 +122,8 @@ const CourseTable: NextPage = () => {
     return (
         <div className="flex-1 p-6 bg-white rounded-lg shadow mt-20">
             <div className="flex justify-between items-center w-full px-10 mt-10">
-                <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl ml-10">Cursos</b></div>
+                <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl">Curso</b>
+            </div>
 
             <div className="flex justify-between mb-4 mt-40">
                 <div className="relative w-full sm:w-1/2">

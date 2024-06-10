@@ -86,7 +86,7 @@ const Login: NextPage = () => {
                         };
                         const route = roleToRouteMap[role] || "/";
                         router.push(route);
-                        setUser(data);
+                        setUser({ ...data, email }); // Añadir el correo electrónico al usuario antes de guardarlo en el contexto
                         setLoginSuccess(true);
                         localStorage.setItem("loginSuccess", "true");
                     } else {

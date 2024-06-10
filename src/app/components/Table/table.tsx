@@ -1,8 +1,9 @@
-"use client";
 import React, { useState, useEffect } from 'react';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import Image from "next/image";
+import Search from "../../../../assets/Search.png";
 
 interface Student {
     code: string;
@@ -14,6 +15,14 @@ interface Student {
 
 export default function BasicDemo() {
     const [students, setStudents] = useState<Student[]>([]);
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [filteredStudents, setFilteredStudents] = useState<Student[]>([]);
+    const [isGestionMatriculas, setIsGestionMatriculas] = useState<boolean>(false);
+
+    useEffect(() => {
+        // Comprobar si la ruta es /gestionmatriculas
+        setIsGestionMatriculas(window.location.pathname === "/gestionmatriculas");
+    }, []);
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -85,10 +94,40 @@ export default function BasicDemo() {
         );
     };
 
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value.toLowerCase();
+        setSearchTerm(value);
+        setFilteredStudents(
+            students.filter((student) =>
+                (student.name?.toLowerCase().includes(value)) ||
+                (student.email?.toLowerCase().includes(value)) ||
+                (student.code?.toLowerCase().includes(value)) ||
+                (student.status?.toLowerCase().includes(value)) ||
+                (formatDate(student.creation).toLowerCase().includes(value))
+            )
+        );
+    };
+
     return (
         <div className="card ml-40">
-            <b>Lista de estudiantes - proceso matrícula</b>
-            <DataTable value={students} tableStyle={{ minWidth: '50rem' }} className="custom-table">
+            {isGestionMatriculas ? (
+                <div className="relative w-full sm:w-1/2">
+                    <input
+                        type="text"
+                        placeholder="Buscar usuario"
+                        className={`w-full p-2 pl-10 border rounded ${searchTerm ? "border-primary" : ""}`}
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        onFocus={() => setSearchTerm(searchTerm)} // To trigger re-render for applying border-primary class
+                    />
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <Image src={Search} alt="Buscar" width={20} height={20} />
+                    </div>
+                </div>
+            ) : (
+                <b>Lista de estudiantes - proceso matrícula</b>
+            )}
+            <DataTable value={filteredStudents.length ? filteredStudents : students} tableStyle={{ minWidth: '50rem' }} className="custom-table">
                 <Column field="name" header="Nombre" className="header-column"></Column>
                 <Column field="creation" header="Fecha solicitud" className="header-column"></Column>
                 <Column field="code" header="ID Estudiante" className="header-column"></Column>

@@ -87,3 +87,15 @@ body {
 .text-red-800 {
   color: #721c24; /* Texto rojo oscuro */
 }
+
+.custom-progress-bar .p-progress-bar-value {
+  background-color: violet; /* Cambia este color según tu preferencia */
+}
+
+.custom-progress-bar .p-progress-bar-value:after {
+  background-color: orange; /* Cambia este color según tu preferencia */
+}
+
+.custom-progress-bar .p-progress-bar-value:before {
+  background-color: green; /* Cambia este color según tu preferencia */
+}

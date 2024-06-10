@@ -1,9 +1,8 @@
 'use client'
 import Link from "next/link";
-import Image from "next/image";
-import AvatarGestionEstudiante from "../../../../../assets/AvatarGestionEstudiante.png";
 import { NextPage } from "next";
 import { usePathname } from "next/navigation"; // Cambiamos el import a next/navigation
+import ImageAvatar from "@/app/components/avatar/Avatar";
 
 const Navv: NextPage = () => {
     const pathname = usePathname(); // Cambiamos de useRouter a usePathname
@@ -12,9 +11,6 @@ const Navv: NextPage = () => {
         <div className="flex">
             <main className="flex-1">
                 <header className="bg-gray-200 shadow p-6">
-                    <div className="flex justify-end mb-5">
-                        <Image src={AvatarGestionEstudiante} alt="Descripción de la imagen" width={56} height={56} />
-                    </div>
                     <nav>
                         <ul className="flex justify-between">
                             <NavItem
