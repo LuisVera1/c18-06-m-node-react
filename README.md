@@ -118,10 +118,10 @@ Cuenta con un sistema de matriculación online, fácil contacto con el área adm
 ### Back-end
 
 <div style="display: flex; justify-content: start;">
- <img src=" https://icons.veryicon.com/png/o/business/vscode-program-item-icon/prisma.png" alt="Node.js" style="width: 50px; height: 50px; margin: 10px;">
- <img src="https://icon.icepanel.io/Technology/svg/Insomnia.svg" alt="Node.js" style="width: 50px; height: 50px; margin: 10px;">
-  <img src="https://icon.icepanel.io/Technology/svg/PostgresSQL.svg" alt="Node.js" style="width: 50px; height: 50px; margin: 10px;">
-    <img src="https://jwt.io/img/pic_logo.svg" alt="Node.js" style="width: 50px; height: 50px; margin: 10px;">
+ <img src="https://icons.veryicon.com/png/o/business/vscode-program-item-icon/prisma.png" alt="prisma" style="width: 50px; height: 50px; margin: 10px;">
+ <img src="https://icon.icepanel.io/Technology/svg/Insomnia.svg" alt="insomnia" style="width: 50px; height: 50px; margin: 10px;">
+  <img src="https://icon.icepanel.io/Technology/svg/PostgresSQL.svg" alt="postgressql" style="width: 50px; height: 50px; margin: 10px;">
+    <img src="https://jwt.io/img/pic_logo.svg" alt="jwt" style="width: 50px; height: 50px; margin: 10px;">
 
 </div>
 
