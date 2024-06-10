@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { NextPage } from "next";
-import { useUser, UserProvider } from "./../../context/UserContext";
+import { UserProvider } from "./../../context/UserContext";
 import Link from "next/link";
 import Image from "next/image";
 import BannerCambio from "./../../../assets/container_2.png";
@@ -14,7 +14,7 @@ const ForgetPassContent: NextPage = () => {
     const [errors, setErrors] = useState<{ email?: string }>({});
     const [emailSent, setEmailSent] = useState<boolean>(false);
     const [role, setRole] = useState<string>("Student");
-    const { user } = useUser(); // Usa el contexto del usuario (solo lectura)
+    // const { user } = useUser(); // Usa el contexto del usuario (solo lectura)
 
     const validateEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
