@@ -225,7 +225,7 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                                 >
                                     <option value=""></option>
                                     {careers.map(item => (
-                                        (<option value={item.id}>{`${item.id} - ${item.title}`}</option>)
+                                        (<option key={item.id} value={item.id}>{`${item.id} - ${item.title}`}</option>)
                                         )
                                     )}
                                 </select>
@@ -244,7 +244,7 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                                     {/* <option value="Docente 1">Docente 1</option>
                                     <option value="Docente 2">Docente 2</option> */}
                                     { teachers.map(teacher => (
-                                        <option value={teacher.id}>{`${teacher.code} - ${teacher.name}`}</option>
+                                        <option key={teacher.id} value={teacher.id}>{`${teacher.code} - ${teacher.name}`}</option>
                                     ))}
                                 </select>
                             </div>
