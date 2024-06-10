@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import React, { useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
 import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
 import Image from "next/image";
 import OkImage from "./../../../../../assets/Check Mark.png";
 

@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Filter from "../../../../../assets/Filter.png";
@@ -29,6 +30,8 @@ const UserTable: NextPage = () => {
     const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [displayDialog, setDisplayDialog] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1); // Estado para el número de página actual
+    const [itemsPerPage, setItemsPerPage] = useState(5); // Estado para la cantidad de elementos por página
     const pathname = usePathname();
 
     const dialogContent = () => {
@@ -67,7 +70,7 @@ const UserTable: NextPage = () => {
                 }
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
                 if (data.ok) {
@@ -77,28 +80,35 @@ const UserTable: NextPage = () => {
                     console.error(data.message);
                 }
             } catch (error) {
-                console.error('Error fetching users:', error);
+                console.error("Error fetching users:", error);
             }
         };
 
         fetchData();
     }, [pathname]);
 
+    useEffect(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        setFilteredUsers(users.slice(startIndex, endIndex));
+    }, [currentPage, itemsPerPage, users]);
+
+    const totalPages = Math.ceil(users.length / itemsPerPage);
+
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value.toLowerCase();
         setSearchTerm(value);
         setFilteredUsers(
-            users.filter((user) =>
-                (user.name?.toLowerCase().includes(value)) ||
-                (user.email?.toLowerCase().includes(value)) ||
-                (typeof user.id === 'string' && user.id.toLowerCase().includes(value)) || // Verificamos si user.id es una cadena antes de llamar a toLowerCase()
-                (user.program?.toLowerCase().includes(value)) ||
-                (user.role?.toLowerCase().includes(value))
+            users.filter(
+                (user) =>
+                    user.name?.toLowerCase().includes(value) ||
+                    user.email?.toLowerCase().includes(value) ||
+                    (typeof user.id === "string" && user.id.toLowerCase().includes(value)) ||
+                    user.program?.toLowerCase().includes(value) ||
+                    user.role?.toLowerCase().includes(value)
             )
         );
     };
-
-
 
     const statusBodyTemplate = (rowData: User) => {
         let statusClass = "";
@@ -146,10 +156,10 @@ const UserTable: NextPage = () => {
                     <input
                         type="text"
                         placeholder="Buscar usuario"
-                        className={`w-full p-2 pl-10 border rounded ${searchTerm ? "border-primary" : ""}`}
+                        className={`w-full p-2 pl-10 border border-primary rounded-xl ${searchTerm ? "border-primary" : ""}`}
                         value={searchTerm}
                         onChange={handleSearch}
-                        onFocus={() => setSearchTerm(searchTerm)} // To trigger re-render for applying border-primary class
+                        onFocus={() => setSearchTerm(searchTerm)}
                     />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <Image src={Search} alt="Buscar" width={20} height={20} />
@@ -168,24 +178,33 @@ const UserTable: NextPage = () => {
             </div>
 
             <DataTable value={filteredUsers} tableStyle={{ minWidth: "50rem" }} className="custom-table">
-                <Column field="name" header="Nombre" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
-                <Column field="email" header="Correo" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
-                <Column field="code" header="ID" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
-                <Column field="career.title" header="Programa" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
-                {pathname === "/gestionusuarios/docentes" && (
-                    <Column field="courses" header="# Cursos asignados" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
-                )}
-                {/* {pathname === "/gestionusuarios/docentes" && (
-                    <Column field="statusEnvio" header="Estado envío" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
-                )} */}
-                <Column
-                    field="status"
-                    header="Estado Académico"
-                    body={statusBodyTemplate}
-                    headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}
-                ></Column>
-                <Column body={actionBodyTemplate} headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
+                <Column field="name" header="Nombre" />
+                <Column field="email" header="Correo" />
+                <Column field="id" header="ID" />
+                <Column field="program" header="Programa" />
+                {pathname === "/gestionusuarios/docentes" && <Column field="courses" header="# Cursos asignados" />}
+                <Column field="status" header="Estado Académico" body={statusBodyTemplate} />
+                <Column body={actionBodyTemplate} />
             </DataTable>
+            <div className="flex justify-center mt-4 bg-action">
+                <button
+                    className="text-action font-normal hover:bg-secundary hover:text-white bg-primary m-2 p-2 rounded-xl"
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                    Anterior
+                </button>
+                <span className="m-2 p-2  text-primary font-normal ">
+                    Página {currentPage} de {totalPages}
+                </span>
+                <button
+                    className="text-action font-normal hover:bg-secundary hover:text-white bg-primary  m-2 p-2 rounded-xl"
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                    Siguiente
+                </button>
+            </div>
         </div>
     );
 };

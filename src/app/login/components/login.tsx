@@ -36,7 +36,7 @@ const Login: NextPage = () => {
         // Verificar si hay información de inicio de sesión exitosa en localStorage al cargar el componente
         const loginSuccessFromStorage = localStorage.getItem("loginSuccess");
         if (loginSuccessFromStorage === "true") {
-            setLoginSuccess(true);
+            setLoginSuccess(false);
         }
     }, []);
 

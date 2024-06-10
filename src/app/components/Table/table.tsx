@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import Image from "next/image";
-import Search from "../../../../assets/Search.png";
 
 interface Student {
     code: string;
@@ -111,19 +109,14 @@ export default function BasicDemo() {
     return (
         <div className="card ml-40">
             {isGestionMatriculas ? (
-                <div className="relative w-full sm:w-1/2">
-                    <input
-                        type="text"
-                        placeholder="Buscar usuario"
-                        className={`w-full p-2 pl-10 border rounded ${searchTerm ? "border-primary" : ""}`}
-                        value={searchTerm}
-                        onChange={handleSearch}
-                        onFocus={() => setSearchTerm(searchTerm)} // To trigger re-render for applying border-primary class
-                    />
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <Image src={Search} alt="Buscar" width={20} height={20} />
-                    </div>
-                </div>
+                <input
+                    type="text"
+                    placeholder="Buscar usuario"
+                    className={`w-fill p-2 pl-10 border rounded ${searchTerm ? "border-primary" : ""}`}
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    onFocus={() => setSearchTerm(searchTerm)} // To trigger re-render for applying border-primary class
+                />
             ) : (
                 <b>Lista de estudiantes - proceso matrícula</b>
             )}
