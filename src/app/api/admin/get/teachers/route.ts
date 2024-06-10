@@ -10,6 +10,7 @@ const postSchema = yup.object({
 	status: yup.string().oneOf(enumStatus),
 	page: yup.number().min(1).default(1),
 	number: yup.number().default(10),
+	careerID: yup.number().optional().default(null),
 });
 
 export async function GET(req: Request) {
@@ -20,6 +21,7 @@ export async function GET(req: Request) {
 		status: searchParams.get('status') ?? 'Empty',
 		page: Number(searchParams.get('page')) || 1,
 		number: Number(searchParams.get('number')) || 10,
+		careerID: Number(searchParams.get('careerID')),
 	};
 
 	const validation = await validateData(postSchema.validate(filterData));
@@ -39,7 +41,7 @@ export async function GET(req: Request) {
 			{ status: validSession.status }
 		);
 	}
-	const { status, page, number } = validation;
+	const { status, page, number, careerID } = validation;
 
 	const skip = (page - 1) * number;
 
@@ -49,6 +51,9 @@ export async function GET(req: Request) {
 			take: number,
 			where: {
 				status: status === 'Empty' ? undefined : status,
+				career: {
+					id: careerID ? careerID: undefined
+				},
 			},
 			select: {
 				id: true,
@@ -62,6 +67,7 @@ export async function GET(req: Request) {
 					select: {
 						title: true,
 						code: true,
+						id: true,
 					},
 				},
 			},

@@ -20,39 +20,31 @@ export async function GET(req: Request) {
 			},
 		});
 
-		const tickets = await prisma.student.count({
-			where: {
-				tickets: true,
+		// careers
+		const careers = await prisma.career.findMany({
+			select: {
+				id: true,
+				title: true,
 			},
 		});
 
-		const payment = await prisma.student.count({
+		//students by career
+		const studentsByCareer = await prisma.student.groupBy({
+			by: ['careerID'],
 			where: {
-				payment: true,
+				status: 'Activo',
 			},
+			_count: true,
 		});
 
-		const dropout = await prisma.student.count({
-			where: {
-				status: 'Baja',
-			},
+		const response = careers.map((career, index) => {
+			return {
+				career: career.title,
+				percentage: ((studentsByCareer[index]._count * 100) / active).toFixed(
+					1
+				),
+			};
 		});
-
-		// courses
-		const courses = await prisma.class.count({});
-
-		const response = {
-			total: active,
-			approved: '12',
-			pending: '88',
-			tickets: ((tickets / active) * 100).toFixed(1),
-			paymentsApproved: ((payment / active) * 100).toFixed(1),
-			paymentsPending: (100 - Number(((payment / active) * 100).toFixed(1))).toFixed(1),
-			enrolled: 0,
-			dropout: ((dropout / (active + dropout)) * 100).toFixed(1),
-			totalCourses: courses,
-			totalIncome: payment * 150,
-		};
 
 		return NextResponse.json(
 			{ ok: true, message: '', data: response },

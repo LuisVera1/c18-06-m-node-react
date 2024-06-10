@@ -6,10 +6,8 @@ import { validateData, checkRole, typeUsers } from '@/app/lib';
 
 const postSchema = yup.object({
 	title: yup.string().trim().required(),
-	// credits: yup.number().required(),
 	spaces: yup.number().required(),
 	code: yup.string().trim().required(),
-	// section: yup.string().trim().required(),
 	careerID: yup.number().required(),
 	teacherID: yup.number().optional().default(null),
 	description: yup.string().optional().default(null),
@@ -18,7 +16,6 @@ const postSchema = yup.object({
 			day: yup.string().trim().required(),
 			startH: yup.number().required(),
 			endH: yup.number().required(),
-			// classroom: yup.string().trim().required(),
 		})
 	),
 });

@@ -1,6 +1,6 @@
 "use client";
 import { NextPage } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
@@ -17,7 +17,7 @@ interface FormData {
         endH: string;
     }[];
     code: string;
-    teacherID: string;
+    teacherID: (number | null);
     description: string;
 }
 
@@ -32,14 +32,44 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
         schedule: [
             {
                 day: "",
-                startH: "",
-                endH: "",
+                startH: "7",
+                endH: "8",
             },
         ],
         code: "",
-        teacherID: "",
+        teacherID: null,
         description: "",
     });
+
+    const [careers, setCareers] = useState([{
+        id: '',
+        title: ''
+    }]);
+    const [teachers, setTeachers] = useState([{
+        id: '',
+        code: '',
+        name: ''
+    }])
+
+    // list of careers
+    useEffect(() => {
+        const getCareers = async () => {
+            const dataCareers = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/careers`);
+            const responseCareers = await dataCareers.json();
+            if(responseCareers.ok) setCareers(responseCareers.data);
+        }
+        getCareers();
+    },[]);
+
+    //list of teachers
+    useEffect(() => {
+        const getTeachers = async() => {
+            const dataTeachers = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/teachers?status=Activo&careerID=${formData.careerID}`);
+            const responseTeachers = await dataTeachers.json();
+            if(responseTeachers.ok) setTeachers(responseTeachers.data);
+        }
+        getTeachers();
+    }, [formData.careerID]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -98,6 +128,7 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                     teacherID: teacherID,
                     description: description,
                 };
+                console.log("🚀", requestData)
 
                 const response = await fetch("api/admin/create/class", {
                     method: "POST",
@@ -123,7 +154,7 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                             },
                         ],
                         code: "",
-                        teacherID: "",
+                        teacherID: null,
                         description: "",
                     });
                     onHide();
@@ -178,13 +209,26 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
 
                             <div className="flex items-center">
                                 <label className="w-1/3">Carrera/plan</label>
-                                <input
+                                {/* <input
                                     type="text"
                                     name="careerID"
                                     value={formData.careerID}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl"
-                                />
+                                /> */}
+
+                                <select
+                                    name="careerID"
+                                    value={formData.careerID}
+                                    onChange={handleChange}
+                                    className="flex-1 p-2 border border-dark rounded-xl max-w-48"
+                                >
+                                    <option value=""></option>
+                                    {careers.map(item => (
+                                        (<option value={item.id}>{`${item.id} - ${item.title}`}</option>)
+                                        )
+                                    )}
+                                </select>
                             </div>
                             {errors.careerID && <p className="text-red-500 text-sm ml-4">{errors.careerID}</p>}
 
@@ -192,13 +236,16 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                                 <label className="w-1/3">Asignacion Docente</label>
                                 <select
                                     name="teacherID"
-                                    value={formData.teacherID}
+                                    value={Number(formData.teacherID)}
                                     onChange={handleChange}
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 >
                                     <option value=""></option>
-                                    <option value="Docente 1">Docente 1</option>
-                                    <option value="Docente 2">Docente 2</option>
+                                    {/* <option value="Docente 1">Docente 1</option>
+                                    <option value="Docente 2">Docente 2</option> */}
+                                    { teachers.map(teacher => (
+                                        <option value={teacher.id}>{`${teacher.code} - ${teacher.name}`}</option>
+                                    ))}
                                 </select>
                             </div>
 
@@ -243,17 +290,18 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                                                 value={slot.startH}
                                                 onChange={(e) => handleScheduleChange(index, "startH", e.target.value)}
                                             >
-                                                <option value="08:00">08:00</option>
-                                                <option value="09:00">09:00</option>
-                                                <option value="10:00">10:00</option>
-                                                <option value="11:00">11:00</option>
-                                                <option value="12:00">12:00</option>
-                                                <option value="13:00">13:00</option>
-                                                <option value="14:00">14:00</option>
-                                                <option value="15:00">15:00</option>
-                                                <option value="16:00">16:00</option>
-                                                <option value="17:00">17:00</option>
-                                                <option value="18:00">18:00</option>
+                                                <option value="7">7:00</option>
+                                                <option value="8">8:00</option>
+                                                <option value="9">9:00</option>
+                                                <option value="10">10:00</option>
+                                                <option value="11">11:00</option>
+                                                <option value="12">12:00</option>
+                                                <option value="13">13:00</option>
+                                                <option value="14">14:00</option>
+                                                <option value="15">15:00</option>
+                                                <option value="16">16:00</option>
+                                                <option value="17">17:00</option>
+                                                <option value="18">18:00</option>
                                             </select>
                                             <span className="text-lg">a</span>
                                             <select
@@ -261,16 +309,17 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                                                 value={slot.endH}
                                                 onChange={(e) => handleScheduleChange(index, "endH", e.target.value)}
                                             >
-                                                <option value="09:00">09:00</option>
-                                                <option value="10:00">10:00</option>
-                                                <option value="11:00">11:00</option>
-                                                <option value="12:00">12:00</option>
-                                                <option value="13:00">13:00</option>
-                                                <option value="14:00">14:00</option>
-                                                <option value="15:00">15:00</option>
-                                                <option value="16:00">16:00</option>
-                                                <option value="17:00">17:00</option>
-                                                <option value="18:00">18:00</option>
+                                                <option value="8">8:00</option>
+                                                <option value="9">9:00</option>
+                                                <option value="10">10:00</option>
+                                                <option value="11">11:00</option>
+                                                <option value="12">12:00</option>
+                                                <option value="13">13:00</option>
+                                                <option value="14">14:00</option>
+                                                <option value="15">15:00</option>
+                                                <option value="16">16:00</option>
+                                                <option value="17">17:00</option>
+                                                <option value="18">18:00</option>
                                             </select>
                                         </div>
                                     </div>

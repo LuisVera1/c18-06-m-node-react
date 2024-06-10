@@ -170,7 +170,7 @@ const CourseTable: NextPage = () => {
             <DataTable value={filteredCourses} tableStyle={{ minWidth: "50rem" }} className="custom-table">
                 <Column field="title" header="Título" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column field="description" header="Descripción" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="careerID" header="Carrera/Plan" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="career.title" header="Carrera/Plan" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column field="spaces" header="# Cupos" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column field="code" header="Código" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column body={actionBodyTemplate} headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
