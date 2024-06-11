@@ -17,7 +17,7 @@ interface FormData {
         endH: string;
     }[];
     code: string;
-    teacherID: (number | null);
+    teacherID: number | null;
     description: string;
 }
 
@@ -41,33 +41,37 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
         description: "",
     });
 
-    const [careers, setCareers] = useState([{
-        id: '',
-        title: ''
-    }]);
-    const [teachers, setTeachers] = useState([{
-        id: '',
-        code: '',
-        name: ''
-    }])
+    const [careers, setCareers] = useState([
+        {
+            id: "",
+            title: "",
+        },
+    ]);
+    const [teachers, setTeachers] = useState([
+        {
+            id: "",
+            code: "",
+            name: "",
+        },
+    ]);
 
     // list of careers
     useEffect(() => {
         const getCareers = async () => {
             const dataCareers = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/careers`);
             const responseCareers = await dataCareers.json();
-            if(responseCareers.ok) setCareers(responseCareers.data);
-        }
+            if (responseCareers.ok) setCareers(responseCareers.data);
+        };
         getCareers();
-    },[]);
+    }, []);
 
     //list of teachers
     useEffect(() => {
-        const getTeachers = async() => {
+        const getTeachers = async () => {
             const dataTeachers = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/teachers?status=Activo&careerID=${formData.careerID}`);
             const responseTeachers = await dataTeachers.json();
-            if(responseTeachers.ok) setTeachers(responseTeachers.data);
-        }
+            if (responseTeachers.ok) setTeachers(responseTeachers.data);
+        };
         getTeachers();
     }, [formData.careerID]);
 
@@ -128,7 +132,7 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                     teacherID: teacherID,
                     description: description,
                 };
-                console.log("🚀", requestData)
+                console.log("🚀", requestData);
 
                 const response = await fetch("api/admin/create/class", {
                     method: "POST",
@@ -137,7 +141,7 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                     },
                     body: JSON.stringify(requestData),
                 });
-                if (!response.ok) {
+                if (response.ok) {
                     const data = await response.json();
                     console.log(data);
 
@@ -224,10 +228,9 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                                     className="flex-1 p-2 border border-dark rounded-xl max-w-48"
                                 >
                                     <option value=""></option>
-                                    {careers.map(item => (
-                                        (<option key={item.id} value={item.id}>{`${item.id} - ${item.title}`}</option>)
-                                        )
-                                    )}
+                                    {careers.map((item) => (
+                                        <option key={item.id} value={item.id}>{`${item.id} - ${item.title}`}</option>
+                                    ))}
                                 </select>
                             </div>
                             {errors.careerID && <p className="text-red-500 text-sm ml-4">{errors.careerID}</p>}
@@ -243,7 +246,7 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                                     <option value=""></option>
                                     {/* <option value="Docente 1">Docente 1</option>
                                     <option value="Docente 2">Docente 2</option> */}
-                                    { teachers.map(teacher => (
+                                    {teachers.map((teacher) => (
                                         <option key={teacher.id} value={teacher.id}>{`${teacher.code} - ${teacher.name}`}</option>
                                     ))}
                                 </select>
@@ -276,8 +279,9 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                                                 <button
                                                     key={day}
                                                     type="button"
-                                                    className={`px-2 py-1 rounded-lg hover:bg-action border border-solid border-primary ${slot.day === day ? "bg-primary text-white" : "text-primary bg-transparent"
-                                                        }`}
+                                                    className={`px-2 py-1 rounded-lg hover:bg-action border border-solid border-primary ${
+                                                        slot.day === day ? "bg-primary text-white" : "text-primary bg-transparent"
+                                                    }`}
                                                     onClick={() => handleScheduleChange(index, "day", day)}
                                                 >
                                                     {day}
@@ -341,8 +345,9 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                             <button
                                 onClick={onHide}
                                 type="button"
-                                className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-primary text-white" : "bg-action text-primary"
-                                    }`}
+                                className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${
+                                    activeButton ? "bg-primary text-white" : "bg-action text-primary"
+                                }`}
                             >
                                 Cancelar
                             </button>

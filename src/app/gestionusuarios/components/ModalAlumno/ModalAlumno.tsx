@@ -56,36 +56,36 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
         const numeroRegex = /^[0-9]+$/; // Regex para verificar números
 
         if (!formData.nombreCompleto) newErrors.nombreCompleto = "Nombre completo es requerido";
-        if (!formData.fechaNacimiento) newErrors.fechaNacimiento = "Fecha de Nacimiento es requerida";
-        if (!formData.numeroTelefono) {
-            newErrors.numeroTelefono = "Número de Teléfono es requerido";
-        } else if (!numeroRegex.test(formData.numeroTelefono)) {
-            newErrors.numeroTelefono = "Número de Teléfono solo debe contener números";
-        }
-        if (!formData.numeroIdentificacion) {
-            newErrors.numeroIdentificacion = "No. de Identificación es requerido";
-        } else if (!numeroRegex.test(formData.numeroIdentificacion)) {
-            newErrors.numeroIdentificacion = "No. de Identificación solo debe contener números";
-        }
+        // if (!formData.fechaNacimiento) newErrors.fechaNacimiento = "Fecha de Nacimiento es requerida";
+        // if (!formData.numeroTelefono) {
+        //     newErrors.numeroTelefono = "Número de Teléfono es requerido";
+        // } else if (!numeroRegex.test(formData.numeroTelefono)) {
+        //     newErrors.numeroTelefono = "Número de Teléfono solo debe contener números";
+        // }
+        // if (!formData.numeroIdentificacion) {
+        //     newErrors.numeroIdentificacion = "No. de Identificación es requerido";
+        // } else if (!numeroRegex.test(formData.numeroIdentificacion)) {
+        //     newErrors.numeroIdentificacion = "No. de Identificación solo debe contener números";
+        // }
         if (!formData.correoPersonal) newErrors.correoPersonal = "Correo personal es requerido";
-        if (!formData.correoInstitucional) newErrors.correoInstitucional = "Correo institucional es requerido";
-        if (!formData.idEstudiante) newErrors.idEstudiante = "ID Estudiante es requerido";
-        if (!formData.añoIngreso) {
-            newErrors.añoIngreso = "Año de Ingreso es requerido";
-        } else if (!numeroRegex.test(formData.añoIngreso)) {
-            newErrors.añoIngreso = "Año de ingreso solo debe contener números";
-        }
+        // if (!formData.correoInstitucional) newErrors.correoInstitucional = "Correo institucional es requerido";
+        // if (!formData.idEstudiante) newErrors.idEstudiante = "ID Estudiante es requerido";
+        // if (!formData.añoIngreso) {
+        //     newErrors.añoIngreso = "Año de Ingreso es requerido";
+        // } else if (!numeroRegex.test(formData.añoIngreso)) {
+        //     newErrors.añoIngreso = "Año de ingreso solo debe contener números";
+        // }
 
-        if (!formData.semestreActual) newErrors.semestreActual = "Semestre/Ciclo Actual es requerido";
+        // if (!formData.semestreActual) newErrors.semestreActual = "Semestre/Ciclo Actual es requerido";
         if (!formData.programaEstudio) newErrors.programaEstudio = "Programa de Estudio es requerido";
-        if (!formData.cursosMatriculados) newErrors.cursosMatriculados = "Cursos Matriculados es requerido";
-        if (!formData.estadoAcademico) newErrors.estadoAcademico = "Estado Académico es requerido";
-        if (!formData.nombreContactoEmergencia) newErrors.nombreContactoEmergencia = "Nombre de Contacto es requerido";
-        if (!formData.telefonoContactoEmergencia) {
-            newErrors.telefonoContactoEmergencia = "Teléfono de Contacto es requerido";
-        } else if (!numeroRegex.test(formData.telefonoContactoEmergencia)) {
-            newErrors.telefonoContactoEmergencia = "Teléfono de Contacto solo debe contener números";
-        }
+        // if (!formData.cursosMatriculados) newErrors.cursosMatriculados = "Cursos Matriculados es requerido";
+        // if (!formData.estadoAcademico) newErrors.estadoAcademico = "Estado Académico es requerido";
+        // if (!formData.nombreContactoEmergencia) newErrors.nombreContactoEmergencia = "Nombre de Contacto es requerido";
+        // if (!formData.telefonoContactoEmergencia) {
+        //     newErrors.telefonoContactoEmergencia = "Teléfono de Contacto es requerido";
+        // } else if (!numeroRegex.test(formData.telefonoContactoEmergencia)) {
+        //     newErrors.telefonoContactoEmergencia = "Teléfono de Contacto solo debe contener números";
+        // }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -127,7 +127,6 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                             <h1 className="text-2xl ml-2 text-primary font-bold">Información del estudiante</h1>
                         </button>
                     </Link>
-
                 </header>
 
                 <div className="m-4 w-full rounded py-4">
@@ -241,7 +240,6 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                 </div>
                             </div>
                             <div className="col2 m-4 mt-20">
-
                                 <div className="flex flex-col mb-4">
                                     <label className="mb-2">Cursos Matriculados</label>
                                     <input
@@ -307,14 +305,13 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                             </div>
                         </div>
 
-
-
                         <div className="flex justify-end mt-6">
                             <Link href="/gestionusuarios" passHref>
                                 <button
                                     type="button"
-                                    className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-primary text-white" : "bg-action text-primary"
-                                        }`}
+                                    className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${
+                                        activeButton ? "bg-primary text-white" : "bg-action text-primary"
+                                    }`}
                                     onClick={onHide}
                                 >
                                     Cancelar
@@ -322,8 +319,9 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                             </Link>
                             <button
                                 type="submit"
-                                className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-action text-primary" : "bg-primary text-white"
-                                    }`}
+                                className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${
+                                    activeButton ? "bg-action text-primary" : "bg-primary text-white"
+                                }`}
                                 onClick={() => setActiveButton(true)}
                             >
                                 Crear estudiante
