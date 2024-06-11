@@ -7,7 +7,6 @@ import DataTable from "../components/Table/table";
 import "primereact/resources/themes/saga-blue/theme.css"; // Importar tema PrimeReact
 import "primereact/resources/primereact.min.css"; // Importar estilos PrimeReact
 
-
 // Definimos y exportamos el componente Home
 function GestionMatriculas() {
     const [statistics, setStatistics] = useState({
@@ -23,21 +22,20 @@ function GestionMatriculas() {
             if (response.ok) {
                 setStatistics(response.data);
             }
-        }
+        };
         dataFecth();
-    }, [])
-
+    }, []);
 
     return (
         <div className="flex flex-col md:flex-row ">
             <Sidebar />
             <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8">
                 <div className="flex justify-between items-center w-full px-10 mt-10">
-                    <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl">Gestión matrículas</b>
+                    <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-3xl">Gestión matrículas</b>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-full lg:w-3/4 xl:w-5/6 mx-auto mt-10">
                     <div className="p-4">
-                        <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-3xl"># De Estudiantes Matriculados</b>
+                        <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-2xl"># De Estudiantes Matriculados</b>
                         <div className="flex justify-between mt-4">
                             <b className="text-dark">Métrica</b>
                             <b className="text-dark">Valor</b>
@@ -68,7 +66,7 @@ function GestionMatriculas() {
 
                     <div className="p-4 flex flex-wrap justify-between">
                         <div className="p-4 w-full ">
-                            <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-3xl"># De matrículas por programa</b>
+                            <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-2xl"># De matrículas por programa</b>
                             <div className="flex justify-between mt-4">
                                 <b className="text-dark">Métrica</b>
                                 <b className="text-dark">Valor</b>
@@ -118,7 +116,6 @@ function GestionMatriculas() {
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <DataTable />
             </div>
