@@ -5,26 +5,12 @@ import Chart from "./components/Chart/chart";
 import { ProgressBar } from "primereact/progressbar"; // Asegúrate de importar correctamente desde 'primereact/progressbar'
 import DataTable from "../components/Table/table";
 import ImageAvatar from "../components/avatar/Avatar";
-import useAuthRedirect from "@/hooks/useAuthRedirect";
 import "primereact/resources/themes/saga-blue/theme.css"; // Importar tema PrimeReact
 import "primereact/resources/primereact.min.css"; // Importar estilos PrimeReact
 
-interface Student {
-    id: string;
-    Nombre: string;
-    Fechasolicitud: string;
-    IDEsttudiante: string;
-    Programa: string;
-    Estado: string;
-}
 
 // Definimos y exportamos el componente Home
 function Home() {
-    useAuthRedirect();
-    // Estado para almacenar los datos de los estudiantes
-    const [matriculas, setMatriculas] = useState<Student[]>([]);
-    const [aprobados, setAprobados] = useState<Student[]>([]);
-    const [pendientes, setPendientes] = useState<Student[]>([]);
 
     const [statistics, setStatistics] = useState({
         total: "0",
