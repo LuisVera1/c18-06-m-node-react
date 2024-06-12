@@ -120,8 +120,8 @@ const CourseTable: NextPage = () => {
 
     // Nueva función para agregar curso
     const addCourse = (course: Course) => {
-        setCourses([...courses, course]);
-        setFilteredCourses([...courses, course]);
+        setCourses((prevCourses) => [...prevCourses, course]);
+        setFilteredCourses((prevCourses) => [...prevCourses, course]);
     };
 
     return (
@@ -148,10 +148,11 @@ const CourseTable: NextPage = () => {
 
                     <button
                         onClick={() => handleButtonClick("crear")}
-                        className={`py-2 px-4 rounded bg-action text-primary${activeButton === "crear"
+                        className={`py-2 px-4 rounded bg-action text-primary${
+                            activeButton === "crear"
                                 ? "bg-action text-primary hover:bg-secundary hover:text-white"
                                 : "bg-primary text-primary hover:bg-secundary hover:text-white "
-                            }`}
+                        }`}
                     >
                         Crear nuevo curso
                     </button>

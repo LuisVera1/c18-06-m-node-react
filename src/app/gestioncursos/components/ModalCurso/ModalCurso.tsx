@@ -114,7 +114,7 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
         setShowModal(true);
         setTimeout(() => {
             setShowModal(false);
-        }, 3000);
+        }, 1000);
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

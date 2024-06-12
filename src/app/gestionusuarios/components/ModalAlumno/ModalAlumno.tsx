@@ -3,6 +3,9 @@
 import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
+import { Dialog } from "primereact/dialog";
+import Image from "next/image";
+import OkImage from "./../../../../../assets/Check Mark.png";
 import Link from "next/link";
 
 interface FormData {
@@ -21,11 +24,8 @@ interface FormData {
     nombreContactoEmergencia: string;
     telefonoContactoEmergencia: string;
 }
-// interface CrearEstudianteProps {
-//     // addStudent: (student: FormData) => void;
-// }
 
-const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
+const CrearEstudiante: NextPage<{ onHide: () => void; addStudent: (user: any) => void }> = ({ onHide, addStudent }) => {
     const [activeButton, setActiveButton] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         nombreCompleto: "",
@@ -45,20 +45,23 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
     });
     const [studentData, setStudentData] = useState<FormData[]>([]);
     const [errors, setErrors] = useState<Partial<FormData>>({});
+    const [showModal, setShowModal] = useState(false);
 
-        // list of careers
-        const [careers, setCareers] = useState([{
-            id: '',
-            title: ''
-            }]);
-        useEffect(() => {
-            const getCareers = async () => {
-                const dataCareers = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/careers`);
-                const responseCareers = await dataCareers.json();
-                if(responseCareers.ok) setCareers(responseCareers.data);
-            }
-            getCareers();
-        },[]);
+    // list of careers
+    const [careers, setCareers] = useState([
+        {
+            id: "",
+            title: "",
+        },
+    ]);
+    useEffect(() => {
+        const getCareers = async () => {
+            const dataCareers = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/careers`);
+            const responseCareers = await dataCareers.json();
+            if (responseCareers.ok) setCareers(responseCareers.data);
+        };
+        getCareers();
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -104,11 +107,16 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+    const showSuccessModal = () => {
+        setShowModal(true);
+        setTimeout(() => {
+            setShowModal(false);
+        }, 1000);
+    };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validate()) {
-            // addStudent(formData); // Llamar a la función para actualizar studentData
             console.log(formData);
             setStudentData([...studentData, formData]);
             setFormData({
@@ -129,27 +137,28 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                 telefonoContactoEmergencia: "",
             });
 
-        // fetch
-        const sendData = async () => {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/create/student`,{
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    name: formData.nombreCompleto,
-                    email: formData.correoPersonal,
-                    career: formData.programaEstudio
-                })
-            });
-            const data = await response.json()
-            console.log("🚀 - data:", data)
+            // fetch
+            const sendData = async () => {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/create/student`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: formData.nombreCompleto,
+                        email: formData.correoPersonal,
+                        career: formData.programaEstudio,
+                    }),
+                });
+                const data = await response.json();
+                addStudent(data.data);
+                showSuccessModal();
+                console.log("🚀 - data:", data);
 
-            //is response = ok, hide
-            if(data.ok) onHide();
-        }
-        sendData();
-
+                //is response = ok, hide
+                if (data.ok) onHide();
+            };
+            sendData();
         }
     };
 
@@ -200,12 +209,11 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                     className="flex-1 p-2 border border-dark rounded-xl max-w-72"
                                 >
                                     <option value=""></option>
-                                    {careers.map(item => (
-                                        (<option key={item.id} value={item.id}>{`${item.id} - ${item.title}`}</option>)
-                                        )
-                                    )}
+                                    {careers.map((item) => (
+                                        <option key={item.id} value={item.id}>{`${item.id} - ${item.title}`}</option>
+                                    ))}
                                 </select>
-                                    {errors.programaEstudio && <p className="text-red-500 text-sm mt-1">{errors.programaEstudio}</p>}
+                                {errors.programaEstudio && <p className="text-red-500 text-sm mt-1">{errors.programaEstudio}</p>}
                             </div>
 
                             <div className="flex items-center mb-2">
@@ -382,6 +390,12 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                     </form>
                 </div>
             </main>
+            <Dialog visible={showModal} onHide={() => setShowModal(false)} modal>
+                <div className="flex flex-col items-center gap-2 w-full">
+                    <p className="text-primary text-xl font-bold">Curso creado exitosamente</p>
+                    <Image className="w-40 h-full object-cover" src={OkImage} alt="img-login" quality={100} priority />
+                </div>
+            </Dialog>
         </div>
     );
 };

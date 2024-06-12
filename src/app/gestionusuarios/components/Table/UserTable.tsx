@@ -33,12 +33,14 @@ const UserTable: NextPage = () => {
     const [displayDialog, setDisplayDialog] = useState(false);
     const [currentPage, setCurrentPage] = useState(1); // Estado para el número de página actual
     const [itemsPerPage, setItemsPerPage] = useState(5); // Estado para la cantidad de elementos por página
+    const [studentToDelete, setStudentToDelete] = useState<User | null>(null); // Estado para almacenar el estudiante que se eliminará
+    const [displayConfirmationDialog, setDisplayConfirmationDialog] = useState(false); // Estado para mostrar/ocultar el modal de confirmación de eliminación
     const pathname = usePathname();
 
     const dialogContent = () => {
         switch (pathname) {
             case "/gestionusuarios":
-                return <ModalAlumno onHide={toggleDialog} />;
+                return <ModalAlumno onHide={toggleDialog} addStudent={addStudent} />;
             case "/gestionusuarios/docentes":
                 return <ModalDocente onHide={toggleDialog} />;
             case "/gestionusuarios/administrador":
@@ -132,31 +134,41 @@ const UserTable: NextPage = () => {
         return <span className={`p-2 rounded-lg ${statusClass}`}>{rowData.status}</span>;
     };
 
-
-    const getUrl = (role: string):string => {
+    const getUrl = (role: string): string => {
         const deleteURL = {
             Admin: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/admin`,
             Docente: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/teacher`,
-            Student: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/student`
-        }
+            Student: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/student`,
+        };
 
         return deleteURL[role];
-    }
+    };
 
-    const handleDelete = async(rowData: User) => {
-        const {id, role} = rowData;
+    const handleDelete = async (rowData: User) => {
+        setStudentToDelete(rowData); // Almacenar el curso que se va a eliminar
+        setDisplayConfirmationDialog(true); // Mostrar el diálogo de confirmación de eliminación
+        const { id, role } = rowData;
 
-        await fetch(getUrl(role),{
+        await fetch(getUrl(role), {
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: id
-            })
+                id: id,
+            }),
         });
-    }
+    };
 
+    const confirmDelete = () => {
+        if (studentToDelete) {
+            const updatedStudents = users.filter((user) => user.id !== studentToDelete.id);
+            setUsers(updatedStudents); // Actualizar la lista de cursos sin el curso eliminado
+            setFilteredUsers(updatedStudents); // Actualizar la lista filtrada de cursos
+            setStudentToDelete(null); // Reiniciar el curso a eliminar
+            setDisplayConfirmationDialog(false); // Ocultar el diálogo de confirmación de eliminación
+        }
+    };
     const actionBodyTemplate = (rowData: User) => {
         return (
             <div className="flex justify-around">
@@ -164,14 +176,16 @@ const UserTable: NextPage = () => {
                     <AiOutlineEdit size={20} />
                 </button>
                 <button className="text-primary">
-                    <AiOutlineDelete size={20}
-                    onClick={() => handleDelete(rowData)}
-                    />
+                    <AiOutlineDelete size={20} onClick={() => handleDelete(rowData)} />
                 </button>
             </div>
         );
     };
-
+    // Nueva función para agregar estudiante
+    const addStudent = (users: User) => {
+        setUsers((prevStudents) => [...prevStudents, users]);
+        setFilteredUsers((prevStudents) => [...prevStudents, users]);
+    };
     return (
         <div className="flex-1 p-6 bg-white rounded-lg shadow m-4">
             <h1 className="font-bold text-primary text-2xl mb-5">
@@ -214,6 +228,23 @@ const UserTable: NextPage = () => {
                 <Column field="status" header="Estado Académico" body={statusBodyTemplate} />
                 <Column body={actionBodyTemplate} />
             </DataTable>
+            <Dialog visible={displayConfirmationDialog} onHide={() => setDisplayConfirmationDialog(false)} modal>
+                <div className="flex flex-col items-center gap-4 px-4">
+                    <p className="text-center text-primary text-xl font-semibold">¿Está seguro de que desea eliminar a {studentToDelete?.name}?</p>
+                    <div className="flex space-x-4 items-center justify-center">
+                        <button onClick={confirmDelete} className="py-2 px-4 bg-primary text-white rounded hover:bg-secundary">
+                            Sí
+                        </button>
+                        <button
+                            onClick={() => setDisplayConfirmationDialog(false)}
+                            className="py-2 px-4 bg-action text-primary rounded hover:bg-secundary hover:text-white"
+                        >
+                            No
+                        </button>
+                    </div>
+                    <p className="text-gray-400 pt-4 text-sm">Nota: se eliminarán los datos de forma permanente</p>
+                </div>
+            </Dialog>
             <div className="flex justify-center mt-4 bg-action">
                 <button
                     className="text-action font-normal hover:bg-secundary hover:text-white bg-primary m-2 p-2 rounded-xl"
