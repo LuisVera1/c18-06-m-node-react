@@ -3,6 +3,9 @@
 import { NextPage } from "next";
 import React, { useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
+import { Dialog } from "primereact/dialog";
+import Image from "next/image";
+import OkImage from "./../../../../../assets/Check Mark.png";
 import Link from "next/link";
 
 interface FormData {
@@ -23,7 +26,7 @@ interface FormData {
 //     // addStudent: (student: FormData) => void;
 // }
 
-const CrearAdmin: NextPage<{ onHide: () => void }> = ({ onHide }) => {
+const CrearAdmin: NextPage<{ onHide: () => void; addAdmin: (user: any) => void }> = ({ onHide, addAdmin }) => {
     const [activeButton, setActiveButton] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         nombreCompleto: "",
@@ -41,6 +44,7 @@ const CrearAdmin: NextPage<{ onHide: () => void }> = ({ onHide }) => {
     });
     const [studentData, setStudentData] = useState<FormData[]>([]);
     const [errors, setErrors] = useState<Partial<FormData>>({});
+    const [showModal, setShowModal] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -57,14 +61,14 @@ const CrearAdmin: NextPage<{ onHide: () => void }> = ({ onHide }) => {
         } else if (!numeroRegex.test(formData.numeroTelefono)) {
             newErrors.numeroTelefono = "Número de Teléfono solo debe contener números";
         }
-        if (!formData.idEmpleado) {
-            newErrors.idEmpleado = "ID Empleado es requerido";
-        } else if (!numeroRegex.test(formData.idEmpleado)) {
-            newErrors.idEmpleado = "ID Empleadosolo debe contener números";
-        }
-        if (!formData.deptoFacultad) newErrors.deptoFacultad = "Depto/facultad es requerido";
+        // if (!formData.idEmpleado) {
+        //     newErrors.idEmpleado = "ID Empleado es requerido";
+        // } else if (!numeroRegex.test(formData.idEmpleado)) {
+        //     newErrors.idEmpleado = "ID Empleadosolo debe contener números";
+        // }
+        // if (!formData.deptoFacultad) newErrors.deptoFacultad = "Depto/facultad es requerido";
         if (!formData.correoInstitucional) newErrors.correoInstitucional = "Correo institucional es requerido";
-        if (!formData.rolPermisos) newErrors.rolPermisos = "Rol/permisos es requerido";
+        // if (!formData.rolPermisos) newErrors.rolPermisos = "Rol/permisos es requerido";
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -73,7 +77,6 @@ const CrearAdmin: NextPage<{ onHide: () => void }> = ({ onHide }) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validate()) {
-            // addStudent(formData); // Llamar a la función para actualizar studentData
             console.log(formData);
             setStudentData([...studentData, formData]);
             setFormData({
@@ -91,6 +94,27 @@ const CrearAdmin: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                 experienciaProfesional: "",
                 rolPermisos: "",
             });
+            const sendData = async () => {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/create/teacher`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: formData.nombreCompleto,
+                        email: formData.correoInstitucional,
+                    }),
+                });
+                const data = await response.json();
+                onHide();
+                addAdmin(data.data);
+                // showSuccessModal();
+                console.log("🚀 - data:", data);
+
+                //is response = ok, hide
+                if (data.ok) onHide();
+            };
+            sendData();
         }
     };
 
@@ -221,16 +245,18 @@ const CrearAdmin: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                             <button
                                 onClick={onHide}
                                 type="button"
-                                className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-primary text-white" : "bg-action text-primary"
-                                    }`}
+                                className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${
+                                    activeButton ? "bg-primary text-white" : "bg-action text-primary"
+                                }`}
                             >
                                 Cancelar
                             </button>
 
                             <button
                                 type="submit"
-                                className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-action text-primary" : "bg-primary text-white"
-                                    }`}
+                                className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${
+                                    activeButton ? "bg-action text-primary" : "bg-primary text-white"
+                                }`}
                                 onClick={() => setActiveButton(true)}
                             >
                                 Crear administrador
@@ -239,6 +265,12 @@ const CrearAdmin: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                     </form>
                 </div>
             </main>
+            <Dialog visible={showModal} onHide={() => setShowModal(false)} modal>
+                <div className="flex flex-col items-center gap-2 w-full">
+                    <p className="text-primary text-xl font-bold">Administrador creado exitosamente</p>
+                    <Image className="w-40 h-full object-cover" src={OkImage} alt="img-login" quality={100} priority />
+                </div>
+            </Dialog>
         </div>
     );
 };

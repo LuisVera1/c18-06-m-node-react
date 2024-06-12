@@ -393,7 +393,7 @@ const CrearEstudiante: NextPage<{ onHide: () => void; addStudent: (user: any) =>
             </main>
             <Dialog visible={showModal} onHide={() => setShowModal(false)} modal>
                 <div className="flex flex-col items-center gap-2 w-full">
-                    <p className="text-primary text-xl font-bold">Estudiante creado exitosamente</p>
+                    <p className="text-primary text-xl font-bold">Alumno creado exitosamente</p>
                     <Image className="w-40 h-full object-cover" src={OkImage} alt="img-login" quality={100} priority />
                 </div>
             </Dialog>

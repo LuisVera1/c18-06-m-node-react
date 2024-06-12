@@ -3,6 +3,9 @@
 import { NextPage } from "next";
 import React, { useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
+import { Dialog } from "primereact/dialog";
+import Image from "next/image";
+import OkImage from "./../../../../../assets/Check Mark.png";
 import Link from "next/link";
 
 interface FormData {
@@ -20,12 +23,10 @@ interface FormData {
     deptoFacultad: string;
     experienciaProfesional: string;
 }
-// interface CrearEstudianteProps {
-//     // addStudent: (student: FormData) => void;
-// }
 
-const CrearDocente: NextPage<{ onHide: () => void }> = ({ onHide }) => {
+const CrearDocente: NextPage<{ onHide: () => void; addTeacher: (user: any) => void }> = ({ onHide, addTeacher }) => {
     const [activeButton, setActiveButton] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         nombreCompleto: "",
         fechaNacimiento: "",
@@ -54,42 +55,47 @@ const CrearDocente: NextPage<{ onHide: () => void }> = ({ onHide }) => {
         const numeroRegex = /^[0-9]+$/; // Regex para verificar números
 
         if (!formData.nombreCompleto) newErrors.nombreCompleto = "Nombre completo es requerido";
-        if (!formData.fechaNacimiento) newErrors.fechaNacimiento = "Fecha de Nacimiento es requerida";
-        if (!formData.numeroTelefono) {
-            newErrors.numeroTelefono = "Número de Teléfono es requerido";
-        } else if (!numeroRegex.test(formData.numeroTelefono)) {
-            newErrors.numeroTelefono = "Número de Teléfono solo debe contener números";
-        }
-        if (!formData.numeroIdentificacion) {
-            newErrors.numeroIdentificacion = "No. de Identificación es requerido";
-        } else if (!numeroRegex.test(formData.numeroIdentificacion)) {
-            newErrors.numeroIdentificacion = "No. de Identificación solo debe contener números";
-        }
-        if (!formData.direccion) newErrors.direccion = "La dirección es requerida";
+        // if (!formData.fechaNacimiento) newErrors.fechaNacimiento = "Fecha de Nacimiento es requerida";
+        // if (!formData.numeroTelefono) {
+        //     newErrors.numeroTelefono = "Número de Teléfono es requerido";
+        // } else if (!numeroRegex.test(formData.numeroTelefono)) {
+        //     newErrors.numeroTelefono = "Número de Teléfono solo debe contener números";
+        // }
+        // if (!formData.numeroIdentificacion) {
+        //     newErrors.numeroIdentificacion = "No. de Identificación es requerido";
+        // } else if (!numeroRegex.test(formData.numeroIdentificacion)) {
+        //     newErrors.numeroIdentificacion = "No. de Identificación solo debe contener números";
+        // }
+        // if (!formData.direccion) newErrors.direccion = "La dirección es requerida";
         if (!formData.correoInstitucional) newErrors.correoInstitucional = "Correo institucional es requerido";
-        if (!formData.tituloAcademico) newErrors.tituloAcademico = "Título academico es requerido";
-        if (!formData.areaEspecializacion) {
-            newErrors.areaEspecializacion = "Area de especializacion es requerido";
-        } else if (!numeroRegex.test(formData.areaEspecializacion)) {
-            newErrors.areaEspecializacion = "Area de especializacion solo debe contener letras";
-        }
-        if (!formData.cursosAsignados) newErrors.cursosAsignados = "Cursos asignados es requerido";
-        if (!formData.nombreContactoEmergencia) newErrors.nombreContactoEmergencia = "Nombre de Contacto es requerido";
-        if (!formData.telefonoContactoEmergencia) {
-            newErrors.telefonoContactoEmergencia = "Teléfono de Contacto es requerido";
-        } else if (!numeroRegex.test(formData.telefonoContactoEmergencia)) {
-            newErrors.telefonoContactoEmergencia = "Teléfono de Contacto solo debe contener números";
-        }
-        if (!formData.experienciaProfesional) newErrors.experienciaProfesional = "Experiencia profesional es requerida";
+        // if (!formData.tituloAcademico) newErrors.tituloAcademico = "Título academico es requerido";
+        // if (!formData.areaEspecializacion) {
+        //     newErrors.areaEspecializacion = "Area de especializacion es requerido";
+        // } else if (!numeroRegex.test(formData.areaEspecializacion)) {
+        //     newErrors.areaEspecializacion = "Area de especializacion solo debe contener letras";
+        // }
+        // if (!formData.cursosAsignados) newErrors.cursosAsignados = "Cursos asignados es requerido";
+        // if (!formData.nombreContactoEmergencia) newErrors.nombreContactoEmergencia = "Nombre de Contacto es requerido";
+        // if (!formData.telefonoContactoEmergencia) {
+        //     newErrors.telefonoContactoEmergencia = "Teléfono de Contacto es requerido";
+        // } else if (!numeroRegex.test(formData.telefonoContactoEmergencia)) {
+        //     newErrors.telefonoContactoEmergencia = "Teléfono de Contacto solo debe contener números";
+        // }
+        // if (!formData.experienciaProfesional) newErrors.experienciaProfesional = "Experiencia profesional es requerida";
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
+    };
+    const showSuccessModal = () => {
+        setShowModal(true);
+        setTimeout(() => {
+            setShowModal(false);
+        }, 1000);
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validate()) {
-            // addStudent(formData); // Llamar a la función para actualizar studentData
             console.log(formData);
             setStudentData([...studentData, formData]);
             setFormData({
@@ -108,6 +114,27 @@ const CrearDocente: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                 deptoFacultad: "",
                 experienciaProfesional: "",
             });
+            const sendData = async () => {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/create/teacher`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: formData.nombreCompleto,
+                        email: formData.correoInstitucional,
+                    }),
+                });
+                const data = await response.json();
+                onHide();
+                addTeacher(data.data);
+                showSuccessModal();
+                console.log("🚀 - data:", data);
+
+                //is response = ok, hide
+                if (data.ok) onHide();
+            };
+            sendData();
         }
     };
 
@@ -257,7 +284,7 @@ const CrearDocente: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                     Experiencia profesional
                                     <textarea
                                         name="experienciaProfesional"
-                                        value={formData.experienciaProfesional}
+                                        defaultValue={formData.experienciaProfesional}
                                         className="w-full mt-2 h-48 p-2 border border-dark rounded-xl"
                                     />
                                     {errors.experienciaProfesional && <p className="text-red-500 text-sm mt-1">{errors.experienciaProfesional}</p>}
@@ -293,8 +320,9 @@ const CrearDocente: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                         <div className="flex justify-end mt-6">
                             <button
                                 type="button"
-                                className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-primary text-white" : "bg-action text-primary"
-                                    }`}
+                                className={`py-2 px-4 rounded-md mr-4 flex-grow max-w-xs hover:bg-action hover:text-primary ${
+                                    activeButton ? "bg-primary text-white" : "bg-action text-primary"
+                                }`}
                                 onClick={onHide}
                             >
                                 Cancelar
@@ -302,8 +330,9 @@ const CrearDocente: NextPage<{ onHide: () => void }> = ({ onHide }) => {
 
                             <button
                                 type="submit"
-                                className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${activeButton ? "bg-action text-primary" : "bg-primary text-white"
-                                    }`}
+                                className={`py-2 px-4 rounded-md flex-grow max-w-xs hover:bg-action hover:text-primary ${
+                                    activeButton ? "bg-action text-primary" : "bg-primary text-white"
+                                }`}
                                 onClick={() => setActiveButton(true)}
                             >
                                 Crear docente
@@ -312,6 +341,12 @@ const CrearDocente: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                     </form>
                 </div>
             </main>
+            <Dialog visible={showModal} onHide={() => setShowModal(false)} modal>
+                <div className="flex flex-col items-center gap-2 w-full">
+                    <p className="text-primary text-xl font-bold">Docente creado exitosamente</p>
+                    <Image className="w-40 h-full object-cover" src={OkImage} alt="img-login" quality={100} priority />
+                </div>
+            </Dialog>
         </div>
     );
 };

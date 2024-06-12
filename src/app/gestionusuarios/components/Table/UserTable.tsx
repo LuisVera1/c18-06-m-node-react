@@ -42,9 +42,9 @@ const UserTable: NextPage = () => {
             case "/gestionusuarios":
                 return <ModalAlumno onHide={toggleDialog} addStudent={addStudent} />;
             case "/gestionusuarios/docentes":
-                return <ModalDocente onHide={toggleDialog} />;
+                return <ModalDocente onHide={toggleDialog} addTeacher={addTeacher} />;
             case "/gestionusuarios/administrador":
-                return <ModalAdmin onHide={toggleDialog} />;
+                return <ModalAdmin onHide={toggleDialog} addAdmin={addAdmin} />;
             default:
                 return null;
         }
@@ -133,17 +133,30 @@ const UserTable: NextPage = () => {
 
         return <span className={`p-2 rounded-lg ${statusClass}`}>{rowData.status}</span>;
     };
+    //CODIGO LUIS
+    // const getUrl = (role: string): string => {
+    //     const deleteURL = {
+    //         Admin: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/admin`,
+    //         Docente: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/teacher`,
+    //         Student: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/student`,
+    //     };
+
+    //     return deleteURL[role];
+    // };
 
     const getUrl = (role: string): string => {
-        const deleteURL = {
+        const deleteURL: { [key: string]: string } = {
             Admin: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/admin`,
             Docente: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/teacher`,
             Student: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/student`,
         };
 
-        return deleteURL[role];
+        if (deleteURL[role]) {
+            return deleteURL[role];
+        } else {
+            throw new Error(`Invalid role: ${role}`);
+        }
     };
-
     const handleDelete = async (rowData: User) => {
         setStudentToDelete(rowData); // Almacenar el curso que se va a eliminar
         setDisplayConfirmationDialog(true); // Mostrar el diálogo de confirmación de eliminación
@@ -163,9 +176,9 @@ const UserTable: NextPage = () => {
     const confirmDelete = () => {
         if (studentToDelete) {
             const updatedStudents = users.filter((user) => user.id !== studentToDelete.id);
-            setUsers(updatedStudents); // Actualizar la lista de cursos sin el curso eliminado
-            setFilteredUsers(updatedStudents); // Actualizar la lista filtrada de cursos
-            setStudentToDelete(null); // Reiniciar el curso a eliminar
+            setUsers(updatedStudents); // Actualizar la lista de estudiantes sin el estudiante eliminado
+            setFilteredUsers(updatedStudents); // Actualizar la lista filtrada de estudiantes
+            setStudentToDelete(null); // Reiniciar el estudiante a eliminar
             setDisplayConfirmationDialog(false); // Ocultar el diálogo de confirmación de eliminación
         }
     };
@@ -185,6 +198,16 @@ const UserTable: NextPage = () => {
     const addStudent = (users: User) => {
         setUsers((prevStudents) => [...prevStudents, users]);
         setFilteredUsers((prevStudents) => [...prevStudents, users]);
+    };
+    // Nueva función para agregar docente
+    const addTeacher = (users: User) => {
+        setUsers((prevTeachers) => [...prevTeachers, users]);
+        setFilteredUsers((prevTeachers) => [...prevTeachers, users]);
+    };
+
+    const addAdmin = (users: User) => {
+        setUsers((prevAdmin) => [...prevAdmin, users]);
+        setFilteredUsers((prevAdmin) => [...prevAdmin, users]);
     };
     return (
         <div className="flex-1 p-6 bg-white rounded-lg shadow m-4">
