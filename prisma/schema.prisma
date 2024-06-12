@@ -33,8 +33,8 @@ model Class {
   section     String?
   description String?
   schedule    Schedule[]
-  carerrID    Int
-  career      Career            @relation(fields: [carerrID], references: [id])
+  carerrID    Int?
+  career      Career?            @relation(fields: [carerrID], references: [id])
   teacherID   Int?
   teacher     Teacher?          @relation(fields: [teacherID], references: [id])
   students    StudentsInClass[]

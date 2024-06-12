@@ -56,6 +56,7 @@ export async function GET(req: Request) {
 		const program = response.map(admin => {
 			return {
 				...admin,
+				password: '',
 				career: {
 					title: admin.superAdmin ? 'Superadministrador': 'Gestión de usuarios'
 				}

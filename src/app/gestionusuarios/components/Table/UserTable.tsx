@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 import ModalAlumno from "../ModalAlumno/ModalAlumno";
 import ModalDocente from "../ModalDocente/ModalDocente";
 import ModalAdmin from "../ModalAdmin/ModalAdmin";
+import { Darumadrop_One } from "next/font/google";
 
 interface User {
     name: string;
@@ -22,7 +23,7 @@ interface User {
     status: string;
     courses?: number;
     statusEnvio?: string;
-    role?: string;
+    role: string;
 }
 
 const UserTable: NextPage = () => {
@@ -131,6 +132,31 @@ const UserTable: NextPage = () => {
         return <span className={`p-2 rounded-lg ${statusClass}`}>{rowData.status}</span>;
     };
 
+
+    const getUrl = (role: string):string => {
+        const deleteURL = {
+            Admin: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/admin`,
+            Docente: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/teacher`,
+            Student: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/student`
+        }
+
+        return deleteURL[role];
+    }
+
+    const handleDelete = async(rowData: User) => {
+        const {id, role} = rowData;
+
+        await fetch(getUrl(role),{
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        });
+    }
+
     const actionBodyTemplate = (rowData: User) => {
         return (
             <div className="flex justify-around">
@@ -138,7 +164,9 @@ const UserTable: NextPage = () => {
                     <AiOutlineEdit size={20} />
                 </button>
                 <button className="text-primary">
-                    <AiOutlineDelete size={20} />
+                    <AiOutlineDelete size={20}
+                    onClick={() => handleDelete(rowData)}
+                    />
                 </button>
             </div>
         );
@@ -180,8 +208,8 @@ const UserTable: NextPage = () => {
             <DataTable value={filteredUsers} tableStyle={{ minWidth: "50rem" }} className="custom-table">
                 <Column field="name" header="Nombre" />
                 <Column field="email" header="Correo" />
-                <Column field="id" header="ID" />
-                <Column field="program" header="Programa" />
+                <Column field="code" header="ID" />
+                <Column field="career.title" header="Programa" />
                 {pathname === "/gestionusuarios/docentes" && <Column field="courses" header="# Cursos asignados" />}
                 <Column field="status" header="Estado Académico" body={statusBodyTemplate} />
                 <Column body={actionBodyTemplate} />

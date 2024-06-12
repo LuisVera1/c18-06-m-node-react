@@ -20,6 +20,7 @@ export async function GET(req: Request) {
 				description: true,
 				spaces: true,
 				code: true,
+				id: true,
 				career: {
 					select: {
 						title: true

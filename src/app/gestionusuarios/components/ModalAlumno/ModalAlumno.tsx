@@ -1,7 +1,7 @@
 "use client";
 
 import { NextPage } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
 import Link from "next/link";
 
@@ -45,6 +45,20 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
     });
     const [studentData, setStudentData] = useState<FormData[]>([]);
     const [errors, setErrors] = useState<Partial<FormData>>({});
+
+        // list of careers
+        const [careers, setCareers] = useState([{
+            id: '',
+            title: ''
+            }]);
+        useEffect(() => {
+            const getCareers = async () => {
+                const dataCareers = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/careers`);
+                const responseCareers = await dataCareers.json();
+                if(responseCareers.ok) setCareers(responseCareers.data);
+            }
+            getCareers();
+        },[]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -114,6 +128,28 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                 nombreContactoEmergencia: "",
                 telefonoContactoEmergencia: "",
             });
+
+        // fetch
+        const sendData = async () => {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/create/student`,{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: formData.nombreCompleto,
+                    email: formData.correoPersonal,
+                    career: formData.programaEstudio
+                })
+            });
+            const data = await response.json()
+            console.log("🚀 - data:", data)
+
+            //is response = ok, hide
+            if(data.ok) onHide();
+        }
+        sendData();
+
         }
     };
 
@@ -144,7 +180,7 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                 />
                                 {errors.nombreCompleto && <p className="text-red-500 text-sm ml-4">{errors.nombreCompleto}</p>}
                             </div>
-                            <div className="flex items-center mb-2">
+                            {/* <div className="flex items-center mb-2">
                                 <label className="mr-4 w-1/3">No. de Identificación</label>
                                 <input
                                     type="text"
@@ -154,6 +190,22 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 />
                                 {errors.numeroIdentificacion && <p className="text-red-500 text-sm ml-4">{errors.numeroIdentificacion}</p>}
+                            </div> */}
+                            <div className="flex items-center mb-2">
+                                <label className="mr-4 w-1/3">Programa de Estudio</label>
+                                <select
+                                    name="programaEstudio"
+                                    value={formData.programaEstudio}
+                                    onChange={handleChange}
+                                    className="flex-1 p-2 border border-dark rounded-xl max-w-72"
+                                >
+                                    <option value=""></option>
+                                    {careers.map(item => (
+                                        (<option key={item.id} value={item.id}>{`${item.id} - ${item.title}`}</option>)
+                                        )
+                                    )}
+                                </select>
+                                    {errors.programaEstudio && <p className="text-red-500 text-sm mt-1">{errors.programaEstudio}</p>}
                             </div>
 
                             <div className="flex items-center mb-2">
@@ -216,7 +268,7 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                     />
                                     {errors.idEstudiante && <p className="text-red-500 text-sm mt-1">{errors.idEstudiante}</p>}
                                 </div>
-                                <div className="flex flex-col mb-4">
+                                {/* <div className="flex flex-col mb-4">
                                     <label className="mb-2">Programa de Estudio</label>
                                     <input
                                         type="text"
@@ -226,7 +278,7 @@ const CrearEstudiante: NextPage<{ onHide: () => void }> = ({ onHide }) => {
                                         className="p-2 border border-dark rounded-xl"
                                     />
                                     {errors.programaEstudio && <p className="text-red-500 text-sm mt-1">{errors.programaEstudio}</p>}
-                                </div>
+                                </div> */}
                                 <div className="flex flex-col mb-4">
                                     <label className="mb-2">Año de Ingreso</label>
                                     <input

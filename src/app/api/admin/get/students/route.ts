@@ -18,7 +18,7 @@ const postSchema = yup.object({
 	career: yup.number().optional(),
 	status: yup.string().oneOf(enumStatus),
 	page: yup.number().min(1).default(1),
-	number: yup.number().default(10),
+	number: yup.number().optional(),
 });
 
 export async function GET(req: Request) {
@@ -29,7 +29,7 @@ export async function GET(req: Request) {
 		career: Number(searchParams.get('career')),
 		status: searchParams.get('status') ?? 'Empty',
 		page: Number(searchParams.get('page')) || 1,
-		number: Number(searchParams.get('number')) || 10,
+		number: Number(searchParams.get('number')) || 100,
 	};
 
 	const validation = await validateData(postSchema.validate(filterData));
@@ -69,6 +69,7 @@ export async function GET(req: Request) {
 					name: true,
 					status: true,
 					creation: true,
+					role: true,
 					career: {
 						select: {
 							title: true,
@@ -92,6 +93,7 @@ export async function GET(req: Request) {
 					name: true,
 					status: true,
 					creation: true,
+					role: true,
 					career: {
 						select: {
 							title: true,
