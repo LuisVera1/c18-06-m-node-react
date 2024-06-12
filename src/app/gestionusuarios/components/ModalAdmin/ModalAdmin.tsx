@@ -95,7 +95,7 @@ const CrearAdmin: NextPage<{ onHide: () => void; addAdmin: (user: any) => void }
                 rolPermisos: "",
             });
             const sendData = async () => {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/create/teacher`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/create/admin`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
