@@ -12,6 +12,7 @@ import Image from "next/image";
 import BannerLoginAlumn from "../../../../assets/login.png"; // Imagen para alumnos
 import BannerLoginTeacher from "../../../../assets/teacher 1.png"; // Imagen para docentes
 import BannerLoginAdmin from "../../../../assets/container_2.png"; // Imagen para administradores
+import { redirect } from 'next/navigation';
 
 const Login: NextPage = () => {
     const [email, setEmail] = useState<string>("");
@@ -38,6 +39,20 @@ const Login: NextPage = () => {
         if (loginSuccessFromStorage === "true") {
             setLoginSuccess(false);
         }
+    }, []);
+
+    //redirect to dashboard
+    const [redirectLogin, setRedirectLogin] = useState(false);
+    if(redirectLogin){
+        redirect('/');
+    }
+
+    useEffect(()=>{
+        const verifyLogin = () => {
+            const login = localStorage.getItem('loginSuccess');
+            if(login) setRedirectLogin(true);
+        }
+        verifyLogin()
     }, []);
 
     // Maneja el envío del formulario

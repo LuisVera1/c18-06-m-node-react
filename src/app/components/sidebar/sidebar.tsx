@@ -14,14 +14,19 @@ import { IoIosLogOut } from "react-icons/io";
 import Image from "next/image";
 import Logo from "../../../../assets/logonova.png";
 
+
 export default function Sidebar() {
     const pathname = usePathname();
 
     const Logoo = Logo;
 
-    const handleLogout = () => {
+    const handleLogout = async() => {
         // Ejemplo de eliminación de tokens (esto dependerá de cómo manejas la autenticación)
         localStorage.removeItem("user");
+
+        //delete cookie and loginSucces item
+        localStorage.removeItem("loginSuccess");
+        await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/logout`)
 
         // Redirige a la página de inicio de sesión
         window.location.href = "/login";

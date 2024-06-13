@@ -7,7 +7,7 @@ import DataTable from "../components/Table/table";
 import ImageAvatar from "../components/avatar/Avatar";
 import "primereact/resources/themes/saga-blue/theme.css"; // Importar tema PrimeReact
 import "primereact/resources/primereact.min.css"; // Importar estilos PrimeReact
-
+import { redirect } from 'next/navigation';
 
 // Definimos y exportamos el componente Home
 function Home() {
@@ -29,6 +29,19 @@ function Home() {
         dataFecth();
     }, []);
 
+    const [redirectLogin, setRedirectLogin] = useState(false);
+
+    if(redirectLogin){
+        redirect('/login');
+    }
+
+    useEffect(()=>{
+        const verifyLogin = () => {
+            const login = localStorage.getItem('loginSuccess');
+            if(!login) setRedirectLogin(true);
+        }
+        verifyLogin();
+    }, []);
 
     return (
         <div className="flex flex-col md:flex-row ">
