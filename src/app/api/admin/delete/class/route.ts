@@ -33,7 +33,7 @@ export async function DELETE(req: Request, res: Response) {
 	try {
 		const { id } = dataValidation;
 
-		//disconect
+		//disconect teacher and career
 		const result = await prisma.class.update({
 			where: {
 				id: id,
@@ -42,11 +42,20 @@ export async function DELETE(req: Request, res: Response) {
 				teacher: {
 					disconnect: true,
 				},
+				career: {
+					disconnect: true
+				}
 			},
 		});
-		console.log('🚀 - result:', result);
 
-		// delete class
+		//delete schedules
+		const schedules = await prisma.schedule.deleteMany({
+			where: {
+				classID: id
+			}
+		})
+
+		//delete class
 		const response = await prisma.class.delete({
 			where: {
 				id: id,

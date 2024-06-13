@@ -13,7 +13,6 @@ import { usePathname } from "next/navigation";
 import ModalAlumno from "../ModalAlumno/ModalAlumno";
 import ModalDocente from "../ModalDocente/ModalDocente";
 import ModalAdmin from "../ModalAdmin/ModalAdmin";
-import { Darumadrop_One } from "next/font/google";
 
 interface User {
     name: string;
@@ -133,16 +132,6 @@ const UserTable: NextPage = () => {
 
         return <span className={`p-2 rounded-lg ${statusClass}`}>{rowData.status}</span>;
     };
-    //CODIGO LUIS
-    // const getUrl = (role: string): string => {
-    //     const deleteURL = {
-    //         Admin: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/admin`,
-    //         Docente: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/teacher`,
-    //         Student: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/student`,
-    //     };
-
-    //     return deleteURL[role];
-    // };
 
     const getUrl = (role: string): string => {
         const deleteURL: { [key: string]: string } = {

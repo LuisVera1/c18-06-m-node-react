@@ -69,12 +69,12 @@ export default function Sidebar() {
                         isActive={pathname === "/gestionfacturacion"}
                     />
                 </ul>
-            </nav>
             <div className="flex justify-around text-primary mt-4">
                 <IoSettings className="text-2xl cursor-pointer" />
                 <CiCircleQuestion className="text-2xl cursor-pointer" />
                 <IoIosLogOut className="text-2xl cursor-pointer" onClick={handleLogout} /> {/* Asocia la función al onClick */}
             </div>
+            </nav>
         </div>
     );
 }

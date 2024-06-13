@@ -3,7 +3,6 @@ import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import { AiOutlineLeft } from "react-icons/ai";
 import { Dialog } from "primereact/dialog";
-import { Button } from "primereact/button";
 import Image from "next/image";
 import OkImage from "./../../../../../assets/Check Mark.png";
 
@@ -132,7 +131,6 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                     teacherID: teacherID,
                     description: description,
                 };
-                console.log("🚀", requestData);
 
                 const response = await fetch("api/admin/create/class", {
                     method: "POST",
@@ -142,10 +140,9 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                     body: JSON.stringify(requestData),
                 });
                 if (response.ok) {
-                    const data = await response.json();
-                    console.log(data);
+                    const {data} = await response.json();
 
-                    addCourse(formData);
+                    addCourse({...formData, career: {title: data.career.title}});
                     setFormData({
                         title: "",
                         spaces: "",
@@ -213,14 +210,6 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
 
                             <div className="flex items-center">
                                 <label className="w-1/3">Carrera/plan</label>
-                                {/* <input
-                                    type="text"
-                                    name="careerID"
-                                    value={formData.careerID}
-                                    onChange={handleChange}
-                                    className="flex-1 p-2 border border-dark rounded-xl"
-                                /> */}
-
                                 <select
                                     name="careerID"
                                     value={formData.careerID}
@@ -244,8 +233,6 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                                     className="flex-1 p-2 border border-dark rounded-xl"
                                 >
                                     <option value=""></option>
-                                    {/* <option value="Docente 1">Docente 1</option>
-                                    <option value="Docente 2">Docente 2</option> */}
                                     {teachers.map((teacher) => (
                                         <option key={teacher.id} value={teacher.id}>{`${teacher.code} - ${teacher.name}`}</option>
                                     ))}

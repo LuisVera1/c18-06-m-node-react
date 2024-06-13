@@ -18,6 +18,7 @@ interface Course {
     space?: number;
     codigoCurso: string;
     code?: number;
+    id: number
 }
 
 const CourseTable: NextPage = () => {
@@ -73,9 +74,25 @@ const CourseTable: NextPage = () => {
         setDisplayConfirmationDialog(true); // Mostrar el diálogo de confirmación de eliminación
     };
 
+    const deleteClass = async (id: number) => {
+        await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/class`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        })
+    }
+
     const confirmDelete = () => {
         if (courseToDelete) {
-            const updatedCourses = courses.filter((course) => course.code !== courseToDelete.code);
+            const updatedCourses = courses.filter((course) => course.id !== courseToDelete.id);
+
+            //delete from database
+            deleteClass(courseToDelete.id);
+
             setCourses(updatedCourses); // Actualizar la lista de cursos sin el curso eliminado
             setFilteredCourses(updatedCourses); // Actualizar la lista filtrada de cursos
             setCourseToDelete(null); // Reiniciar el curso a eliminar

@@ -76,6 +76,9 @@ export async function POST(req: Request, res: Response) {
 					},
 				},
 			},
+			select: {
+				career: true
+			}
 		});
 
 		return NextResponse.json(
