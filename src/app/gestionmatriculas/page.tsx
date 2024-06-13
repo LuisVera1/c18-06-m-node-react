@@ -1,120 +1,96 @@
-"use client";
+'use client'
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar/sidebar";
+import DataTable from "../components/Table/table"
 import { ProgressBar } from "primereact/progressbar";
-// Asegúrate de importar correctamente desde 'primereact/progressbar'
-import DataTable from "../components/Table/table";
-import "primereact/resources/themes/saga-blue/theme.css"; // Importar tema PrimeReact
-import "primereact/resources/primereact.min.css"; // Importar estilos PrimeReact
+import "primereact/resources/themes/saga-blue/theme.css";
+import "primereact/resources/primereact.min.css";
 
-// Definimos y exportamos el componente Home
 function GestionMatriculas() {
-    const [statistics, setStatistics] = useState({
+    const [generalStatistics, setGeneralStatistics] = useState({
         total: "0",
         approved: "0",
         pending: "0",
     });
+    const [careerStatistics, setCareerStatistics] = useState([]);
+
     useEffect(() => {
-        const dataFecth = async () => {
+        const fetchGeneralStatistics = async () => {
             const fetchData = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/statistics`);
             const response = await fetchData.json();
 
             if (response.ok) {
-                setStatistics(response.data);
+                setGeneralStatistics(response.data);
             }
         };
-        dataFecth();
+
+        const fetchCareerStatistics = async () => {
+            const fetchData = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/studentsByCareer`);
+            const response = await fetchData.json();
+
+            if (response.ok) {
+                setCareerStatistics(response.data);
+            }
+        };
+
+        fetchGeneralStatistics();
+        fetchCareerStatistics();
     }, []);
 
     return (
-        <div className="flex flex-col md:flex-row ">
+        <div className="flex flex-col md:flex-row">
             <Sidebar />
             <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8">
-                <div className="flex justify-between items-center w-full px-10 mt-10">
-                    <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-3xl">Gestión matrículas</b>
+                <div className="flex justify-between items-center w-full px-10 mt-10 mb-20">
+                    <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-3xl">Gestión de matriculas</b>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-full lg:w-3/4 xl:w-5/6 mx-auto mt-10">
-                    <div className="p-4">
+                <div className="flex">
+                    {/* Estadísticas Generales */}
+                    <div className="flex-1 p-4">
                         <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-2xl"># De Estudiantes Matriculados</b>
                         <div className="flex justify-between mt-4">
                             <b className="text-dark">Métrica</b>
                             <b className="text-dark">Valor</b>
                         </div>
                         <div className="mb-4 mt-10 flex items-center space-x-4">
-                            <h3>Estudiantes</h3>
+                            <h3>Total</h3>
                             <div className="flex-1">
-                                <ProgressBar value={Number(statistics.total)} className="custom-progress-bar-violet" />
+                                <ProgressBar value={Number(generalStatistics.total)} />
                             </div>
-                            <p>{Number(statistics.total)}</p>
+                            <p>{Number(generalStatistics.total)}</p>
                         </div>
                         <div className="mb-4 mt-10 flex items-center space-x-4">
                             <h3>Pendientes</h3>
                             <div className="flex-1">
-                                <ProgressBar value={Number(statistics.approved)} className="custom-progress-bar-orange" />
+                                <ProgressBar value={Number(generalStatistics.approved)} />
                             </div>
-                            <p>{Number(statistics.approved)}</p>
+                            <p>{Number(generalStatistics.approved)}</p>
                         </div>
-
                         <div className="mb-4 mt-10 flex items-center space-x-4">
                             <h3>Aprobados</h3>
                             <div className="flex-1">
-                                <ProgressBar value={Number(statistics.pending)} className="custom-progress-bar-green" />
+                                <ProgressBar value={Number(generalStatistics.pending)} />
                             </div>
-                            <p>{Number(statistics.pending)}</p>
+                            <p>{Number(generalStatistics.pending)}</p>
                         </div>
                     </div>
 
-                    <div className="p-4 flex flex-wrap justify-between">
-                        <div className="p-4 w-full ">
-                            <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-2xl"># De matrículas por programa</b>
-                            <div className="flex justify-between mt-4">
-                                <b className="text-dark">Métrica</b>
-                                <b className="text-dark">Valor</b>
-                            </div>
-                            <div className="mb-4 mt-10 flex items-center space-x-4">
-                                <h3>Contaduria</h3>
-                                <div className="flex-1">
-                                    <ProgressBar value={Number(statistics.total)} />
-                                </div>
-                                <p>{Number(statistics.total)}</p>
-                            </div>
-                            <div className="mb-4 mt-10 flex items-center space-x-4">
-                                <h3>Economia</h3>
-                                <div className="flex-1">
-                                    <ProgressBar value={Number(statistics.approved)} />
-                                </div>
-                                <p>{Number(statistics.approved)}</p>
-                            </div>
-
-                            <div className="mb-4 mt-10 flex items-center space-x-4">
-                                <h3>Diseño</h3>
-                                <div className="flex-1">
-                                    <ProgressBar value={Number(statistics.pending)} />
-                                </div>
-                                <p>{Number(statistics.pending)}</p>
-                            </div>
-                            <div className="mb-4 mt-10 flex items-center space-x-4">
-                                <h3>Arquitectura</h3>
-                                <div className="flex-1">
-                                    <ProgressBar value={Number(statistics.pending)} />
-                                </div>
-                                <p>{Number(statistics.pending)}</p>
-                            </div>
-                            <div className="mb-4 mt-10 flex items-center space-x-4">
-                                <h3>ing.Civil</h3>
-                                <div className="flex-1">
-                                    <ProgressBar value={Number(statistics.pending)} />
-                                </div>
-                                <p>{Number(statistics.pending)}</p>
-                            </div>
-                            <div className="mb-4 mt-10 flex items-center space-x-4">
-                                <h3>ing.Industrial</h3>
-                                <div className="flex-1">
-                                    <ProgressBar value={Number(statistics.pending)} />
-                                </div>
-                                <p>{Number(statistics.pending)}</p>
-                            </div>
+                    {/* Estadísticas por Programa */}
+                    <div className="flex-1 p-4">
+                        <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-2xl"># De matrículas por programa</b>
+                        <div className="flex justify-between mt-4">
+                            <b className="text-dark">Programa</b>
+                            <b className="text-dark">Porcentaje</b>
                         </div>
+                        {careerStatistics.map((career: { career: string; percentage: string }, index: number) => (
+                            <div key={index} className="mb-4 mt-10 flex items-center space-x-4">
+                                <h3>{career.career}</h3>
+                                <div className="flex-1">
+                                    <ProgressBar value={Number(career.percentage)} />
+                                </div>
+                                <p>{career.percentage}%</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <DataTable />
