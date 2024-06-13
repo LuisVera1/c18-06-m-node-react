@@ -17,7 +17,6 @@ export async function GET(req: Request) {
 	};
 
 	const validation = await validateData(postSchema.validate(filterData));
-	console.log('🚀 - validation:', validation);
 
 	if (!validation.ok) {
 		return NextResponse.json(

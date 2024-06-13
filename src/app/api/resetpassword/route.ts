@@ -20,7 +20,6 @@ export async function POST(req: Request) {
 
 	//data validaction
 	const validation = await validateData(postSchema.validate(body));
-	console.log("🚀 - validation:", validation)
 
 	if (!validation.ok) {
 		return NextResponse.json(

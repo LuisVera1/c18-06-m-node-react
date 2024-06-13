@@ -77,7 +77,6 @@ const CrearAdmin: NextPage<{ onHide: () => void; addAdmin: (user: any) => void }
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validate()) {
-            console.log(formData);
             setStudentData([...studentData, formData]);
             setFormData({
                 // Limpia el formulario
@@ -109,7 +108,6 @@ const CrearAdmin: NextPage<{ onHide: () => void; addAdmin: (user: any) => void }
                 onHide();
                 addAdmin(data.data);
                 // showSuccessModal();
-                console.log("🚀 - data:", data);
 
                 //is response = ok, hide
                 if (data.ok) onHide();

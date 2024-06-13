@@ -35,7 +35,6 @@ export async function POST(req: Request, res: Response) {
 
 	//validate session, token
 	const validSession = await checkRole(typeUsers.admin);
-	console.log('🚀 - validSession:', validSession);
 	if (!validSession.token) {
 		return NextResponse.json(
 			{ ok: false, message: validSession.message },

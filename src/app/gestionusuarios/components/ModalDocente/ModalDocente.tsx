@@ -96,7 +96,6 @@ const CrearDocente: NextPage<{ onHide: () => void; addTeacher: (user: any) => vo
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validate()) {
-            console.log(formData);
             setStudentData([...studentData, formData]);
             setFormData({
                 // Limpia el formulario
@@ -129,7 +128,6 @@ const CrearDocente: NextPage<{ onHide: () => void; addTeacher: (user: any) => vo
                 onHide();
                 addTeacher(data.data);
                 showSuccessModal();
-                console.log("🚀 - data:", data);
 
                 //is response = ok, hide
                 if (data.ok) onHide();

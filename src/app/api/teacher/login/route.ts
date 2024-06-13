@@ -32,7 +32,6 @@ export async function POST(req: Request) {
 				email: email.toLowerCase(),
 			},
 		});
-		console.log('🚀 - response:', response);
 
 		if (!response) {
 			return NextResponse.json(

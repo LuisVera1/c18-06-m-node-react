@@ -106,7 +106,6 @@ export async function POST(req: Request, res: Response) {
 				subject: '¡Felicidades, has sido admitido!',
 				html: bodyEmail({ email: email, password: generatedPassword }),
 			});
-			console.log("🚀 - info:", info)
 		}
 
 		return NextResponse.json(

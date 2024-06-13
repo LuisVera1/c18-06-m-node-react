@@ -68,17 +68,6 @@ export async function POST(req: Request, res: Response) {
 			},
 		});
 
-		//send mail
-		// const resend = new Resend(process.env.RESEND_API_KEY);
-		// const { data, error } = await resend.emails.send({
-		// 	from: 'Acme <onboarding@resend.dev>',
-		// 	to: ['luisvera2318@gmail.com'],
-		// 	subject: '¡Felicidades, has sido admitido!',
-		// 	html: `<div><h1>Bienvenido</h1></br><p>Aqui estan tus datos de acceso</p><p><strong>email: </strong>${email}</p><p><strong>password: </strong>${generatedPassword}</p><a href="http://localhost:3000/login">Inicia sesión</a></div>`,
-		// });
-		// console.log('🚀 - data:', data);
-		// console.log('🚀 - error:', error);
-
 		return NextResponse.json(
 			{ ok: true, message: 'new user created', data: response },
 			{ status: 201 }
