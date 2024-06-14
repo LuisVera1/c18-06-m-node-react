@@ -1,17 +1,20 @@
+"use client";
 import Sidebar from "../components/sidebar/sidebar";
+import UserTable from "./components/Table/UserTable";
+// import Navbar from "./components/nav/nav"
+import { NextPage } from "next";
 
-// Definimos y exportamos el componente Matriculas
-function gestioncursos() {
+const Cursos: NextPage = () => {
     return (
-        // Sección principal que envuelve el contenido
-        <>
-            <section className="flex-1">
-                {/* Insertamos el componente Sidebar */}
-                <Sidebar />
-            </section>
-        </>
+        <div className="flex min-h-screen">
+            <Sidebar />
+            <main className="flex-1">
+                <header>
+                    <UserTable />
+                </header>
+            </main>
+        </div>
     );
-}
+};
 
-// Exportamos el componente para que pueda ser utilizado en otras partes de la aplicación
-export default gestioncursos;
+export default Cursos;

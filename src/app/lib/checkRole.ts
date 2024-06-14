@@ -40,6 +40,7 @@ export const checkRole = async (role: String) => {
 			message: '',
 			role: validToken.role,
 			email: validToken.email,
+			tokenData: validToken,
 		};
 	} catch (err) {
 		return {

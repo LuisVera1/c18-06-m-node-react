@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import { createToken, validateData } from '@/app/lib';
 
 const postSchema = yup.object({
-	email: yup.string().trim().email().required(),
+	email: yup.string().lowercase().trim().email().required(),
 	password: yup.string().required().trim().min(8),
 });
 
@@ -40,6 +40,14 @@ export async function POST(req: Request) {
 			);
 		}
 
+		//check status
+		if (response.status !== 'Activo') {
+			return NextResponse.json(
+				{ ok: false, message: 'the user is not active' },
+				{ status: 403 }
+			);
+		}
+
 		// matching password
 		const matching = await compare(password, response.password);
 
@@ -55,12 +63,13 @@ export async function POST(req: Request) {
 			email: response.email,
 			role: response.role,
 			code: response.code,
+			superAdmin: response.superAdmin,
 		});
 
 		const loginUserData = {
 			ok: true,
 			message: 'successful login',
-			data: response,
+			data: { ...response, password: '' },
 		};
 
 		cookies().set({

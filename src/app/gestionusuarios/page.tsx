@@ -1,47 +1,20 @@
 import Sidebar from "../components/sidebar/sidebar";
-import UserTable from  "./components/Table/UserTable";
-import Image from 'next/image';
-import AvatarGestionEstudiante from '../../../assets/AvatarGestionEstudiante.png'
-import Link from 'next/link';
+import UserTable from "./components/Table/UserTable";
+import Navbar from "./components/nav/nav";
+import { NextPage } from "next";
 
-const GestionUsuarios: React.FC = () => {
+const Docente: NextPage = () => {
     return (
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <main className="flex-1">
-          <header className="bg-gray-200 shadow p-6">
-          <div className="flex justify-end mb-5">
-            <Image 
-              src={AvatarGestionEstudiante} 
-              alt="Descripción de la imagen" 
-              width={56} 
-              height={56} 
-            />
-          </div>
-          <nav>
-      <ul className="flex justify-between">
-        <li className="w-72 h-12 rounded-lg p-2 bg-blue-500 text-white text-center cursor-pointer flex items-center justify-center font-semibold">
-          <Link href="/estudiantes">
-            Estudiantes
-          </Link>
-        </li>
-        <li className="w-72 h-12 rounded-lg p-2 text-blue-400 bg-white text-center cursor-pointer flex items-center justify-center font-semibold">
-          <Link href="/docentes">
-            Docentes
-          </Link>
-        </li>
-        <li className="w-72 h-12 rounded-lg p-2 text-blue-400 bg-white text-center cursor-pointer flex items-center justify-center font-semibold">
-          <Link href="/administradores">
-            Administradores
-          </Link>
-        </li>
-      </ul>
-    </nav>
-          </header>
-          <UserTable />
-        </main>
-      </div>
+        <div className="flex min-h-screen">
+            <Sidebar />
+            <main className="flex-1">
+                <header className=" p-6">
+                    <Navbar />
+                </header>
+                <UserTable />
+            </main>
+        </div>
     );
-  };
-  
-  export default GestionUsuarios;
+};
+
+export default Docente;

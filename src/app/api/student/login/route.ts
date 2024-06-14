@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 		// check if student exist
 		const response = await prisma.student.findUnique({
 			where: {
-				email: email,
+				email: email.toLowerCase(),
 			},
 		});
 
@@ -37,6 +37,16 @@ export async function POST(req: Request) {
 			return NextResponse.json(
 				{ ok: false, message: 'wrong email or password' },
 				{ status: 400 }
+			);
+		}
+
+		//check status
+		const userStatusAccepted = ['Activo', 'Graduado', 'Titulado'];
+
+		if (!userStatusAccepted.includes(response.status)) {
+			return NextResponse.json(
+				{ ok: false, message: 'the user is not active' },
+				{ status: 403 }
 			);
 		}
 
@@ -54,13 +64,15 @@ export async function POST(req: Request) {
 		const token = await createToken({
 			email: response.email,
 			role: response.role,
-			code: response.code
+			code: response.code,
+			career: response.careerID,
+			userID: response.id,
 		});
 
 		const loginUserData = {
 			ok: true,
 			message: 'successful login',
-			data: response,
+			data: {...response, password: ''},
 		};
 
 		cookies().set({
@@ -71,7 +83,7 @@ export async function POST(req: Request) {
 		});
 
 		return NextResponse.json(loginUserData, {
-			status: 200
+			status: 200,
 		});
 	} catch (err) {
 		console.error(err);

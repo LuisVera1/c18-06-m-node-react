@@ -1,10 +1,10 @@
 import Login from './components/login';
-import { UserProvider } from '../../context/UserContext';
+// import { UserProvider } from '../../context/UserContext';
 
 export default function Page() {
     return (
-        <UserProvider>
+        // <UserProvider>
             <Login />
-        </UserProvider>
+        // </UserProvider>
     );
 }

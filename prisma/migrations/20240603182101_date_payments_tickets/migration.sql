@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Student" ADD COLUMN     "creation" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "payment" BOOLEAN DEFAULT false,
+ADD COLUMN     "tickets" BOOLEAN DEFAULT false;

@@ -9,7 +9,7 @@ import BannerCambio from "./../../../assets/container_2.png";
 
 function ChangePass() {
     const [password, setPassword] = useState("");
-    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [newPassword, setNewPassword] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
     const [errors, setErrors] = useState<{ password?: string; passwordConfirm?: string }>({});
 
@@ -18,10 +18,6 @@ function ChangePass() {
     const validatePassword = (password: string): boolean => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,8}$/;
         return passwordRegex.test(password);
-    };
-
-    const validatePasswordConfirm = (passwordConfirm: string): boolean => {
-        return passwordConfirm === password;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -34,32 +30,66 @@ function ChangePass() {
             newErrors.password = "La contraseña debe tener entre 6 y 8 caracteres, al menos una mayúscula y un número";
         }
 
-        if (!passwordConfirm) {
-            newErrors.passwordConfirm = "Confirmar la contraseña es obligatorio";
-        } else if (!validatePasswordConfirm(passwordConfirm)) {
-            newErrors.passwordConfirm = "Las contraseñas no coinciden";
-        }
-
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            const loginUrl = "/api/cambiar-contrasena"; // falta la ruta del servidor acá
+            const studentUrl = "/api/student/newPassword";
+            const teacherUrl = "/api/teacher/newPassword";
 
             try {
-                const response = await fetch(loginUrl, {
+                //-------------------------------------------------
+                const rolefromSelect = 'Student'
+
+                const selectURL = {
+                    Admin: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/newPassword`,
+                    Teacher: `${process.env.NEXT_PUBLIC_URL_BASE}/api/teacher/newPassword`,
+                    Student: `${process.env.NEXT_PUBLIC_URL_BASE}/api/student/newPassword`
+                }
+
+                const fetchURL = selectURL[rolefromSelect];
+
+                const response = await fetch(fetchURL, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
                         password,
-                        passwordConfirm,
+                        newPassword,
                     }),
                 });
-                if (response.ok) {
+                //-------------------------------------------------
+
+
+                // Hacer solicitud a la ruta de estudiantes
+                // const studentResponse = await fetch(studentUrl, {
+                //     method: "POST",
+                //     headers: {
+                //         "Content-Type": "application/json",
+                //     },
+                //     body: JSON.stringify({
+                //         password,
+                //         newPassword,
+                //     }),
+                // });
+
+                // Hacer solicitud a la ruta de profesores
+                // const teacherResponse = await fetch(teacherUrl, {
+                //     method: "POST",
+                //     headers: {
+                //         "Content-Type": "application/json",
+                //     },
+                //     body: JSON.stringify({
+                //         password,
+                //         newPassword,
+                //     }),
+                // });
+
+                // if (studentResponse.ok && teacherResponse.ok) {
+                if (response.ok) { //-------------------------------------------------
                     setSuccessMessage("¡Contraseña cambiada con éxito!");
                     setPassword("");
-                    setPasswordConfirm("");
+                    setNewPassword("");
                     setErrors({});
                     router.push("/login");
                 } else {
@@ -84,7 +114,7 @@ function ChangePass() {
                     <div className="flex flex-col items-center gap-2 w-full">
                         <div className="flex flex-col w-2/4">
                             <label htmlFor="password" className="text-dark text-left font-barlow">
-                                Contraseña Nueva
+                                Contraseña Actual
                             </label>
                             <InputText
                                 id="password"
@@ -100,16 +130,16 @@ function ChangePass() {
 
                     <div className="flex flex-col items-center gap-2 w-full">
                         <div className="flex flex-col w-2/4">
-                            <label htmlFor="password confirmed" className="text-dark text-left font-barlow">
-                                Confirmar Contraseña
+                            <label htmlFor="newpassword" className="text-dark text-left font-barlow">
+                                Contraseña Nueva
                             </label>
                             <InputText
                                 id="newpassword"
                                 type="password"
-                                value={passwordConfirm}
-                                onChange={(e) => setPasswordConfirm(e.target.value)}
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
                                 className="w-full border-2 h-8 border-grey rounded text-dark p-2 text-xs mb-1 font-sans"
-                                placeholder="Ingresa tu contraseña"
+                                placeholder="Ingresa tu nueva contraseña"
                             />
                             {errors.passwordConfirm && <p className="text-red-500 text-xs">{errors.passwordConfirm}</p>}
                         </div>

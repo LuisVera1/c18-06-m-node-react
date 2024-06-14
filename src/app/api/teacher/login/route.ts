@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 		// check if user exist
 		const response = await prisma.teacher.findUnique({
 			where: {
-				email: email,
+				email: email.toLowerCase(),
 			},
 		});
 
@@ -37,6 +37,14 @@ export async function POST(req: Request) {
 			return NextResponse.json(
 				{ ok: false, message: 'wrong email or password' },
 				{ status: 400 }
+			);
+		}
+
+		//check status
+		if (response.status !== 'Activo') {
+			return NextResponse.json(
+				{ ok: false, message: 'the user is not active' },
+				{ status: 403 }
 			);
 		}
 
@@ -60,7 +68,7 @@ export async function POST(req: Request) {
 		const loginUserData = {
 			ok: true,
 			message: 'successful login',
-			data: response,
+			data: {...response, password: ''},
 		};
 
 		cookies().set({

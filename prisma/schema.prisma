@@ -17,48 +17,66 @@ model Career {
   id       Int       @id @default(autoincrement())
   title    String
   credits  Int
+  code     String    @unique
   class    Class[]
   students Student[]
   subject  Subject[]
+  Teacher  Teacher[]
 }
 
 model Class {
-  id        Int               @id @default(autoincrement())
-  title     String
-  credits   Int
-  spaces    Int               @default(0)
-  code      String
-  section   String
-  schedule  Schedule[]
-  carerrID  Int
-  career    Career            @relation(fields: [carerrID], references: [id])
-  teacherID Int?
-  teacher   Teacher?          @relation(fields: [teacherID], references: [id])
-  students  StudentsInClass[]
-  //creditsRequired Int @default(0)
-  //required String['ab1', 'ab2']
-  //type Optative, required
+  id          Int               @id @default(autoincrement())
+  title       String
+  credits     Int?
+  spaces      Int               @default(0)
+  code        String
+  section     String?
+  description String?
+  schedule    Schedule[]
+  carerrID    Int?
+  career      Career?            @relation(fields: [carerrID], references: [id])
+  teacherID   Int?
+  teacher     Teacher?          @relation(fields: [teacherID], references: [id])
+  students    StudentsInClass[]
 }
 
 model Schedule {
-  id        Int    @id @default(autoincrement())
-  day       String
-  startH    Int
-  endH      Int
-  classroom String
-  classID   Int
-  class     Class  @relation(fields: [classID], references: [id])
+  id      Int    @id @default(autoincrement())
+  day     String
+  startH  Int
+  endH    Int
+  classID Int
+  class   Class  @relation(fields: [classID], references: [id])
 }
 
 model Teacher {
-  id       Int           @id @default(autoincrement())
-  code     Int?          @unique
-  email    String        @unique
+  id       Int             @id @default(autoincrement())
+  code     Int?            @unique
+  email    String          @unique
   name     String
   password String
-  role     Role          @default(Teacher)
-  status   TeacherStatus @default(Active)
+  role     Role            @default(Teacher)
+  status   TeacherStatus   @default(Activo)
   class    Class[]
+  profile  ProfileTeacher?
+  careerID Int?
+  career   Career?         @relation(fields: [careerID], references: [id])
+}
+
+model ProfileTeacher {
+  id             Int     @id @default(autoincrement())
+  birthdate      String?
+  phone          String?
+  emailI         String?
+  address        String?
+  grade          String?
+  specialization String?
+  department     String?
+  expertise      String?
+  contact        String?
+  contactPhone   String?
+  teacherID      Int     @unique
+  teacher        Teacher @relation(fields: [teacherID], references: [id])
 }
 
 model StudentsInClass {
@@ -75,13 +93,29 @@ model Student {
   code     Int?              @unique
   name     String
   password String
-  plan     String
   role     Role              @default(Student)
-  status   StudentStatus     @default(Active)
+  status   StudentStatus     @default(Activo)
   careerID Int
   career   Career            @relation(fields: [careerID], references: [id])
   class    StudentsInClass[]
   subjects Subject[]
+  profile  ProfileStudent?
+  tickets  Boolean?          @default(false)
+  payment  Boolean?          @default(false)
+  creation DateTime?         @default(now())
+}
+
+model ProfileStudent {
+  id           Int     @id @default(autoincrement())
+  birthdate    String?
+  phone        String?
+  emailI       String?
+  year         Int?
+  currentCycle String?
+  contact      String?
+  contactPhone String?
+  studentID    Int     @unique
+  student      Student @relation(fields: [studentID], references: [id])
 }
 
 model Subject {
@@ -100,14 +134,18 @@ model Subject {
 }
 
 model Admin {
-  id       Int    @id @default(autoincrement())
-  code     Int?   @unique
-  email    String @unique
-  name     String
-  password String
-  role     Role   @default(Admin)
-  //status
-  //level
+  id          Int         @id @default(autoincrement())
+  code        Int?        @unique
+  email       String      @unique
+  name        String
+  password    String
+  status      AdminStatus @default(Activo)
+  role        Role        @default(Admin)
+  phone       String?
+  emailI      String?
+  superAdmin  Boolean     @default(false)
+  manageUsers Boolean     @default(true)
+  createAdmin Boolean     @default(false)
 }
 
 enum Role {
@@ -117,20 +155,29 @@ enum Role {
 }
 
 enum StudentStatus {
-  Active
-  Inactive
-  Graduate
-  Certificate
+  Activo
+  Inactivo
+  Graduado
+  Titulado
+  Baja
+  BajaTemporal
 }
 
 enum TeacherStatus {
-  Active
-  Inactive
+  Activo
+  Inactivo
+  Baja
+}
+
+enum AdminStatus {
+  Activo
+  Inactivo
+  Baja
 }
 
 enum StatusSubject {
-  Passed
-  Failed
-  Conditional
-  Repeated
+  Aprobada
+  Reprobada
+  Extraordinario
+  Repetida
 }

@@ -1,48 +1,88 @@
+"use client";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar/sidebar";
 import Chart from "./components/Chart/chart";
-import ProgressBar from "./components/progressbar/progressbar"
-import DataTable from "./components/Table/table"
-import Avatar from "../components/avatar/avatar"
+import { ProgressBar } from "primereact/progressbar"; // Asegúrate de importar correctamente desde 'primereact/progressbar'
+import DataTable from "../components/Table/table";
+import ImageAvatar from "../components/avatar/Avatar";
+import "primereact/resources/themes/saga-blue/theme.css"; // Importar tema PrimeReact
+import "primereact/resources/primereact.min.css"; // Importar estilos PrimeReact
+import { redirect } from "next/navigation";
 
-// Definimos y exportamos el componente Matriculas
+// Definimos y exportamos el componente Home
 function Home() {
-    return (
-        <div className="flex flex-col md:flex-row"> {/* Utilizamos flex-col para móviles y flex-row para pantallas grandes */}
-            <Sidebar />
-            {/* Contenido de la página */}
-            <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8"> {/* Utilizamos w-full para móviles y fracciones de la pantalla para pantallas grandes */}
-                <div className="flex justify-between items-center w-full px-10 mt-10">
-                    <h2 className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-5xl">Dashboard</h2>
-                    <Avatar />
-                </div>
+    const [statistics, setStatistics] = useState({
+        total: "0",
+        approved: "0",
+        pending: "0",
+    });
+    useEffect(() => {
+        const dataFecth = async () => {
+            const fetchData = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/get/statistics`);
+            const response = await fetchData.json();
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-full lg:w-3/4 xl:w-5/6 mx-auto mt-40"> {/* Utilizamos grid-cols-1 para móviles y grid-cols-2 para pantallas grandes */}
+            if (response.ok) {
+                setStatistics(response.data);
+            }
+        };
+        dataFecth();
+    }, []);
+
+    const [redirectLogin, setRedirectLogin] = useState(false);
+
+    if (redirectLogin) {
+        redirect("/login");
+    }
+
+    useEffect(() => {
+        const verifyLogin = () => {
+            const login = localStorage.getItem("loginSuccess");
+            if (!login) setRedirectLogin(true);
+        };
+        verifyLogin();
+    }, []);
+
+    return (
+        <div className="flex flex-col md:flex-row ">
+            <Sidebar />
+
+            <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8 bg-white rounded-lg p-6 m-4 shadow">
+                <div className="flex justify-between items-center w-full px-10 mt-10 ">
+                    <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-3xl ">Dashboard</b>
+                    <ImageAvatar />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-full lg:w-3/4 xl:w-5/6 mx-auto mt-10 flex-1 ">
                     <div className="p-4">
-                        <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-3xl">De Estudiantes Matriculados</b>
+                        <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-2xl"># De Estudiantes Matriculados</b>
                         <div className="flex justify-between mt-4">
                             <b className="text-dark">Métrica</b>
                             <b className="text-dark">Valor</b>
                         </div>
-                        <div className="mt-20">
-                            <div className="flex justify-between mt-4">
-                                <p className="text-dark">Matriculas</p>
-                                <ProgressBar />
-                                <p className="text-dark">23.28%</p>
+                        <div className="mb-4 mt-10 flex items-center space-x-4">
+                            <h3>Estudiantes</h3>
+                            <div className="flex-1">
+                                <ProgressBar value={Number(statistics.total)} />
                             </div>
-                            <div className="flex justify-between mt-4">
-                                <p className="text-dark">Aprobados</p>
-                                <ProgressBar />
-                                <p className="text-dark">23.28%</p>
+                            <p>{Number(statistics.total)}</p>
+                        </div>
+                        <div className="mb-4 mt-10 flex items-center space-x-4">
+                            <h3>Pendientes</h3>
+                            <div className="flex-1">
+                                <ProgressBar value={Number(statistics.approved)} />
                             </div>
-                            <div className="flex justify-between mt-4">
-                                <p className="text-dark">Pendientes</p>
-                                <ProgressBar />
-                                <p className="text-dark">23.28%</p>
+                            <p>{Number(statistics.approved)}</p>
+                        </div>
+
+                        <div className="mb-4 mt-10 flex items-center space-x-4">
+                            <h3>Aprobados</h3>
+                            <div className="flex-1">
+                                <ProgressBar value={Number(statistics.pending)} />
                             </div>
+                            <p>{Number(statistics.pending)}</p>
                         </div>
                     </div>
                     <div className="p-4">
-                        <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-3xl">Pagos</b>
+                        <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-2xl">Pagos</b>
                         <div className="flex justify-between mt-4">
                             <b className="text-dark">Métrica</b>
                             <b className="text-dark">Valor</b>
@@ -50,7 +90,6 @@ function Home() {
                         <div className="flex justify-between mt-4">
                             <Chart />
                         </div>
-
                     </div>
                 </div>
                 <DataTable />
@@ -59,5 +98,4 @@ function Home() {
     );
 }
 
-// Exportamos el componente para que pueda ser utilizado en otras partes de la aplicación
 export default Home;
