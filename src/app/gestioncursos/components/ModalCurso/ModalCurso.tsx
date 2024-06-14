@@ -113,7 +113,7 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
         setShowModal(true);
         setTimeout(() => {
             setShowModal(false);
-        }, 1000);
+        }, 3000);
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -140,9 +140,9 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                     body: JSON.stringify(requestData),
                 });
                 if (response.ok) {
-                    const {data} = await response.json();
+                    const { data } = await response.json();
 
-                    addCourse({...formData, career: {title: data.career.title}});
+                    addCourse({ ...formData, career: { title: data.career.title } });
                     setFormData({
                         title: "",
                         spaces: "",
@@ -158,8 +158,8 @@ const CrearCurso: NextPage<{ onHide: () => void; addCourse: (course: any) => voi
                         teacherID: null,
                         description: "",
                     });
-                    onHide();
                     showSuccessModal();
+                    onHide();
                 } else {
                     throw new Error("Network response was not ok");
                 }

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import Image from "next/image";
+import Search from "/assets/Search.png";
 
 interface Student {
     code: string;
@@ -16,6 +18,8 @@ export default function BasicDemo() {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [filteredStudents, setFilteredStudents] = useState<Student[]>([]);
     const [isGestionMatriculas, setIsGestionMatriculas] = useState<boolean>(false);
+    const [currentPage, setCurrentPage] = useState(1); // Estado para el número de página actual
+    const [itemsPerPage, setItemsPerPage] = useState(10); // Estado para la cantidad de elementos por página
 
     useEffect(() => {
         // Comprobar si la ruta es /gestionmatriculas
@@ -52,6 +56,13 @@ export default function BasicDemo() {
     const formatDate = (dateString: string): string => {
         return new Date(dateString).toLocaleDateString("es-ES");
     };
+    useEffect(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        setFilteredStudents(students.slice(startIndex, endIndex));
+    }, [currentPage, itemsPerPage, students]);
+
+    const totalPages = Math.ceil(students.length / itemsPerPage);
 
     const statusBodyTemplate = (rowData: Student) => {
         let statusClass = "";
@@ -94,28 +105,34 @@ export default function BasicDemo() {
         const value = event.target.value.toLowerCase();
         setSearchTerm(value);
         setFilteredStudents(
-            students.filter(
-                (student) =>
-                    student.name?.toLowerCase().includes(value) ||
-                    student.email?.toLowerCase().includes(value) ||
-                    student.code?.toLowerCase().includes(value) ||
-                    student.status?.toLowerCase().includes(value) ||
-                    formatDate(student.creation).toLowerCase().includes(value)
-            )
+            students.filter((student) => {
+                const name = typeof student.name === "string" ? student.name.toLowerCase() : "";
+                const email = typeof student.email === "string" ? student.email.toLowerCase() : "";
+                const code = typeof student.code === "string" ? student.code.toLowerCase() : "";
+                const status = typeof student.status === "string" ? student.status.toLowerCase() : "";
+                const creation = typeof formatDate(student.creation) === "string" ? formatDate(student.creation).toLowerCase() : "";
+
+                return name.includes(value) || email.includes(value) || code.includes(value) || status.includes(value) || creation.includes(value);
+            })
         );
     };
 
     return (
         <div className="card  m-auto">
             {isGestionMatriculas ? (
-                <input
-                    type="text"
-                    placeholder="Buscar usuario"
-                    className={`w-fill p-2 pl-10 border rounded ${searchTerm ? "border-primary" : ""}`}
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    onFocus={() => setSearchTerm(searchTerm)} // To trigger re-render for applying border-primary class
-                />
+                <div className="relative w-full sm:w-1/2">
+                    <input
+                        type="text"
+                        placeholder="Buscar"
+                        className={`w-full p-2 my-4 pl-10 border border-primary rounded-xl ${searchTerm ? "border-primary" : ""}`}
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        onFocus={() => setSearchTerm(searchTerm)}
+                    />
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <Image src={Search} alt="Buscar" width={20} height={20} />
+                    </div>
+                </div>
             ) : (
                 <b>Lista de estudiantes - proceso matrícula</b>
             )}
@@ -127,6 +144,25 @@ export default function BasicDemo() {
                 <Column field="status" header="Estado" body={statusBodyTemplate} className="status-column"></Column>
                 <Column body={actionBodyTemplate} headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
             </DataTable>
+            <div className="flex justify-center mt-4 bg-action rounded-lg">
+                <button
+                    className="text-action font-normal hover:bg-secundary hover:text-white bg-primary m-2 p-2 rounded-xl"
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                    Anterior
+                </button>
+                <span className="m-2 p-2  text-primary font-normal ">
+                    Página {currentPage} de {totalPages}
+                </span>
+                <button
+                    className="text-action font-normal hover:bg-secundary hover:text-white bg-primary  m-2 p-2 rounded-xl"
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                    Siguiente
+                </button>
+            </div>
         </div>
     );
 }

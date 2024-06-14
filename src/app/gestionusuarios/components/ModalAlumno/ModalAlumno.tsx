@@ -47,7 +47,7 @@ const CrearEstudiante: NextPage<{ onHide: () => void; addStudent: (user: any) =>
     const [errors, setErrors] = useState<Partial<FormData>>({});
     const [showModal, setShowModal] = useState(false);
 
-    // list of careers
+    // Lista de carreras
     const [careers, setCareers] = useState([
         {
             id: "",
@@ -111,7 +111,7 @@ const CrearEstudiante: NextPage<{ onHide: () => void; addStudent: (user: any) =>
         setShowModal(true);
         setTimeout(() => {
             setShowModal(false);
-        }, 1000);
+        }, 3000);
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -135,8 +135,10 @@ const CrearEstudiante: NextPage<{ onHide: () => void; addStudent: (user: any) =>
                 nombreContactoEmergencia: "",
                 telefonoContactoEmergencia: "",
             });
+            showSuccessModal();
+            onHide();
 
-            // fetch
+            // Fetch
             const sendData = async () => {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/create/student`, {
                     method: "POST",
@@ -150,12 +152,10 @@ const CrearEstudiante: NextPage<{ onHide: () => void; addStudent: (user: any) =>
                     }),
                 });
                 const data = await response.json();
-                onHide();
                 addStudent(data.data);
-                showSuccessModal();
 
                 //is response = ok, hide
-                if (data.ok) onHide();
+                // if (data.ok) onHide();
             };
             sendData();
         }
@@ -188,17 +188,7 @@ const CrearEstudiante: NextPage<{ onHide: () => void; addStudent: (user: any) =>
                                 />
                                 {errors.nombreCompleto && <p className="text-red-500 text-sm ml-4">{errors.nombreCompleto}</p>}
                             </div>
-                            {/* <div className="flex items-center mb-2">
-                                <label className="mr-4 w-1/3">No. de Identificación</label>
-                                <input
-                                    type="text"
-                                    name="numeroIdentificacion"
-                                    value={formData.numeroIdentificacion}
-                                    onChange={handleChange}
-                                    className="flex-1 p-2 border border-dark rounded-xl"
-                                />
-                                {errors.numeroIdentificacion && <p className="text-red-500 text-sm ml-4">{errors.numeroIdentificacion}</p>}
-                            </div> */}
+
                             <div className="flex items-center mb-2">
                                 <label className="mr-4 w-1/3">Programa de Estudio</label>
                                 <select
@@ -275,17 +265,7 @@ const CrearEstudiante: NextPage<{ onHide: () => void; addStudent: (user: any) =>
                                     />
                                     {errors.idEstudiante && <p className="text-red-500 text-sm mt-1">{errors.idEstudiante}</p>}
                                 </div>
-                                {/* <div className="flex flex-col mb-4">
-                                    <label className="mb-2">Programa de Estudio</label>
-                                    <input
-                                        type="text"
-                                        name="programaEstudio"
-                                        value={formData.programaEstudio}
-                                        onChange={handleChange}
-                                        className="p-2 border border-dark rounded-xl"
-                                    />
-                                    {errors.programaEstudio && <p className="text-red-500 text-sm mt-1">{errors.programaEstudio}</p>}
-                                </div> */}
+
                                 <div className="flex flex-col mb-4">
                                     <label className="mb-2">Año de Ingreso</label>
                                     <input

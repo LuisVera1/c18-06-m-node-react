@@ -42,7 +42,7 @@ const CrearDocente: NextPage<{ onHide: () => void; addTeacher: (user: any) => vo
         deptoFacultad: "",
         experienciaProfesional: "",
     });
-    const [studentData, setStudentData] = useState<FormData[]>([]);
+    const [teacherData, setTeacherData] = useState<FormData[]>([]);
     const [errors, setErrors] = useState<Partial<FormData>>({});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -90,13 +90,13 @@ const CrearDocente: NextPage<{ onHide: () => void; addTeacher: (user: any) => vo
         setShowModal(true);
         setTimeout(() => {
             setShowModal(false);
-        }, 1000);
+        }, 3000);
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validate()) {
-            setStudentData([...studentData, formData]);
+            setTeacherData([...teacherData, formData]);
             setFormData({
                 // Limpia el formulario
                 nombreCompleto: "",
@@ -113,6 +113,10 @@ const CrearDocente: NextPage<{ onHide: () => void; addTeacher: (user: any) => vo
                 deptoFacultad: "",
                 experienciaProfesional: "",
             });
+            showSuccessModal();
+            onHide();
+
+            // Fetch
             const sendData = async () => {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/create/teacher`, {
                     method: "POST",
@@ -125,12 +129,10 @@ const CrearDocente: NextPage<{ onHide: () => void; addTeacher: (user: any) => vo
                     }),
                 });
                 const data = await response.json();
-                onHide();
                 addTeacher(data.data);
-                showSuccessModal();
 
                 //is response = ok, hide
-                if (data.ok) onHide();
+                // if (data.ok) onHide();
             };
             sendData();
         }

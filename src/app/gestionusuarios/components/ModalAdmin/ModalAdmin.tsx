@@ -22,9 +22,6 @@ interface FormData {
     experienciaProfesional: string;
     rolPermisos: string;
 }
-// interface CrearEstudianteProps {
-//     // addStudent: (student: FormData) => void;
-// }
 
 const CrearAdmin: NextPage<{ onHide: () => void; addAdmin: (user: any) => void }> = ({ onHide, addAdmin }) => {
     const [activeButton, setActiveButton] = useState(false);
@@ -42,7 +39,7 @@ const CrearAdmin: NextPage<{ onHide: () => void; addAdmin: (user: any) => void }
         experienciaProfesional: "",
         rolPermisos: "",
     });
-    const [studentData, setStudentData] = useState<FormData[]>([]);
+    const [adminData, setAdminData] = useState<FormData[]>([]);
     const [errors, setErrors] = useState<Partial<FormData>>({});
     const [showModal, setShowModal] = useState(false);
 
@@ -74,10 +71,17 @@ const CrearAdmin: NextPage<{ onHide: () => void; addAdmin: (user: any) => void }
         return Object.keys(newErrors).length === 0;
     };
 
+    const showSuccessModal = () => {
+        setShowModal(true);
+        setTimeout(() => {
+            setShowModal(false);
+        }, 3000);
+    };
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validate()) {
-            setStudentData([...studentData, formData]);
+            setAdminData([...adminData, formData]);
             setFormData({
                 // Limpia el formulario
                 nombreCompleto: "",
@@ -93,6 +97,10 @@ const CrearAdmin: NextPage<{ onHide: () => void; addAdmin: (user: any) => void }
                 experienciaProfesional: "",
                 rolPermisos: "",
             });
+            showSuccessModal();
+            onHide();
+
+            // Fetch
             const sendData = async () => {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/create/admin`, {
                     method: "POST",
@@ -105,12 +113,10 @@ const CrearAdmin: NextPage<{ onHide: () => void; addAdmin: (user: any) => void }
                     }),
                 });
                 const data = await response.json();
-                onHide();
                 addAdmin(data.data);
-                // showSuccessModal();
 
                 //is response = ok, hide
-                if (data.ok) onHide();
+                // if (data.ok) onHide();
             };
             sendData();
         }

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Filter from "../../../../../assets/Filter.png";
+// import Filter from "../../../../../assets/Filter.png";
 import Search from "../../../../../assets/Search.png";
 import { DataTable } from "primereact/datatable";
 import { Dialog } from "primereact/dialog";
@@ -220,14 +220,14 @@ const UserTable: NextPage = () => {
                     </div>
                 </div>
                 <div className="flex space-x-2">
-                    <Image src={Filter} alt="Filtro" className="mr-4 cursor-pointer" width={24} height={24} />
+                    {/* <Image src={Filter} alt="Filtro" className="mr-4 cursor-pointer" width={24} height={24} /> */}
                     <button className="bg-action text-primary py-2 px-4 rounded" onClick={() => setDisplayDialog(true)}>
                         Crear nuevo usuario
                     </button>
                     <Dialog onHide={toggleDialog} className="w-3/4 h-auto" visible={displayDialog}>
                         {dialogContent()}
                     </Dialog>
-                    <button className="bg-primary text-white py-2 px-4 rounded">Carga masiva</button>
+                    {/* <button className="bg-primary text-white py-2 px-4 rounded">Carga masiva</button> */}
                 </div>
             </div>
 
@@ -254,10 +254,10 @@ const UserTable: NextPage = () => {
                             No
                         </button>
                     </div>
-                    <p className="text-gray-400 pt-4 text-sm">Nota: se eliminarán los datos de forma permanente</p>
+                    <p className="text-gray-400 pt-4 text-sm">Nota: Se eliminarán los datos de forma permanente</p>
                 </div>
             </Dialog>
-            <div className="flex justify-center mt-4 bg-action">
+            <div className="flex justify-center mt-4 bg-action rounded-lg">
                 <button
                     className="text-action font-normal hover:bg-secundary hover:text-white bg-primary m-2 p-2 rounded-xl"
                     disabled={currentPage === 1}

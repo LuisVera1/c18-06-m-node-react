@@ -1,7 +1,7 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar/sidebar";
-import DataTable from "../components/Table/table"
+import DataTable from "../components/Table/table";
 import { ProgressBar } from "primereact/progressbar";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -38,9 +38,9 @@ function GestionMatriculas() {
     }, []);
 
     return (
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row ">
             <Sidebar />
-            <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8">
+            <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8 bg-white rounded-lg p-6 m-4 shadow ">
                 <div className="flex justify-between items-center w-full px-10 mt-10 mb-20">
                     <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-3xl">Gestión de matriculas</b>
                 </div>

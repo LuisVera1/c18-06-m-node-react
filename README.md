@@ -138,6 +138,7 @@ Cuenta con un sistema de matriculación online, fácil contacto con el área adm
 
 -   Repositorio: [https://github.com/No-Country/c18-06-m-node-react](https://github.com/No-Country/c18-06-m-node-react)
 -   Sitio web: [https://c18-06-m-node-react.vercel.app/](https://c18-06-m-node-react.vercel.app/)
+-   Prototipos: [https://www.figma.com/proto/SPotysNu8Nsmd3Qq7jDog4/Proyecto-No-Country?node-id=1802-1740&t=EVEArbYTJufC7Stq-1&scaling=scale-down&content-scaling=fixed&page-id=102%3A537&starting-point-node-id=1802%3A1740](https://www.figma.com/proto/SPotysNu8Nsmd3Qq7jDog4/Proyecto-No-Country?node-id=1802-1740&t=EVEArbYTJufC7Stq-1&scaling=scale-down&content-scaling=fixed&page-id=102%3A537&starting-point-node-id=1802%3A1740)
 
 ## Expresiones de Gratitud 🙌🏻
 

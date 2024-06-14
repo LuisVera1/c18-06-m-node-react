@@ -7,11 +7,10 @@ import DataTable from "../components/Table/table";
 import ImageAvatar from "../components/avatar/Avatar";
 import "primereact/resources/themes/saga-blue/theme.css"; // Importar tema PrimeReact
 import "primereact/resources/primereact.min.css"; // Importar estilos PrimeReact
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 
 // Definimos y exportamos el componente Home
 function Home() {
-
     const [statistics, setStatistics] = useState({
         total: "0",
         approved: "0",
@@ -31,15 +30,15 @@ function Home() {
 
     const [redirectLogin, setRedirectLogin] = useState(false);
 
-    if(redirectLogin){
-        redirect('/login');
+    if (redirectLogin) {
+        redirect("/login");
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const verifyLogin = () => {
-            const login = localStorage.getItem('loginSuccess');
-            if(!login) setRedirectLogin(true);
-        }
+            const login = localStorage.getItem("loginSuccess");
+            if (!login) setRedirectLogin(true);
+        };
         verifyLogin();
     }, []);
 
@@ -47,12 +46,12 @@ function Home() {
         <div className="flex flex-col md:flex-row ">
             <Sidebar />
 
-            <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8">
-                <div className="flex justify-between items-center w-full px-10 mt-10">
-                    <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-3xl">Dashboard</b>
+            <div className="flex flex-col w-full md:w-3/4 lg:w-5/6 xl:w-7/8 bg-white rounded-lg p-6 m-4 shadow">
+                <div className="flex justify-between items-center w-full px-10 mt-10 ">
+                    <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-3xl ">Dashboard</b>
                     <ImageAvatar />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-full lg:w-3/4 xl:w-5/6 mx-auto mt-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:w-full lg:w-3/4 xl:w-5/6 mx-auto mt-10 flex-1 ">
                     <div className="p-4">
                         <b className="text-dark text-lg md:text-xl lg:text-2xl xl:text-2xl"># De Estudiantes Matriculados</b>
                         <div className="flex justify-between mt-4">

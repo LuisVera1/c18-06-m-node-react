@@ -14,19 +14,18 @@ import { IoIosLogOut } from "react-icons/io";
 import Image from "next/image";
 import Logo from "../../../../assets/logonova.png";
 
-
 export default function Sidebar() {
     const pathname = usePathname();
 
     const Logoo = Logo;
 
-    const handleLogout = async() => {
+    const handleLogout = async () => {
         // Ejemplo de eliminación de tokens (esto dependerá de cómo manejas la autenticación)
         localStorage.removeItem("user");
 
         //delete cookie and loginSucces item
         localStorage.removeItem("loginSuccess");
-        await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/logout`)
+        await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/logout`);
 
         // Redirige a la página de inicio de sesión
         window.location.href = "/login";
@@ -74,11 +73,11 @@ export default function Sidebar() {
                         isActive={pathname === "/gestionfacturacion"}
                     />
                 </ul>
-            <div className="flex justify-around text-primary mt-4">
-                <IoSettings className="text-2xl cursor-pointer" />
-                <CiCircleQuestion className="text-2xl cursor-pointer" />
-                <IoIosLogOut className="text-2xl cursor-pointer" onClick={handleLogout} /> {/* Asocia la función al onClick */}
-            </div>
+                <div className="flex justify-around text-primary mt-4 py-8">
+                    <IoSettings className="text-2xl cursor-pointer" />
+                    <CiCircleQuestion className="text-2xl cursor-pointer" />
+                    <IoIosLogOut className="text-2xl cursor-pointer" onClick={handleLogout} /> {/* Asocia la función al onClick */}
+                </div>
             </nav>
         </div>
     );

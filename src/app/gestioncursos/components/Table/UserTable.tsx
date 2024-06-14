@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Filter from "../../../../../assets/Filter.png";
+// import Filter from "../../../../../assets/Filter.png";
 import Search from "../../../../../assets/Search.png";
 import ModalCurso from "../ModalCurso/ModalCurso";
 import { DataTable } from "primereact/datatable";
@@ -18,7 +18,7 @@ interface Course {
     space?: number;
     codigoCurso: string;
     code?: number;
-    id: number
+    id: number;
 }
 
 const CourseTable: NextPage = () => {
@@ -78,13 +78,13 @@ const CourseTable: NextPage = () => {
         await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/class`, {
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: id
-            })
-        })
-    }
+                id: id,
+            }),
+        });
+    };
 
     const confirmDelete = () => {
         if (courseToDelete) {
@@ -103,15 +103,19 @@ const CourseTable: NextPage = () => {
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value.toLowerCase();
         setSearchTerm(value);
+
         setFilteredCourses(
-            courses.filter(
-                (course) =>
-                    course.course?.toLowerCase()?.includes(value) ||
-                    course.descripcion?.toLowerCase()?.includes(value) ||
-                    course.carreraPlan?.toLowerCase()?.includes(value) ||
-                    course.space?.toString()?.toLowerCase()?.includes(value) ||
-                    course.codigoCurso?.toLowerCase()?.includes(value)
-            )
+            courses.filter((course) => {
+                const name = typeof course.course === "string" ? course.course.toLowerCase() : "";
+                const descripcion = typeof course.descripcion === "string" ? course.descripcion.toLowerCase() : "";
+                const carreraPlan = typeof course.carreraPlan === "string" ? course.carreraPlan.toLowerCase() : "";
+                const space = typeof course.space === "number" ? course.space.toString().toLowerCase() : "";
+                const codigoCurso = typeof course.codigoCurso === "string" ? course.codigoCurso.toLowerCase() : "";
+
+                return (
+                    name.includes(value) || descripcion.includes(value) || carreraPlan.includes(value) || space.includes(value) || codigoCurso.includes(value)
+                );
+            })
         );
     };
 
@@ -142,7 +146,7 @@ const CourseTable: NextPage = () => {
     };
 
     return (
-        <div className="flex-1 p-10 bg-grey ">
+        <div className="flex-1 p-6 bg-white rounded-lg shadow m-4">
             <div className="flex justify-between items-center w-full">
                 <b className="text-primary text-2xl md:text-3xl lg:text-4xl xl:text-3xl">Cursos</b>
             </div>
@@ -155,13 +159,14 @@ const CourseTable: NextPage = () => {
                         className="w-full p-2 pl-10 border border-primary rounded-xl"
                         value={searchTerm}
                         onChange={handleSearch}
+                        onFocus={() => setSearchTerm(searchTerm)}
                     />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <Image src={Search} alt="Buscar" width={20} height={20} />
                     </div>
                 </div>
                 <div className="flex space-x-2">
-                    <Image src={Filter} alt="Filtro" className="mr-4 cursor-pointer" width={24} height={24} />
+                    {/* <Image src={Filter} alt="Filtro" className="mr-4 cursor-pointer" width={24} height={24} /> */}
 
                     <button
                         onClick={() => handleButtonClick("crear")}
@@ -176,12 +181,12 @@ const CourseTable: NextPage = () => {
                     <Dialog className="w-3/4" visible={displayDialog} onHide={toggleDialog}>
                         <ModalCurso onHide={toggleDialog} addCourse={addCourse} />
                     </Dialog>
-                    <button
+                    {/* <button
                         onClick={() => handleButtonClick("carga")}
                         className={`py-2 px-4 rounded ${activeButton === "carga" ? "bg-action text-primary" : "bg-primary text-white"}`}
                     >
                         Carga masiva
-                    </button>
+                    </button> */}
                 </div>
             </div>
 
@@ -189,7 +194,7 @@ const CourseTable: NextPage = () => {
                 <Column field="title" header="Título" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column field="description" header="Descripción" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column field="career.title" header="Carrera/Plan" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
-                <Column field="spaces" header="# Cupos" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
+                <Column field="spaces" header="Cupos" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column field="code" header="Código" headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
                 <Column body={actionBodyTemplate} headerClassName="text-primary" headerStyle={{ fontWeight: "bold", fontSize: "1.2rem" }} />
             </DataTable>
@@ -207,10 +212,10 @@ const CourseTable: NextPage = () => {
                             No
                         </button>
                     </div>
-                    <p className="text-gray-400 pt-4 text-sm">Nota: se eliminarán los datos de forma permanente</p>
+                    <p className="text-gray-400 pt-4 text-sm">Nota: Se eliminarán los datos de forma permanente</p>
                 </div>
             </Dialog>
-            <div className="flex justify-center mt-4 bg-action">
+            <div className="flex justify-center mt-4 bg-action rounded-lg">
                 <button
                     className="text-action font-normal hover:bg-secundary hover:text-white bg-primary m-2 p-2 rounded-xl"
                     disabled={currentPage === 1}

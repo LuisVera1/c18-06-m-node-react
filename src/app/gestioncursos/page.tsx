@@ -9,7 +9,7 @@ const Cursos: NextPage = () => {
         <div className="flex min-h-screen">
             <Sidebar />
             <main className="flex-1">
-                <header className="shadow p-6">
+                <header>
                     <UserTable />
                 </header>
             </main>
