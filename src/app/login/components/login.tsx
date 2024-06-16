@@ -12,7 +12,8 @@ import Image from "next/image";
 import BannerLoginAlumn from "../../../../assets/login.png"; // Imagen para alumnos
 import BannerLoginTeacher from "../../../../assets/teacher 1.png"; // Imagen para docentes
 import BannerLoginAdmin from "../../../../assets/container_2.png"; // Imagen para administradores
-import { redirect } from 'next/navigation';
+import Logo from "../../../../public/logonova.png"; // Imagen para administradores
+import { redirect } from "next/navigation";
 
 const Login: NextPage = () => {
     const [email, setEmail] = useState<string>("");
@@ -43,16 +44,16 @@ const Login: NextPage = () => {
 
     //redirect to dashboard
     const [redirectLogin, setRedirectLogin] = useState(false);
-    if(redirectLogin){
-        redirect('/');
+    if (redirectLogin) {
+        redirect("/");
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const verifyLogin = () => {
-            const login = localStorage.getItem('loginSuccess');
-            if(login) setRedirectLogin(true);
-        }
-        verifyLogin()
+            const login = localStorage.getItem("loginSuccess");
+            if (login) setRedirectLogin(true);
+        };
+        verifyLogin();
     }, []);
 
     // Maneja el envío del formulario
@@ -127,14 +128,17 @@ const Login: NextPage = () => {
         <div className="flex h-screen">
             <div className="card w-1/2 flex items-center justify-center">
                 <form className="flex flex-col gap-3 py-5 w-full" onSubmit={handleSubmit}>
-                    <p className="text-primary font-bold text-3xl mb-10 text-center font-barlow">Iniciar sesión</p>
+                    <div className="flex justify-center ">
+                        <Image className="w-56" src={Logo} alt="logo" />
+                    </div>
+                    <p className="text-primary font-bold text-3xl mb-6 text-center font-barlow mt-20">Iniciar sesión</p>
                     <div className="flex flex-col items-center gap-2 w-full">
                         <div className="flex flex-col w-2/4 items-center">
                             <select
                                 id="role"
                                 value={role}
                                 onChange={(e) => setRole(e.target.value)}
-                                className="w-40 border-2 border-primary rounded bg-action text-primary py-1 px-2 text-xs mb-1 font-medium font-sans text-center"
+                                className="w-36 border-2 border-primary rounded-full bg-action text-primary py-1 px-2 text-xs mb-1 font-medium font-sans text-center"
                             >
                                 <option value="alumno">Alumno</option>
                                 <option value="docente">Docente</option>
@@ -173,10 +177,10 @@ const Login: NextPage = () => {
                                 placeholder="Ingresa tu contraseña"
                             />
                             {loginSuccess && (
-                                <p className="text-primary text-xs mb-5 font-medium font-sans text-justify w-1/2 mx-auto">Inicio de sesión exitoso</p>
+                                <p className="text-primary text-xs mb-5 font-medium font-sans text-center w-1/2 mx-auto">Inicio de sesión exitoso</p>
                             )}
                             {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
-                            <p className="text-xs text-right mt-2 hover:underline">
+                            <p className="text-primary text-xs text-right mt-2 hover:underline">
                                 <Link href="/olvidarcontrasena">¿Olvidó contraseña?</Link>
                             </p>
                         </div>

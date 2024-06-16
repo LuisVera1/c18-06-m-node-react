@@ -1,4 +1,4 @@
-<img  src="./assets/logonova.png" style="width: 180px; height: 50px;">
+<img  src="./public/logonova.png" style="width: 180px; height: 50px;">
 
 ### Abriendo puertas hacia la educación moderna
 
@@ -25,7 +25,7 @@ Cuenta con un sistema de matriculación online, fácil contacto con el área adm
 <div style="display: flex; flex-wrap: wrap; justify-content: center;">
 
   <div style="text-align: center; margin: 10px;">
-    <img src="https://media.licdn.com/dms/image/D4D35AQGffb9q8SF6Sg/profile-framedphoto-shrink_800_800/0/1700855601895?e=1718298000&v=beta&t=O-X29IyXsleV2ymZSSu_x5Cq51hYPIHsYfhXkHmy4QY" style="width: 100px; height: 100px; border-radius: 50px;">
+    <img src="./public/silvia.jpg" style="width: 100px; height: 100px; border-radius: 50px;">
     <p><strong>Silvia Gallo</strong></p>
     <p><em>UX/UI</em></p>
     <div>
@@ -36,7 +36,7 @@ Cuenta con un sistema de matriculación online, fácil contacto con el área adm
   </div>
 
   <div style="text-align: center; margin: 10px;">
-    <img src="https://media.licdn.com/dms/image/D4E03AQE90EN7u881DA/profile-displayphoto-shrink_400_400/0/1709847819091?e=1723075200&v=beta&t=H48w6a0VV92rI3LH-SzjEvubLsJserIS8cC6NpKMNYw" style="width: 100px; height: 100px; border-radius: 50px;">
+    <img src="./public/carlos.jpg" style="width: 100px; height: 100px; border-radius: 50px;">
     <p><strong>Carlos Hidalgo</strong></p>
     <p><em>UX/UI</em></p>
     <div>
@@ -47,7 +47,7 @@ Cuenta con un sistema de matriculación online, fácil contacto con el área adm
   </div>
 
   <div style="text-align: center; margin: 10px;">
-    <img src="https://media.licdn.com/dms/image/D5635AQEOmdXj20oWxA/profile-framedphoto-shrink_800_800/0/1714185313974?e=1718298000&v=beta&t=7fUOt4oLvD90DzMHYRPmPmXAnc1rNr3J_3UwZLL6t2E" style="width: 100px; height: 100px; border-radius: 50px;">
+    <img src="./public/luis.jpg" style="width: 100px; height: 100px; border-radius: 50px;">
     <p><strong>Luis Vera</strong></p>
     <p><em>Back-end</em></p>
     <div>
@@ -63,7 +63,7 @@ Cuenta con un sistema de matriculación online, fácil contacto con el área adm
   </div>
 
   <div style="text-align: center; margin: 10px;">
-    <img src="https://media.licdn.com/dms/image/C4D03AQHwE944RaANKA/profile-displayphoto-shrink_400_400/0/1656994106298?e=1721865600&v=beta&t=fGJtV1HDwazETwCQxzEtaVYuWuu56kO8w6R8z8qTKEw" style="width: 100px; height: 100px; border-radius: 50px;">
+    <img src="./public/eduardo.jpg" style="width: 100px; height: 100px; border-radius: 50px;">
     <p><strong>Eduardo Aguilar</strong></p>
     <p><em>Front-end</em></p>
     <div>
@@ -79,7 +79,7 @@ Cuenta con un sistema de matriculación online, fácil contacto con el área adm
   </div>
 
   <div style="text-align: center; margin: 10px;">
-    <img src="https://media.licdn.com/dms/image/D4E35AQFoYrXJJr0d2Q/profile-framedphoto-shrink_400_400/0/1716871116418?e=1718298000&v=beta&t=vEgHNb9uPcdDLz2rfg0vGx9eQH7yTOVUa1zNjKqgXu4" style="width: 100px; height: 100px; border-radius: 50px;">
+    <img src="./public/paola.jpeg" style="width: 100px; height: 100px; border-radius: 50px;">
     <p><strong>Paola González</strong></p>
     <p><em>Front-end</em></p>
     <div>
@@ -132,6 +132,8 @@ Cuenta con un sistema de matriculación online, fácil contacto con el área adm
   <img src="https://icon.icepanel.io/Technology/svg/Trello.svg" alt="Trello" style="width: 50px; height: 50px; margin: 10px;">
   <img src="https://icon.icepanel.io/Technology/svg/Slack.svg" alt="Slack" style="width: 50px; height: 50px; margin: 10px;">
   <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" alt="Discord" style="width: 50px; height: 50px; margin: 10px;">
+   <img src="https://www.svgrepo.com/show/448238/loom.svg" alt="Discord" style="width: 50px; height: 50px; margin: 10px;">
+ 
 </div>
 
 ## Enlaces de Proyecto 🔗
