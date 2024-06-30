@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { DataTable } from "primereact/datatable";
+import { Dialog } from "primereact/dialog";
 import { Column } from "primereact/column";
 import Image from "next/image";
 import Search from "/assets/Search.png";
+import OkImage from "./../../../../assets/Check Mark.png";
+import "primereact/resources/themes/saga-blue/theme.css"; // Importar tema PrimeReact
+import "primereact/resources/primereact.min.css"; // Importar estilos PrimeReact
 
 interface Student {
     code: string;
@@ -20,6 +24,9 @@ export default function BasicDemo() {
     const [isGestionMatriculas, setIsGestionMatriculas] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState(1); // Estado para el número de página actual
     const [itemsPerPage, setItemsPerPage] = useState(10); // Estado para la cantidad de elementos por página
+    const [MatToDelete, setMatToDelete] = useState<Student | null>(null); // Estado para almacenar la matrícula que se eliminará
+    const [displayConfirmationDialog, setDisplayConfirmationDialog] = useState(false); // Estado para mostrar/ocultar el modal de confirmación de eliminación
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         // Comprobar si la ruta es /gestionmatriculas
@@ -51,6 +58,41 @@ export default function BasicDemo() {
 
         fetchStudents();
     }, []);
+
+    const handleDelete = (course: Student) => {
+        setMatToDelete(course); // Almacenar el curso que se va a eliminar
+        setDisplayConfirmationDialog(true); // Mostrar el diálogo de confirmación de eliminación
+    };
+
+    // const deleteMat = async (id: number) => {
+    //     await fetch(`${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/delete/class`, {
+    //         method: "DELETE",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({
+    //             id: id,
+    //         }),
+    //     });
+    // };
+
+    const confirmDelete = () => {
+        if (MatToDelete) {
+            const newStudents = students.filter((student) => student.code !== MatToDelete.code);
+
+            // Aquí deberías actualizar el estado de students con newStudents
+            setStudents(newStudents);
+
+            setDisplayConfirmationDialog(false); // Ocultar el diálogo de confirmación de eliminación
+            showSuccessModal();
+        }
+    };
+    const showSuccessModal = () => {
+        setShowModal(true);
+        setTimeout(() => {
+            setShowModal(false);
+        }, 3000);
+    };
 
     // Función para formatear la fecha
     const formatDate = (dateString: string): string => {
@@ -88,14 +130,14 @@ export default function BasicDemo() {
         return <span className={`p-2 border-round font-normal ${statusClass}`}>{rowData.status}</span>;
     };
 
-    const actionBodyTemplate = () => {
+    const actionBodyTemplate = (rowData: Student) => {
         return (
             <div className="flex justify-around">
                 <button className="text-primary ">
                     <AiOutlineEdit size={20} />
                 </button>
                 <button className="text-primary">
-                    <AiOutlineDelete size={20} />
+                    <AiOutlineDelete size={20} onClick={() => handleDelete(rowData)} />
                 </button>
             </div>
         );
@@ -134,29 +176,52 @@ export default function BasicDemo() {
                     </div>
                 </div>
             ) : (
-                <b>Lista de estudiantes - proceso matrícula</b>
+                <b className="font-barlow text-md text-dark">Lista de estudiantes - proceso matrícula</b>
             )}
             <DataTable value={filteredStudents.length ? filteredStudents : students} tableStyle={{ minWidth: "50rem" }} className="custom-table ">
-                <Column field="name" header="Nombre" className="header-column"></Column>
-                <Column field="creation" header="Fecha solicitud" className="header-column"></Column>
-                <Column field="code" header="ID Estudiante" className="header-column"></Column>
-                <Column field="career.title" header="Programa" className="header-column"></Column>
-                <Column field="status" header="Estado" body={statusBodyTemplate} className="status-column"></Column>
+                <Column field="name" header="Nombre" className="header-column font-barlow text-xs"></Column>
+                <Column field="creation" header="Fecha solicitud" className="header-column font-barlow text-xs"></Column>
+                <Column field="code" header="ID Estudiante" className="header-column font-barlow text-xs"></Column>
+                <Column field="career.title" header="Programa" className="header-column font-barlow text-xs"></Column>
+                <Column field="status" header="Estado" body={statusBodyTemplate} className="status-column font-barlow text-xs"></Column>
                 <Column body={actionBodyTemplate} headerStyle={{ fontWeight: "bold", fontSize: "1.2rem", color: "#000" }}></Column>
             </DataTable>
+            <Dialog visible={displayConfirmationDialog} onHide={() => setDisplayConfirmationDialog(false)} modal>
+                <div className="flex flex-col items-center gap-4 px-4">
+                    <p className="text-center text-primary text-xl font-semibold">¿Está seguro de que desea eliminar {MatToDelete?.name}?</p>
+                    <div className="flex space-x-4 items-center justify-center">
+                        <button onClick={confirmDelete} className="py-2 px-4 bg-primary text-white rounded hover:bg-secundary">
+                            Sí
+                        </button>
+                        <button
+                            onClick={() => setDisplayConfirmationDialog(false)}
+                            className="py-2 px-4 bg-action text-primary rounded hover:bg-secundary hover:text-white"
+                        >
+                            No
+                        </button>
+                    </div>
+                    <p className="text-gray-400 pt-4 text-sm">Nota: Se eliminarán los datos de forma permanente</p>
+                </div>
+            </Dialog>
+            <Dialog visible={showModal} onHide={() => setShowModal(false)} modal>
+                <div className="flex flex-col items-center gap-2 w-full rounded-full p-4">
+                    <p className="text-primary text-xl font-bold">Información eliminada</p>
+                    <Image className="w-40 h-full object-cover" src={OkImage} alt="img-login" quality={100} priority />
+                </div>
+            </Dialog>
             <div className="flex justify-center mt-4 bg-action rounded-lg">
                 <button
-                    className="text-action font-normal hover:bg-secundary hover:text-white bg-primary m-2 p-2 rounded-xl"
+                    className="text-action font-sans text-sm hover:bg-secundary hover:text-white bg-primary m-2 p-2 rounded-xl"
                     disabled={currentPage === 1}
                     onClick={() => setCurrentPage(currentPage - 1)}
                 >
                     Anterior
                 </button>
-                <span className="m-2 p-2  text-primary font-normal ">
+                <span className="m-2 p-2  text-primary font-sans text-sm">
                     Página {currentPage} de {totalPages}
                 </span>
                 <button
-                    className="text-action font-normal hover:bg-secundary hover:text-white bg-primary  m-2 p-2 rounded-xl"
+                    className="text-action font-sans text-sm hover:bg-secundary hover:text-white bg-primary  m-2 p-2 rounded-xl"
                     disabled={currentPage === totalPages}
                     onClick={() => setCurrentPage(currentPage + 1)}
                 >

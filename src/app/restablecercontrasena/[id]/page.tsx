@@ -17,8 +17,8 @@ function NewPass() {
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const router = useRouter();
-    const params = useParams<{ id: string }>()
-    const token =  params.id;
+    const params = useParams<{ id: string }>();
+    const token = params.id;
 
     const validatePassword = (password: string): boolean => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,8}$/;

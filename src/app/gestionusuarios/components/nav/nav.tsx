@@ -9,9 +9,9 @@ const Navv: NextPage = () => {
     return (
         <div className="flex">
             <main className="flex-1">
-                <header className="bg-grey rounded-lg p-6">
+                <header className="bg-grey rounded-lg p-6 shadow">
                     <nav>
-                        <ul className="flex justify-between">
+                        <ul className="flex justify-between font-barlow">
                             <NavItem
                                 href="/gestionusuarios"
                                 text="Estudiante"

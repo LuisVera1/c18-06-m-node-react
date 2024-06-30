@@ -8,6 +8,8 @@ import { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import BannerCambio from "./../../../assets/container_2.png";
+import "primereact/resources/themes/saga-blue/theme.css"; // Importar tema PrimeReact
+import "primereact/resources/primereact.min.css"; // Importar estilos PrimeReact
 
 const ForgetPassContent: NextPage = () => {
     const [email, setEmail] = useState<string>("");
@@ -41,7 +43,7 @@ const ForgetPassContent: NextPage = () => {
             };
 
             const loginUrl = roleToUrlMap[role];
-            const URL = `${process.env.NEXT_PUBLIC_URL_BASE}/api/resetpassword`
+            const URL = `${process.env.NEXT_PUBLIC_URL_BASE}/api/resetpassword`;
 
             try {
                 const response = await fetch(URL, {
@@ -73,14 +75,14 @@ const ForgetPassContent: NextPage = () => {
     };
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col lg:flex-row md:flex-row h-screen">
             {!emailSent ? (
-                <div className="card w-1/2 flex items-center justify-center">
+                <div className="card lg:w-1/2 md:w-1/2 flex items-center justify-center">
                     <form className="flex flex-col gap-3 py-5 w-full" onSubmit={handleSubmit}>
                         <p className="text-primary font-bold text-3xl mb-5 text-center font-barlow">Olvidé mi contraseña</p>
                         <div className="w-1/2 mx-auto">
-                            <p className="text-primary text-justify text-xs mb-4 font-medium font-sans">
-                                Para poder restablecer su contraseña, necesitamos que por favor ingrese su e-mail y elija el rol. Enviaremos un correo donde
+                            <p className="text-primary text-justify text-xs mb-4 font-normal font-sans text-">
+                                Para poder restablecer tu contraseña, necesitamos que por favor ingreses tu e-mail y elijas el rol. Enviaremos un correo donde
                                 habrá una serie de pasos a seguir.
                             </p>
                             <div className="flex flex-col items-center gap-2 w-full">
@@ -90,7 +92,7 @@ const ForgetPassContent: NextPage = () => {
                                         id="role"
                                         value={role}
                                         onChange={(e) => setRole(e.target.value)}
-                                        className="w-40 border-2 border-primary rounded bg-action text-primary py-1 px-2 text-xs font-medium font-sans text-center"
+                                        className="w-24 border border-primary rounded-full bg-white text-primary py-1 text-xs mb-1 font-medium font-sans text-center"
                                     >
                                         <option value="Student">Alumno</option>
                                         <option value="Teacher">Docente</option>
@@ -118,7 +120,7 @@ const ForgetPassContent: NextPage = () => {
                         <div className="flex flex-col items-center gap-2 w-full">
                             <Button
                                 label="Confirmar"
-                                className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans hover:bg-secundary"
+                                className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans text-sm hover:bg-secundary"
                                 type="submit"
                             />
                         </div>
@@ -145,7 +147,7 @@ const ForgetPassContent: NextPage = () => {
                     </div>
                 </div>
             )}
-            <div className="w-1/2">
+            <div className="w-1/2 lg:w-1/2 hidden sm:block">
                 <Image className="w-full h-full object-cover" src={BannerCambio} alt="img-login" quality={100} priority />
             </div>
         </div>
@@ -154,7 +156,7 @@ const ForgetPassContent: NextPage = () => {
 
 const ForgetPass: NextPage = () => (
     // <UserProvider>
-        <ForgetPassContent />
+    <ForgetPassContent />
     // </UserProvider>
 );
 

@@ -1,10 +1,10 @@
-import Sidebar from '../components/sidebar/sidebar'
+import Sidebar from "../components/sidebar/sidebar";
 
 function gestionfacturacion() {
-  return (
-    <section className="flex-1">
-      <Sidebar />
-    </section>
-  )
+    return (
+        <section className="flex-1">
+            <Sidebar />
+        </section>
+    );
 }
-export default gestionfacturacion 
+export default gestionfacturacion;

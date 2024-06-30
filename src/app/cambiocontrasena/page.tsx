@@ -38,13 +38,13 @@ function ChangePass() {
 
             try {
                 //-------------------------------------------------
-                const rolefromSelect = 'Student'
+                const rolefromSelect = "Student";
 
                 const selectURL = {
                     Admin: `${process.env.NEXT_PUBLIC_URL_BASE}/api/admin/newPassword`,
                     Teacher: `${process.env.NEXT_PUBLIC_URL_BASE}/api/teacher/newPassword`,
-                    Student: `${process.env.NEXT_PUBLIC_URL_BASE}/api/student/newPassword`
-                }
+                    Student: `${process.env.NEXT_PUBLIC_URL_BASE}/api/student/newPassword`,
+                };
 
                 const fetchURL = selectURL[rolefromSelect];
 
@@ -59,7 +59,6 @@ function ChangePass() {
                     }),
                 });
                 //-------------------------------------------------
-
 
                 // Hacer solicitud a la ruta de estudiantes
                 // const studentResponse = await fetch(studentUrl, {
@@ -86,7 +85,8 @@ function ChangePass() {
                 // });
 
                 // if (studentResponse.ok && teacherResponse.ok) {
-                if (response.ok) { //-------------------------------------------------
+                if (response.ok) {
+                    //-------------------------------------------------
                     setSuccessMessage("¡Contraseña cambiada con éxito!");
                     setPassword("");
                     setNewPassword("");
@@ -102,12 +102,12 @@ function ChangePass() {
     };
 
     return (
-        <div className="flex h-screen">
-            <div className="card w-1/2 flex items-center justify-center">
+        <div className="flex flex-col lg:flex-row md:flex-row h-screen">
+            <div className="card lg:w-1/2 md:w-1/2 flex items-center justify-center">
                 <form className="flex flex-col gap-3 py-5 w-full" onSubmit={handleSubmit}>
                     <p className="text-primary font-bold text-3xl mb-5 text-center font-barlow">Cambio de contraseña</p>
 
-                    <p className="text-primary text-xs mb-1 font-medium font-sans text-justify w-1/2 mx-auto">
+                    <p className="text-primary text-xs mb-1 font-normal font-sans text-justify w-1/2 mx-auto">
                         Tu contraseña debe tener entre 6 y 8 caracteres, al menos una mayúscula y un número
                     </p>
 
@@ -146,13 +146,13 @@ function ChangePass() {
                         {successMessage && <p className="text-primary font-bold">{successMessage}</p>}
                         <Button
                             label="Confirmar"
-                            className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans hover:bg-secundary"
+                            className="w-40 mt-10 bg-primary text-grey rounded m-4 py-2 px-4 text-center font-sans text-sm hover:bg-secundary"
                             type="submit"
                         />
                     </div>
                 </form>
             </div>
-            <div className="w-1/2">
+            <div className="w-1/2 lg:w-1/2 hidden sm:block">
                 <Image className="w-full h-full object-cover" src={BannerCambio} alt="img-login" quality={100} priority />
             </div>
         </div>

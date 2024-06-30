@@ -1,6 +1,6 @@
 import Sidebar from "@/app/components/sidebar/sidebar";
 import UserTable from "../components/Table/UserTable";
-import Navbar from "../components/nav/nav"
+import Navbar from "../components/nav/nav";
 
 import { NextPage } from "next";
 

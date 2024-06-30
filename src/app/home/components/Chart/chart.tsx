@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { Chart } from 'primereact/chart';
+import React, { useState, useEffect } from "react";
+import { Chart } from "primereact/chart";
 
 interface StatisticsData {
     approved: string;
@@ -23,9 +23,9 @@ export default function DoughnutChartDemo() {
     useEffect(() => {
         const fetchStatistics = async () => {
             try {
-                const response = await fetch('/api/admin/get/statistics');
+                const response = await fetch("/api/admin/get/statistics");
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
                 if (data.ok) {
@@ -34,7 +34,7 @@ export default function DoughnutChartDemo() {
                     console.error(data.message);
                 }
             } catch (error) {
-                console.error('Error fetching statistics:', error);
+                console.error("Error fetching statistics:", error);
             }
         };
 
@@ -50,9 +50,9 @@ export default function DoughnutChartDemo() {
                 datasets: [
                     {
                         data: [ticketsPercentage, pendingPercentage, approvedPercentage],
-                        backgroundColor: ['#5b40ff', '#fe7148', '#22c998'],
-                    }
-                ]
+                        backgroundColor: ["#5b40ff", "#fe7148", "#22c998"],
+                    },
+                ],
             };
 
             setChartData(data);
@@ -61,37 +61,37 @@ export default function DoughnutChartDemo() {
 
     useEffect(() => {
         const options = {
-            cutout: '60%',
+            cutout: "60%",
             plugins: {
                 legend: {
                     display: true,
-                    position: 'bottom',
+                    position: "bottom",
                     labels: {
                         usePointStyle: true,
-                        pointStyle: 'circle',
+                        pointStyle: "circle",
                         padding: 20,
                         font: {
-                            size: 16
+                            size: 16,
                         },
                         boxWidth: 20,
-                        boxHeight: 20
-                    }
+                        boxHeight: 20,
+                    },
                 },
                 tooltip: {
                     callbacks: {
                         label: function (context: any) {
-                            let label = context.label || '';
+                            let label = context.label || "";
                             if (label) {
-                                label += ': ';
+                                label += ": ";
                             }
                             if (context.raw !== null) {
-                                label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.raw);
+                                label += new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(context.raw);
                             }
                             return label;
-                        }
-                    }
-                }
-            }
+                        },
+                    },
+                },
+            },
         };
         setChartOptions(options);
     }, []);
@@ -100,33 +100,33 @@ export default function DoughnutChartDemo() {
         <div className="card flex justify-content-center">
             <Chart type="doughnut" data={chartData} options={chartOptions} className="w-full md:w-30rem" />
             {statisticsData && (
-                <div className="legend-container w-full p-5 mt-10">
+                <div className="legend-container w-full p-5 mt-10 bg-white shadow rounded-2xl">
                     <div className="legend-item grid">
-                        <span className="color-box" style={{ backgroundColor: '#5b40ff' }}></span>
-                        <div className='grid'>
-                            <span className="legend-text">Tickets de soporte abiertos</span>
-                            <div className='flex'>
-                                <b className="legend-text">{statisticsData.tickets}</b>
+                        <span className="color-box" style={{ backgroundColor: "#5b40ff", borderRadius: "50%", width: "43px" }}></span>
+                        <div className="grid">
+                            <span className="text-xs font-sans">Tickets de soporte abiertos</span>
+                            <div className="flex">
+                                <b className="text-xs">{statisticsData.tickets}</b>
                                 {/* <p className="legend-text ml-4">{parseFloat(statisticsData.tickets)}%</p> */}
                             </div>
                         </div>
                     </div>
                     <div className="legend-item">
-                        <span className="color-box" style={{ backgroundColor: '#fe7148' }}></span>
-                        <div className='grid'>
-                            <span className="legend-text">Pagos pendientes</span>
-                            <div className='flex'>
-                                <b className="legend-text">{statisticsData.paymentsPending}%</b>
+                        <span className="color-box" style={{ backgroundColor: "#fe7148", borderRadius: "50%", width: "28px" }}></span>
+                        <div className="grid">
+                            <span className="text-xs font-sans">Pagos pendientes</span>
+                            <div className="flex">
+                                <b className="text-xs">{statisticsData.paymentsPending}%</b>
                                 {/* <p className="legend-text ml-4">{parseFloat(statisticsData.paymentsPending)}%</p> */}
                             </div>
                         </div>
                     </div>
                     <div className="legend-item">
-                        <span className="color-box" style={{ backgroundColor: '#22c998' }}></span>
-                        <div className='grid'>
-                            <span className="legend-text">Pagos aprobados</span>
-                            <div className='flex'>
-                                <b className="legend-text">{statisticsData.paymentsApproved}%</b>
+                        <span className="color-box" style={{ backgroundColor: "#22c998", borderRadius: "50%", width: "28px" }}></span>
+                        <div className="grid">
+                            <span className="text-xs font-sans">Pagos aprobados</span>
+                            <div className="flex">
+                                <b className="text-xs">{statisticsData.paymentsApproved}%</b>
                                 {/* <p className="legend-text ml-4">{parseFloat(statisticsData.paymentsApproved)}%</p> */}
                             </div>
                         </div>

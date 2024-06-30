@@ -1,13 +1,11 @@
 "use client";
-import React from 'react';
-import { ProgressBar } from 'primereact/progressbar';
+import React from "react";
+import { ProgressBar } from "primereact/progressbar";
 
 export default function BasicDemo() {
-
-
     return (
         <div className="card w-80">
-            <ProgressBar value={''} />
+            <ProgressBar value={""} />
         </div>
     );
 }

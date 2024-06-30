@@ -6,7 +6,9 @@ const App = ({ children }: { children: React.ReactNode }) => {
     useAuth();
 
     return (
-        <UserProvider> {/* Envuelve toda la aplicación con UserProvider */}
+        <UserProvider>
+            {" "}
+            {/* Envuelve toda la aplicación con UserProvider */}
             {children}
         </UserProvider>
     );

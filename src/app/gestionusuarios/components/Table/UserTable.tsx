@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 import ModalAlumno from "../ModalAlumno/ModalAlumno";
 import ModalDocente from "../ModalDocente/ModalDocente";
 import ModalAdmin from "../ModalAdmin/ModalAdmin";
+import OkImage from "./../../../../../assets/Check Mark.png";
 
 interface User {
     name: string;
@@ -34,6 +35,7 @@ const UserTable: NextPage = () => {
     const [itemsPerPage, setItemsPerPage] = useState(5); // Estado para la cantidad de elementos por página
     const [studentToDelete, setStudentToDelete] = useState<User | null>(null); // Estado para almacenar el estudiante que se eliminará
     const [displayConfirmationDialog, setDisplayConfirmationDialog] = useState(false); // Estado para mostrar/ocultar el modal de confirmación de eliminación
+    const [showModal, setShowModal] = useState(false);
     const pathname = usePathname();
 
     const dialogContent = () => {
@@ -169,7 +171,14 @@ const UserTable: NextPage = () => {
             setFilteredUsers(updatedStudents); // Actualizar la lista filtrada de estudiantes
             setStudentToDelete(null); // Reiniciar el estudiante a eliminar
             setDisplayConfirmationDialog(false); // Ocultar el diálogo de confirmación de eliminación
+            showSuccessModal();
         }
+    };
+    const showSuccessModal = () => {
+        setShowModal(true);
+        setTimeout(() => {
+            setShowModal(false);
+        }, 3000);
     };
     const actionBodyTemplate = (rowData: User) => {
         return (
@@ -200,7 +209,7 @@ const UserTable: NextPage = () => {
     };
     return (
         <div className="flex-1 p-6 bg-white rounded-lg shadow m-4">
-            <h1 className="font-bold text-primary text-2xl mb-5">
+            <h1 className="font-bold text-primary text-3xl mb-5 font-barlow">
                 {pathname === "/gestionusuarios" && "Lista de estudiantes"}
                 {pathname === "/gestionusuarios/docentes" && "Lista de docentes"}
                 {pathname === "/gestionusuarios/administrador" && "Lista de administradores"}
@@ -221,7 +230,7 @@ const UserTable: NextPage = () => {
                 </div>
                 <div className="flex space-x-2">
                     {/* <Image src={Filter} alt="Filtro" className="mr-4 cursor-pointer" width={24} height={24} /> */}
-                    <button className="bg-action text-primary py-2 px-4 rounded" onClick={() => setDisplayDialog(true)}>
+                    <button className="bg-action text-primary py-2 px-4 rounded font-sans text-sm" onClick={() => setDisplayDialog(true)}>
                         Crear nuevo usuario
                     </button>
                     <Dialog onHide={toggleDialog} className="w-3/4 h-auto" visible={displayDialog}>
@@ -232,12 +241,12 @@ const UserTable: NextPage = () => {
             </div>
 
             <DataTable value={filteredUsers} tableStyle={{ minWidth: "50rem" }} className="custom-table">
-                <Column field="name" header="Nombre" />
-                <Column field="email" header="Correo" />
-                <Column field="code" header="ID" />
-                <Column field="career.title" header="Programa" />
+                <Column field="name" header="Nombre" className="header-column font-barlow text-xs" />
+                <Column field="email" header="Correo" className="header-column font-barlow text-xs" />
+                <Column field="code" header="ID" className="header-column font-barlow text-xs" />
+                <Column field="career.title" header="Programa" className="header-column font-barlow text-xs" />
                 {pathname === "/gestionusuarios/docentes" && <Column field="courses" header="# Cursos asignados" />}
-                <Column field="status" header="Estado Académico" body={statusBodyTemplate} />
+                <Column field="status" header="Estado Académico" className="header-column font-barlow text-xs" body={statusBodyTemplate} />
                 <Column body={actionBodyTemplate} />
             </DataTable>
             <Dialog visible={displayConfirmationDialog} onHide={() => setDisplayConfirmationDialog(false)} modal>
@@ -257,19 +266,25 @@ const UserTable: NextPage = () => {
                     <p className="text-gray-400 pt-4 text-sm">Nota: Se eliminarán los datos de forma permanente</p>
                 </div>
             </Dialog>
+            <Dialog visible={showModal} onHide={() => setShowModal(false)} modal>
+                <div className="flex flex-col items-center gap-2 w-full rounded-full p-4">
+                    <p className="text-primary text-xl font-bold">Usuario eliminado</p>
+                    <Image className="w-40 h-full object-cover" src={OkImage} alt="img-login" quality={100} priority />
+                </div>
+            </Dialog>
             <div className="flex justify-center mt-4 bg-action rounded-lg">
                 <button
-                    className="text-action font-normal hover:bg-secundary hover:text-white bg-primary m-2 p-2 rounded-xl"
+                    className="text-action font-sans text-sm hover:bg-secundary hover:text-white bg-primary m-2 p-2 rounded-xl"
                     disabled={currentPage === 1}
                     onClick={() => setCurrentPage(currentPage - 1)}
                 >
                     Anterior
                 </button>
-                <span className="m-2 p-2  text-primary font-normal ">
+                <span className="m-2 p-2  text-primary font-sans text-sm ">
                     Página {currentPage} de {totalPages}
                 </span>
                 <button
-                    className="text-action font-normal hover:bg-secundary hover:text-white bg-primary  m-2 p-2 rounded-xl"
+                    className="text-action font-sans text-sm hover:bg-secundary hover:text-white bg-primary  m-2 p-2 rounded-xl"
                     disabled={currentPage === totalPages}
                     onClick={() => setCurrentPage(currentPage + 1)}
                 >
